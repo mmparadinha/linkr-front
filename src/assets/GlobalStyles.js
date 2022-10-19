@@ -57,6 +57,16 @@ a {
 * {
 	box-sizing: border-box;
 }
+
+body{
+	background-color: #333333;
+	font-family: 'Oswald', sans-serif;
+	font-family: 'Passion One', cursive;
+	font-family: 'Lato', sans-serif;
+	--font-linkr: 'Passion One', cursive;
+	--font-titles: 'Oswald', sans-serif;
+	--font-body: 'Lato', sans-serif;
+}
 `;
 
 export default GlobalStyle;
