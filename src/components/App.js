@@ -2,10 +2,13 @@ import GlobalStyles from "../assets/GlobalStyles.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import Hashtags from "./Hashtags.js";
+import {useState} from "react";
 
 function App() {
-  const contextValue = {
+  const [hashtags, setHashtags] = useState([]);
 
+  const contextValue = {
+    hashtags, setHashtags
   };
 
   return (
