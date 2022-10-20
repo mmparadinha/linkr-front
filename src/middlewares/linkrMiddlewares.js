@@ -32,9 +32,8 @@ async function isAuthenticated(req, res, next) {
         next();
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
-    }
-
-}
+    };
+};
 
 async function hasUser(req, res, next) {
     const { userId } = req.body;
@@ -48,7 +47,10 @@ async function hasUser(req, res, next) {
             [userId]);
 
         if (!(isUser.rows).length) {
-            res.status(st)
+            res.status(STATUS_CODE.ERRORNOTFOUND).send({
+                "message": "Usuário não encontrado!"
+            });
+            return;
         }
         next();
     } catch (error) {
