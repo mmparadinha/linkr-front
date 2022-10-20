@@ -9,12 +9,13 @@ import {
 } from "../controllers/postsController.js";
 
 const postsRouter = Router();
-postsRouter.use(isAuthenticated);
-postsRouter.use(hasUser);
+
+// postsRouter.use(isAuthenticated);
+// postsRouter.use(hasUser);
 
 postsRouter.get("/timeline", getPosts);
 postsRouter.post("/timeline", newPost);
 postsRouter.delete("/timeline/post/delete/:id", deletePost);
-postsRouter.put("/timeline/post/edit/:id", updatePost);
+postsRouter.put("/timeline/post/edit/:id", validaEditPost, updatePost);
 
 export default postsRouter;

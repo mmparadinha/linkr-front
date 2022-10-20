@@ -24,6 +24,7 @@ export async function getPosts(req, res) {
 
 export async function newPost(req, res) {
   const { url, comment, userId } = req.body;
+  console.log();
 
   try {
     const isValid = newPostSchema.validate({ url, comment });
