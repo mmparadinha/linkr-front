@@ -7,9 +7,9 @@ function getUserLinkrs(id) {
     return promise;
 }
 
-function getUsers(body) {
-    const promise = axios.get(`${URL_BASE}/users`, '', body);
+function getSearchedUsers(body) {
+    const promise = axios.get(`${URL_BASE}/search`, '', body);
     return promise;
 }
 
-export { getUserLinkrs, getUsers };
+export { getUserLinkrs, getSearchedUsers };

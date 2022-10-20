@@ -5,7 +5,7 @@ import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { DebounceInput } from "react-debounce-input";
 import { useContext, useState } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
-import { getUsers } from "../../../services/linkr";
+import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
 
 export default function Header() {
@@ -16,7 +16,9 @@ export default function Header() {
     function getSearch(e) {
         setSearching(true);
         setSearchBox(true);
-        getUsers(e.target.value)
+        getSearchedUsers({
+            search: e.target.value
+        })
             .then(res => {
                 setSearch(res.data);
                 setSearching(false);
