@@ -1,5 +1,6 @@
 import { postRepository } from "../repository/postsRepository.js";
 import urlMetadata from "url-metadata";
+import { newPostSchema } from "../schemas/validationSchemas.js";
 
 export async function getPosts(req, res) {
 
@@ -26,6 +27,14 @@ export async function newPost(req, res) {
     const { url, comment, userId } = req.body;
 
     try {
+        const isValid = newPostSchema.validate({ url, comment });
+
+        if (isValid.error) {
+            const errors = isValid.error.details.map(detail => detail.message);
+
+            return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send({ "message": errors });
+        }
+
         await postRepository.newPost(userId, url, comment);
 
         res.sendStatus(201)
