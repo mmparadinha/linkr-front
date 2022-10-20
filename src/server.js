@@ -13,10 +13,11 @@ server.use(cors());
 
 // auth
 server.use(authRouter);
+
 // posts
 
 server.use(postsRouter, likesRouter);
 
 server.listen(process.env.PORT, () => {
-    console.log(`Server is listening on port ${process.env.PORT}.`);
+  console.log(`Server is listening on port ${process.env.PORT}.`);
 });
