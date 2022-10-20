@@ -37,7 +37,7 @@ async function isAuthenticated(req, res, next) {
 }
 
 async function hasUser(req, res, next) {
-    const { userId } = req.boby;
+    const { userId } = req.body;
 
     try {
         const isUser = await connection.query(
