@@ -5,6 +5,7 @@ import UserContext from "../contexts/UserContext";
 import SearchContext from "../contexts/SearchContext";
 import Hashtags from "./Hashtags.js";
 import Header from "./commons/header/Header.js";
+import Timeline from "./Timeline.js";
 
 function App() {
   const contextValue = {
@@ -18,8 +19,9 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route  path="/" element={<Hashtags />} />
+          <Route  path="/hashtags" element={<Hashtags />} />
           <Route  path="/header" element={<Header />} />
+          <Route path="/" element={<Timeline />} />
         </Routes>
       </BrowserRouter>
     </SearchContext.Provider>
