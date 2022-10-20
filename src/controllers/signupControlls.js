@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import { STATUS_CODE } from '../enums/statusCode.js';
 import { signUpSchema } from '../schemas/validationSchemas.js';
-import { createUser, checkEmail } from '../repository/authRepository.js';
+import { createUser, checkEmail } from '../repositories/authRepository.js';
 
-async function signupPost (req, res) {
+async function signupPost(req, res) {
     const { email, password, username, pictureUrl } = req.body;
 
     try {
@@ -11,15 +11,15 @@ async function signupPost (req, res) {
             email, password, username, pictureUrl
         });
 
-        if(isValid.error) {
+        if (isValid.error) {
             const errors = isValid.error.details.map(detail => detail.message);
 
-            return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send({"message": errors});
+            return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send({ "message": errors });
         }
 
         const emailExist = await checkEmail(email);
 
-        if((emailExist.rows).length) {
+        if ((emailExist.rows).length) {
             res.status(STATUS_CODE.ERRORCONFLICT).send({
                 "message": "Preencha os dados corretamente!"
             });

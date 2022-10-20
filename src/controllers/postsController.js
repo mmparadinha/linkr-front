@@ -1,4 +1,4 @@
-import { postRepository } from "../repository/postsRepository.js";
+import { postRepository } from "../repositories/postsRepository.js";
 import urlMetadata from "url-metadata";
 import { newPostSchema } from "../schemas/validationSchemas.js";
 
