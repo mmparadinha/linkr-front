@@ -25,6 +25,7 @@ export async function getPosts(req, res) {
 
 export async function newPost(req, res) {
     const { url, comment, userId } = req.body;
+    console.log()
 
     try {
         const isValid = newPostSchema.validate({ url, comment });
@@ -37,7 +38,7 @@ export async function newPost(req, res) {
 
         await postRepository.newPost(userId, url, comment);
 
-        res.sendStatus(201)
+        res.sendStatus(201);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);

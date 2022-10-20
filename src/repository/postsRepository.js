@@ -5,6 +5,7 @@ async function getPosts() {
     SELECT
         users.username,
         users."pictureUrl",
+        posts.id,
         posts.comment,
         posts.url
     FROM
@@ -16,7 +17,7 @@ async function getPosts() {
         20;`);
 };
 
-async function newPost() {
+async function newPost(userId, url, comment) {
     return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW())', [userId, url, comment])
 };
 
