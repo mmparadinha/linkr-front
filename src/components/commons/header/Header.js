@@ -1,72 +1,47 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import profilePicture from "../../assets/Imagens Teste/teste.jpeg";
+import profilePicture from "../../../assets/Imagens Teste/teste.jpeg";
 import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { DebounceInput } from "react-debounce-input";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import SearchResultsBox from "./SearchResultsBox.js";
+import { getUsers } from "../../../services/linkr";
+import SearchContext from "../../../contexts/SearchContext.js";
 
 export default function Header() {
-    const navigate = useNavigate();
     const [searching, setSearching] = useState(false);
-    const [search, setSearch] = useState('');
-    const [searchResult, setSearchResult] = useState(false);
-
-
-    function updateSearch(e) {
-        setSearch(e.target.value);
-    };
-
-    function resetSearch() {
-        setSearch('');
-        setSearching(false);
-    }
+    const [searchBox, setSearchBox] = useState(false);
+    const {search, setSearch} = useContext(SearchContext);
 
     function getSearch(e) {
-        e.preventDefault();
         setSearching(true);
-        console.log('pesquisei em!');
-        if(0) {
-            navigate('/pagina do muleque');
-        } else {
-            resetSearch();
-        }
+        setSearchBox(true);
+        getUsers(e.target.value)
+            .then(res => {
+                setSearch(res.data);
+                setSearching(false);
+            })
+            .catch(error => console.log(error));
     };
 
     return (
         <>
             <Container>
                 <Title onClick={() => console.log('bora pro home')}>linkr</Title>
-                <DebounceInput
-                        minLength={3}
-                        debounceTimeout={300}
-                        placeholder="testeDebounce"
-                    />
                 <SearchBox>
                     <SearchBar
                         minLength={3}
                         debounceTimeout={300}
                         placeholder="Search for people and friends"
                         disabled={searching}
-                        required
                         type='text'
-                        value={search}
-                        onChange={updateSearch}
+                        onChange={getSearch}
                     />
                     <SearchIcon onClick={getSearch}/>
-                    <SearchResultBox>
-                        <div>
-                            <img src={profilePicture} alt="fotinho"/>
-                            <p>resultado1</p>
-                        </div>
-                        <div>
-                            <img src={profilePicture} alt="fotinho"/>
-                            <p>resultado2</p>
-                        </div>
-                    </SearchResultBox>
+                    {searchBox ? <SearchResultsBox/> : ''}
                 </SearchBox>
                 <AlignItems>
-                    <ProfileIcon onClick={() => console.log('abre menu')}/>
+                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')}/>
                     <Link>
                         <Photo src={profilePicture} />
                     </Link>
@@ -80,24 +55,14 @@ export default function Header() {
                     placeholder="Search for people and friends"
                     disabled={searching}
                     type='text'
-                    value={search}
-                    onChange={updateSearch}
+                    onChange={getSearch}
                 />
                 <SearchIcon onClick={getSearch}/>
-                <SearchResultBox>
-                    <div>
-                        <img src={profilePicture} alt="fotinho"/>
-                        <p>resultado1</p>
-                    </div>
-                    <div>
-                        <img src={profilePicture} alt="fotinho"/>
-                        <p>resultado2</p>
-                    </div>
-                </SearchResultBox>
+                {search ? <SearchResultsBox/> : ''}
             </SearchBoxMobile>
         </>
     );
-};
+}
 
 const Container = styled.div`
     width: 100%;
@@ -110,6 +75,7 @@ const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
 `;
 
 const Title = styled.h3`
@@ -167,40 +133,6 @@ const SearchIcon = styled(IoSearchOutline)`
 
     &:hover{
         cursor: pointer;
-    }
-`;
-
-const SearchResultBox = styled.div`
-    background-color: #E7E7E7;
-    border-radius: 8px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    padding: 60px 10px 10px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    font-size: 19px;
-    font-weight: 400;
-    font-family: var(--font-body);
-
-    div {
-        display: flex;
-        align-items: center;
-        color: #515151;
-        gap: 12px;
-    }
-
-    img {
-        width: 39px;
-        height: 39px;
-        border-radius: 50%;
-    }
-
-    @media(max-width: 645px){
-        font-size: 17px;
     }
 `;
 
