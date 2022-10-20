@@ -23,11 +23,10 @@ export async function getPosts(req, res) {
 };
 
 export async function newPost(req, res) {
-    const { url, comment } = req.body;
-    const { user } = res.locals;
+    const { url, comment, userId } = req.body;
 
     try {
-        await postRepository.newPost(user.id, url, comment);
+        await postRepository.newPost(userId, url, comment);
 
         res.sendStatus(201)
     } catch (error) {

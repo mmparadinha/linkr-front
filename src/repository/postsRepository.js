@@ -5,7 +5,7 @@ async function getPosts() {
 };
 
 async function newPost() {
-    return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW())', [user.id, url, comment])
+    return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW())', [userId, url, comment])
 };
 
 export const postRepository = {
