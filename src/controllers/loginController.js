@@ -12,10 +12,10 @@ async function loginPost(req, res) {
             email, password
         });
 
-        if(isValid.error) {
+        if (isValid.error) {
             const errors = isValid.error.details.map(detail => detail.message);
 
-            return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send({"message": errors});
+            return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send("teste", { "message": errors });
         }
 
         const verification = await connection.query(
@@ -25,7 +25,7 @@ async function loginPost(req, res) {
             limit 1;`, [email]
         );
 
-        if(!(verification.rows).length) {
+        if (!(verification.rows).length) {
             res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Preencha os dados corretamente!"
             })
@@ -33,7 +33,7 @@ async function loginPost(req, res) {
 
         const encrypetPassword = await bcrypt.compare(password, verification.rows[0]?.password);
 
-        if(!encrypetPassword) {
+        if (!encrypetPassword) {
             res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Senha ou usuário inválidos, tente novamente!"
             });
@@ -48,7 +48,7 @@ async function loginPost(req, res) {
             [verification.rows[0]?.id, token]
         );
 
-        return res.send({token});
+        return res.send({ token });
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
         return;
