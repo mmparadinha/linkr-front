@@ -7,7 +7,7 @@ async function isAuthenticated(req, res, next) {
     try {
         const token = authorization?.replace('Bearer ', '');
 
-        if(!token) {
+        if (!token) {
             res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Header não enviado ou inválido!"
             });
@@ -20,14 +20,14 @@ async function isAuthenticated(req, res, next) {
             WHERE token = $1;`,
             [token]);
 
-            if((!authenticated.rows).length) {
-                res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
-                    "message": "Usuário não autorizado!"
-                });
-                return;
-            }
+        if ((!authenticated.rows).length) {
+            res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
+                "message": "Usuário não autorizado!"
+            });
+            return;
+        }
 
-            req.body.userId = authenticated.rows[0].userId;
+        req.body.userId = authenticated.rows[0].userId;
 
         next();
     } catch (error) {
@@ -37,7 +37,7 @@ async function isAuthenticated(req, res, next) {
 }
 
 async function hasUser(req, res, next) {
-    const { userId } = req.boby;
+    const { userId } = req.body;
 
     try {
         const isUser = await connection.query(
@@ -47,9 +47,9 @@ async function hasUser(req, res, next) {
             `,
             [userId]);
 
-            if(!(isUser.rows).length) {
-                res.status(st)
-            }
+        if (!(isUser.rows).length) {
+            res.status(st)
+        }
         next();
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
