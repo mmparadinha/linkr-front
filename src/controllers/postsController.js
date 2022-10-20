@@ -1,11 +1,21 @@
 import { postRepository } from "../repository/postsRepository.js";
+import urlMetadata from "url-metadata";
 
 export async function getPosts(req, res) {
 
     try {
-        const posts = await postRepository.getPosts();
+        const { rows } = await postRepository.getPosts();
 
-        res.status(200).send(posts.rows);
+        await Promise.all(
+            rows.map(async (post) => {
+                const { title, image, description } = await urlMetadata(post.url);
+                post.urlTitle = title;
+                post.urlImage = image;
+                post.urlDescription = description;
+            })
+        );
+
+        res.status(200).send(rows);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
