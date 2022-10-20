@@ -46,6 +46,7 @@ export async function newPost(req, res) {
   }
 }
 
+
 export async function deletePost(req, res) {
   const { id } = req.params;
   const token = req.headers.authorization?.replace("Bearer ", "");
@@ -86,11 +87,10 @@ export async function updatePost(req, res) {
     await connection.query(
       `UPDATE posts SET url = $1, comment = $2 WHERE id = $3 AND "userId" = $4;`,
       [url, comment, id, userId]
-    );
-
-    res.sendStatus(201);
-  } catch (error) {
-    console.log(error);
-    res.status(405).send("não foi possivel editar o post");
-  }
+    )
+        res.sendStatus(201);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 }
