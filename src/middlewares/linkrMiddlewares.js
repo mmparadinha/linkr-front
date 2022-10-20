@@ -47,11 +47,8 @@ async function hasUser(req, res, next) {
             [userId]);
 
         if (!(isUser.rows).length) {
-            res.status(STATUS_CODE.ERRORNOTFOUND).send({
-                "message": "Usuário não encontrado!"
-            });
-            return;
-        }
+            return res.sendStatus(STATUS_CODE.ERRORNOTFOUND);
+        };
         next();
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
