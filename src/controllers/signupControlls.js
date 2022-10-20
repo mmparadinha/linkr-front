@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import connection from '../database/database.js';
 import { STATUS_CODE } from '../enums/statusCode.js';
 import { signUpSchema } from '../schemas/validationSchemas.js';
+import { createUser, checkEmail } from '../repository/authRepository.js';
 
 async function signupPost (req, res) {
     const { email, password, username, pictureUrl } = req.body;
@@ -17,7 +17,7 @@ async function signupPost (req, res) {
             return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send({"message": errors});
         }
 
-        const emailExist = await connection.query("SELECT * FROM users WHERE email=($1);", [email]);
+        const emailExist = await checkEmail(email);
 
         if((emailExist.rows).length) {
             res.status(STATUS_CODE.ERRORCONFLICT).send({
@@ -28,7 +28,7 @@ async function signupPost (req, res) {
 
         const excrypetPassword = await bcrypt.hash(password, 12);
 
-        await connection.query(`INSERT INTO users (email, password, username, "pictureUrl") VALUES ($1, $2, $3, $4);`, [email, excrypetPassword, username, pictureUrl]);
+        await createUser(email, excrypetPassword, username, pictureUrl);
 
         return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
     } catch (error) {

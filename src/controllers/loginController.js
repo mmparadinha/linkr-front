@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
-import connection from '../database/database.js';
 import { STATUS_CODE } from '../enums/statusCode.js';
 import { loginSchema } from '../schemas/validationSchemas.js';
+import { loginUser, checkEmail } from '../repository/authRepository.js';
 
 async function loginPost(req, res) {
     const { email, password } = req.body;
@@ -18,12 +18,7 @@ async function loginPost(req, res) {
             return res.status(STATUS_CODE.ERRORUNPROCESSABLEENTITY).send("teste", { "message": errors });
         }
 
-        const verification = await connection.query(
-            `SELECT * FROM 
-                users
-            WHERE email = $1 
-            limit 1;`, [email]
-        );
+        const verification = await checkEmail(email);
 
         if (!(verification.rows).length) {
             res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
@@ -41,12 +36,7 @@ async function loginPost(req, res) {
         }
 
         const token = uuid();
-        await connection.query(
-            `INSERT INTO
-                sessions ("userId", token)
-            VALUES ($1, $2);`,
-            [verification.rows[0]?.id, token]
-        );
+        await loginUser(verification, token);
 
         return res.send({ token });
     } catch (error) {
