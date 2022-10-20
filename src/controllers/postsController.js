@@ -68,3 +68,28 @@ export async function deletePost(req, res) {
     res.status(405).send("não foi possivel deletar o post");
   }
 }
+
+export async function updatePost(req, res) {
+  const { url, comment } = req.body;
+  const { id } = req.params;
+  const token = req.headers.authorization?.replace("Bearer ", "");
+  const verifyToken = await connection.query(
+    `SELECT * FROM sessions WHERE token LIKE $1;`,
+    [token]
+  );
+  if (verifyToken.rows.length === 0 || verifyToken.rows[0].active == false)
+    return res.sendStatus(401);
+  const userId = verifyToken.rows[0].userId;
+
+  try {
+    await connection.query(
+      `UPDATE posts SET url = $1, comment = $2 WHERE id = $3 AND "userId" = $4;`,
+      [url, comment, id, userId]
+    );
+
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    res.status(405).send("não foi possivel editar o post");
+  }
+}
