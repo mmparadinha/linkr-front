@@ -5,6 +5,8 @@ import Header from "./commons/Header";
 
 import { NewPosts } from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
+import { Link } from "react-router-dom";
+
 
 
 export default function Timeline() {
@@ -33,7 +35,7 @@ export default function Timeline() {
             setUrl("");
             setComment("");
             alert('Post criado com sucesso!');
-            newPosts();
+            // newPosts();
         } catch (error) {
             alert('Houve um erro ao publicar seu link.');
             setLoading(false);
@@ -44,19 +46,19 @@ export default function Timeline() {
     // lógica das postagens
     const [posts, setPosts] = useState([]);
 
-    async function newPosts() {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
-            setPosts(response.data);
-        } catch (error) {
-            alert('An error occured while trying to fetch the posts, please refresh the page');
-            console.log(error.response);
-        };
-    };
+    // async function newPosts() {
+    //     try {
+    //         const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
+    //         setPosts(response.data);
+    //     } catch (error) {
+    //         alert('An error occured while trying to fetch the posts, please refresh the page');
+    //         console.log(error.response);
+    //     };
+    // };
 
-    useEffect(() => {
-        newPosts();
-    }, []);
+    // useEffect(() => {
+    //     newPosts();
+    // }, []);
 
     return (
         <>
@@ -82,7 +84,7 @@ export default function Timeline() {
                     {posts.length === 0 ? <h1>There are no posts yet.</h1>
                         :
                         <>
-                            {posts.map((a) => <NewPosts photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                            {/* {posts.map((a) => <NewPosts photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)} */}
                         </>
                     }
                 </Container>

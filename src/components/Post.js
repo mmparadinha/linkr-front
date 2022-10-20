@@ -3,7 +3,7 @@ import styled from "styled-components";
 export async function NewPosts({ photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
 
     return (
-        <Post>
+        <Post >
             <Photo src={photo} />
             <PostInfo>
                 <h1>{username}</h1>
