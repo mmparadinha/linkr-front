@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import profilePicture from "../../assets/Imagens Teste/teste.jpeg";
-import {IoChevronDownOutline} from "react-icons/io5";
+import { IoChevronDownOutline } from "react-icons/io5";
 
 export default function Header() {
     return (
