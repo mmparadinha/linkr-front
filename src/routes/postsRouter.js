@@ -1,9 +1,14 @@
 import { Router } from "express";
-import { getPosts, newPost } from "../controllers/postsController.js";
+import {
+  getPosts,
+  newPost,
+  deletePost,
+} from "../controllers/postsController.js";
 
 const postsRouter = Router();
 
-postsRouter.get('/timeline', getPosts);
-postsRouter.post('/timeline', newPost);
+postsRouter.get("/timeline", getPosts);
+postsRouter.post("/timeline", newPost);
+postsRouter.delete("/timeline/post/delete/:id", deletePost);
 
 export default postsRouter;

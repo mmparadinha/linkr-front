@@ -1,7 +1,7 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import postsRouter from './routes/postsRouter.js';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import postsRouter from "./routes/postsRouter.js";
 
 dotenv.config();
 
@@ -13,5 +13,5 @@ server.use(cors());
 server.use(postsRouter);
 
 server.listen(process.env.PORT, () => {
-    console.log(`Server is listening on port ${process.env.PORT}.`);
+  console.log(`Server is listening on port ${process.env.PORT}.`);
 });
