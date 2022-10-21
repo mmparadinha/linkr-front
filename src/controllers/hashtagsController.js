@@ -5,6 +5,7 @@ import * as hashtagsRepository from "../repository/hashtagsRepository.js";
 async function getHashtags(req, res){
     try {
         const listHashtags = (await hashtagsRepository.getListHashtags()).rows;
+        console.log(listHashtags)
 
         return res.send(STATUS_CODE.SUCCESSOK).send(listHashtags);
     } catch (error) {

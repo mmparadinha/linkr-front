@@ -6,3 +6,5 @@ const router = express.Router();
 
 router.get('/hashtags', isAuthenticated, getHashtags);
 router.get('hashtags/:hashtags', isAuthenticated, getPostFromHashtag);
+
+export default router;
