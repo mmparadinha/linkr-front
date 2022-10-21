@@ -17,7 +17,6 @@ async function getPostFromHashtag(req,res){
     const {hashtag} = req.params;
 
     try {
-        //juntar usuarios também para puxar nome e foto
         const listPosts = await connection.query(
             `SELECT 
             users.username AS username,
