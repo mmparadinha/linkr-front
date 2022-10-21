@@ -1,5 +1,5 @@
 import { STATUS_CODE } from "../enums/statusCode.js";
-import searchSchema from "../schemas/searchSchema.js";
+import { searchSchema } from "../schemas/searchSchema.js";
 
 export const searchMiddleware = async (req, res, next) => {
     const { search } = req.body;
