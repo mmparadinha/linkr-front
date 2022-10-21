@@ -7,6 +7,6 @@ export default async function searchUsers(searchedText) {
             users."pictureUrl"
         FROM users
         WHERE users.username
-        LIKE $1
-    ;`, [`%${searchedText}%`])
+        ILIKE $1
+    ;`, [`${searchedText}%`])
 };
