@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-export async function NewPosts({ photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
+export default function NewPosts({ photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
 
     return (
         <Post >
@@ -8,14 +9,16 @@ export async function NewPosts({ photo, username, comment, url, urlTitle, urlIma
             <PostInfo>
                 <h1>{username}</h1>
                 <h2>{comment}</h2>
-                <Link>
-                    <text>
-                        <h1>{urlTitle}</h1>
-                        <h2>{urlDescription}</h2>
-                        <h3>{url}</h3>
-                    </text>
-                    <img alt="" src={urlImage} />
-                </Link>
+                <a href={url} target="_blank">
+                    <Linkr>
+                        <text>
+                            <h1>{urlTitle}</h1>
+                            <h2>{urlDescription}</h2>
+                            <h3>{url}</h3>
+                        </text>
+                        <img alt="" src={urlImage} />
+                    </Linkr>
+                </a>
             </PostInfo>
         </Post>
     );
@@ -73,12 +76,13 @@ const PostInfo = styled.div`
 
 `
 
-const Link = styled.div`
+const Linkr = styled.div`
     display: flex;
     width: 503px;
     height: 155px;
     border: 1px solid #4D4D4D;
     border-radius: 11px;
+    cursor: pointer;
 
     text {
         display: flex;
