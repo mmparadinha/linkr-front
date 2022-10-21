@@ -1,5 +1,5 @@
 import searchUsers from "../repositories/searchRepository.js";
-import { STATUS_CODE } from "../enums/statusCode";
+import { STATUS_CODE } from "../enums/statusCode.js";
 import { stripHtml } from 'string-strip-html';
 
 export async function getSearchedUsers(req, res) {
