@@ -16,9 +16,7 @@ export default function Header() {
     function getSearch(e) {
         setSearching(true);
         setSearchBox(true);
-        getSearchedUsers({
-            search: e.target.value
-        })
+        getSearchedUsers(e.target.value)
             .then(res => {
                 setSearch(res.data);
                 setSearching(false);
