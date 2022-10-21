@@ -10,7 +10,7 @@ export default function Hashtags(){
     useEffect(() => {
         const promise = axios.get('https://back-linkr-projetao.herokuapp.com/hashtags');
         promise.then(res => {
-            setHashtags(res.data);
+            setHashtags('javascript');
         });
     }, []);
 
@@ -21,8 +21,8 @@ export default function Hashtags(){
                 <Line></Line>
                 <List>
                     {hashtags.map((hashtag, index) => (
-                        <Link to={`/hashtag/${hashtag}`}>
-                            <Item index={index}># javacript</Item>
+                        <Link to={`/hashtag/${hashtag.name}`}>
+                            <Item index={index}># {hashtag.name}</Item>
                         </Link>
                     ))}
                 </List>
