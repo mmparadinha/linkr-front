@@ -11,16 +11,15 @@ function App() {
   const contextValue = {
 
   };
-  const [search, setSearch] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
 
   return (
     <UserContext.Provider value={contextValue}>
-    <SearchContext.Provider value={[search, setSearch]}>
+    <SearchContext.Provider value={[searchResult, setSearchResult]}>
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route  path="/hashtags" element={<Hashtags />} />
-          <Route  path="/header" element={<Header />} />
           <Route path="/" element={<Timeline />} />
         </Routes>
       </BrowserRouter>
