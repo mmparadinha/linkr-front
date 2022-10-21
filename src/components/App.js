@@ -8,8 +8,10 @@ import Header from "./commons/header/Header.js";
 import Timeline from "./Timeline.js";
 
 function App() {
-  const contextValue = {
+  const [hashtags, setHashtags] = useState([]);
 
+  const contextValue = {
+    hashtags, setHashtags
   };
   const [searchResult, setSearchResult] = useState(null);
 
