@@ -38,10 +38,9 @@ async function loginPost(req, res) {
         const token = uuid();
         await loginUser(verification, token);
 
-        return res.send({ token });
+        res.send({ token });
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
-        return;
     }
 }
 
