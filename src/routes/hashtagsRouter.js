@@ -4,5 +4,5 @@ import {isAuthenticated} from "../middlewares/linkrMiddlewares.js";
 
 const router = express.Router();
 
-router.get('hashtags/', isAuthenticated, getHashtags);
+router.get('/hashtags', isAuthenticated, getHashtags);
 router.get('hashtags/:hashtags', isAuthenticated, getPostFromHashtag);
