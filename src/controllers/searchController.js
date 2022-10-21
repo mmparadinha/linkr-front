@@ -3,7 +3,7 @@ import { STATUS_CODE } from "../enums/statusCode.js";
 import { stripHtml } from 'string-strip-html';
 
 export async function getSearchedUsers(req, res) {
-    const searchedText = stripHtml(req.locals.search).result;
+    const searchedText = stripHtml(res.locals.search).result;
 
     try {
         const users = await searchUsers(searchedText);
