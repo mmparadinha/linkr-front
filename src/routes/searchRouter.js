@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getSearchedUsers } from "../controllers/searchController";
+import { getSearchedUsers } from "../controllers/searchController.js";
 import { searchMiddleware } from "../middlewares/searchMiddleware.js";
 
 const searchRouter = Router();
