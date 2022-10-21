@@ -55,7 +55,7 @@ export default function UserRegistration({SignupComponents, DescriptionComponent
                     </label>
                     <label>
                         <input 
-                            type="text"
+                            type="password"
                             name='password'
                             placeholder="password"
                             onChange={(e) => {setPassword(e.target.value)}}
