@@ -9,6 +9,6 @@ export const searchMiddleware = async (req, res, next) => {
         return res.status(STATUS_CODE.ERRORBADREQUEST).send(validation.error.details[0].message);
     }
 
-    res.locals.search = search;
+    res.locals.search = validation.value.search;
     next();
 };
