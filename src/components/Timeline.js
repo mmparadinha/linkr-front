@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import Header from "./commons/Header";
-
 import NewPosts from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
+import Hashtags from "./Hashtags";
 
 
 export default function Timeline() {
@@ -65,27 +65,30 @@ export default function Timeline() {
                 {Header}
             </Header>
             <Body>
+                <Title>timeline</Title>
                 <Container>
-                    <Title>timeline</Title>
-                    <Publish>
-                        <Photo src={profilePicture} />
-                        <PublishContent>
-                            <p>What are you going to share today?</p>
-                            <form onSubmit={handleSubmit}>
-                                <Input1 disabled={loading} type="text" onChange={(e) => setUrl(e.target.value)} placeholder="http://..." value={url} required></Input1>
-                                <Input2 disabled={loading} type="text" onChange={(e) => setComment(e.target.value)} placeholder="Awesome article about #javascript" value={comment}></Input2>
-                                <Button1 disabled={loading} type="submit">
-                                    {loading === true ? ("Publishing") : ("Publish")}
-                                </Button1>
-                            </form>
-                        </PublishContent>
-                    </Publish>
-                    {posts.length === 0 ? <h1>There are no posts yet.</h1>
-                        :
-                        <>
-                            {posts.map((a) => <NewPosts photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
-                        </>
-                    }
+                    <AlignBox>
+                        <Publish>
+                            <Photo src={profilePicture} />
+                            <PublishContent>
+                                <p>What are you going to share today?</p>
+                                <form onSubmit={handleSubmit}>
+                                    <Input1 disabled={loading} type="text" onChange={(e) => setUrl(e.target.value)} placeholder="http://..." value={url} required></Input1>
+                                    <Input2 disabled={loading} type="text" onChange={(e) => setComment(e.target.value)} placeholder="Awesome article about #javascript" value={comment}></Input2>
+                                    <Button1 disabled={loading} type="submit">
+                                        {loading === true ? ("Publishing") : ("Publish")}
+                                    </Button1>
+                                </form>
+                            </PublishContent>
+                        </Publish>
+                        {posts.length === 0 ? <h1>There are no posts yet.</h1>
+                            :
+                            <>
+                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                            </>
+                        }
+                    </AlignBox>
+                    <Hashtags />
                 </Container>
             </Body>
 
@@ -94,21 +97,22 @@ export default function Timeline() {
 };
 
 const Body = styled.div`
-    margin-top: 150px;  
 	height: 100%;
-	width: 100%;
+	width: 931px;
     display: flex;
-    flex-direction: column;    
-    align-items: center;
+    flex-direction: column;
+    margin: 150px auto 30px auto;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
 
 const Container = styled.div`
-    width: 611px;
+    width: 937px;
     height: 100%;
+    display: flex;
+    justify-content: flex-start;
 
     h1 {
         
@@ -117,15 +121,16 @@ const Container = styled.div`
     font-weight: 700;
     font-family: var(--font-titles);
     };
-`
+`;
 
 const Title = styled.h5`
     color: #ffffff;
-    font-size: 27px;
+    font-size: 43px;
     font-weight: 700;
     font-family: var(--font-titles);
+    margin-bottom: 43px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
     }
 `;
 
@@ -134,7 +139,6 @@ const Publish = styled.div`
     width: 611px;
     display: flex;
     border-radius: 16px;
-    margin-top: 48px;
     margin-bottom: 48px;
     padding-top: 18px;
     padding-left: 16px;
@@ -147,7 +151,7 @@ const Photo = styled.img`
     height: 53px;
     border-radius: 50%;
 
-    @media(max-width: 500px){
+    @media(max-width: 645px){
         width: 44px;
         height: 44px;
     }
@@ -162,14 +166,14 @@ const PublishContent = styled.div`
     letter-spacing: 0em;
     text-align: left;
     color: #707070;
-`
+`;
 
 const Input1 = styled.input`        
         height: 30px;
         width: 503px;
         background: #EFEFEF;
         margin-top: 10px;        
-        padding-left: 13px;
+        padding-left: 5px;
 
         border-radius: 5px;
         border-style: none none solid;
@@ -193,14 +197,14 @@ const Input1 = styled.input`
         &:disabled{
             opacity: 0.7;
         }
-`
+`;
 
 const Input2 = styled.input`
     height: 66px;
     width: 503px;
     background: #EFEFEF;
     margin-top: 5px;    
-    padding-left: 13px;
+    padding-left: 5px;
 
     border-radius: 5px;
     border-style: none none solid;
@@ -224,7 +228,7 @@ const Input2 = styled.input`
     &:disabled{
         opacity: 0.7;
     }
-`
+`;
 
 const Button1 = styled.button`
         display: flex;
@@ -256,4 +260,12 @@ const Button1 = styled.button`
         &:disabled{
             opacity: 0.7;
         }
-`
+`;
+
+const AlignBox = styled.div`
+    width: 611px;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+`;

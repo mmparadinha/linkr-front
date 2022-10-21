@@ -11,7 +11,7 @@ export default function Hashtags(){
     useEffect(() => {
         const promise = axios.get('https://back-linkr-projetao.herokuapp.com/hashtags');
         promise.then(res => {
-            setHashtags('javascript');
+            setHashtags(res.data);
         });
     }, []);
 
@@ -43,8 +43,9 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-left: 25px;
 
-    @media (max-width: 800px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -56,7 +57,7 @@ const Title = styled.h5`
     font-family: var(--font-titles);
     margin: 16px 16px 12px 16px;
 
-    @media (max-width: 800px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -65,7 +66,7 @@ const Line = styled.div`
     width: 100%;
     border: 1px solid #484848;
 
-    @media (max-width: 800px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -75,7 +76,7 @@ const List = styled.div`
     flex-direction: column;
     margin: 22px 16px 30px 16px;
 
-    @media (max-width: 800px) {
+    @media (max-width: 645px) {
             display: none;
     }
 `;
@@ -89,7 +90,7 @@ const Item = styled.h6`
     line-height: 22.8px;
     margin-bottom: 8px;
 
-    @media (max-width: 800px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;

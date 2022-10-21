@@ -4,7 +4,6 @@ import { useState } from "react";
 import UserContext from "../contexts/UserContext";
 import SearchContext from "../contexts/SearchContext";
 import Hashtags from "./Hashtags.js";
-import {useState} from "react";
 import Header from "./commons/header/Header.js";
 import Timeline from "./Timeline.js";
 
