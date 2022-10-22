@@ -21,7 +21,7 @@ server.use(authRouter);
 
 server.use(postsRouter, likesRouter, hashtagsRouter);
 
-//user
+//user page
 server.use(userRouter);
 
 

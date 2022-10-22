@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-export default async function userPostsRepository(id) {
+export default async function getUserData(id) {
     return connection.query(`
     SELECT
     	users.id as "userId",
