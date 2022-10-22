@@ -36,7 +36,7 @@ async function getPostFromHashtag(req,res){
             ON users.id = posts."userId"
             WHERE hashtags.name = $1
 			ORDER BY posts."createdAt" DESC;`,
-            [{hashtag}]
+            [hashtag]
         );
 
         return res.status(STATUS_CODE.SUCCESSOK).send(listPosts.rows);
