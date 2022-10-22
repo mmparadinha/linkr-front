@@ -1,4 +1,4 @@
-import { likesRepository } from '../repository/likesRepository.js';
+import { likesRepository } from '../repositories/likesRepository.js';
 
 export async function likeAndUnlike(req, res) {
     const { userId } = req.body;
