@@ -38,4 +38,9 @@ const loginSchema = joi.object({
     }),
 });
 
-export { signUpSchema, loginSchema }
+const newPostSchema = joi.object({
+    url: joi.string().regex(urlRegex).required(),
+    comment: joi.string()
+});
+
+export { signUpSchema, loginSchema, newPostSchema }
