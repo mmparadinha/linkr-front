@@ -46,12 +46,13 @@ export default function Timeline() {
     async function newPosts() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
+            console.log(posts)
             setPosts(response.data);
         } catch (error) {
             alert('An error occured while trying to fetch the posts, please refresh the page');
             console.log(error.response);
         };
-    };
+    };  
 
     useEffect(() => {
         newPosts();
