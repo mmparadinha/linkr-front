@@ -23,7 +23,8 @@ export default function Login({setToken}) {
         promise.then((res) => {
             restForm()
             navigate("/timeline")
-            setToken(res.data.token)
+            localStorage.setItem('linkr-token', res.data.token)
+            localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl)
         })
         promise.catch((err) => {
             alert('Não foi possível entar, verifique seu email ou a senha!')
