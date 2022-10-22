@@ -6,12 +6,15 @@ import SearchContext from "../contexts/SearchContext";
 import Hashtags from "./Hashtags.js";
 import Header from "./commons/header/Header.js";
 import Timeline from "./Timeline.js";
+import HashtagPage from "./HashtagPage.js";
 
 function App() {
   const [hashtags, setHashtags] = useState([]);
+  const [hashtagPosts, setHashtagPosts] = useState([]);
+  const [hashtagName, setHashtagName] = useState('');
 
   const contextValue = {
-    hashtags, setHashtags
+    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName
   };
   const [searchResult, setSearchResult] = useState(null);
 
@@ -21,7 +24,8 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route  path="/hashtags" element={<Hashtags />} />
+          <Route  path="/hashtag/:hashtag" element={<HashtagPage />} />
+          <Route  path="/header" element={<Header />} />
           <Route path="/" element={<Timeline />} />
         </Routes>
       </BrowserRouter>
