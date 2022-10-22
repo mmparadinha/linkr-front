@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import connection from "../database/database.js";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import * as hashtagsRepository from "../repository/hashtagsRepository.js";
@@ -24,7 +25,8 @@ async function getPostFromHashtag(req,res){
             hashtags.name AS hashtag,
             posts."userId" AS "userId",
             posts.url AS url,
-            posts.comment AS comment
+            posts.comment AS comment,
+            posts.id AS "postId"
             FROM posts 
             JOIN "postHashtags" 
             ON "postHashtags"."postId" = posts.id 
@@ -32,8 +34,8 @@ async function getPostFromHashtag(req,res){
             ON hashtags.id = "postHashtags"."hashtagId"
             JOIN users 
             ON users.id = posts."userId"
-            ORDER BY posts."createdAt" DESC
-            WHERE hashtags.name = $1;`,
+            WHERE hashtags.name = $1
+			ORDER BY posts."createdAt" DESC;`,
             [{hashtag}]
         );
 
