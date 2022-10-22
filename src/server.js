@@ -6,6 +6,7 @@ import postsRouter from './routes/postsRouter.js';
 import searchRouter from './routes/searchRouter.js';
 import likesRouter from './routes/likesRouter.js';
 import hashtagsRouter from './routes/hashtagsRouter.js';
+import userRouter from "./routes/userRouter.js";
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ server.use(authRouter);
 
 server.use(postsRouter, likesRouter, hashtagsRouter);
 
+//user
+server.use(userRouter);
 
 
 //search
