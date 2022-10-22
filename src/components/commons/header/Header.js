@@ -11,14 +11,14 @@ import SearchContext from "../../../contexts/SearchContext.js";
 export default function Header() {
     const [searching, setSearching] = useState(false);
     const [searchBox, setSearchBox] = useState(false);
-    const {search, setSearch} = useContext(SearchContext);
+    const {setSearchResult} = useContext(SearchContext);
 
     function getSearch(e) {
         setSearching(true);
         setSearchBox(true);
-        getSearchedUsers(e.target.value)
+        getSearchedUsers()
             .then(res => {
-                setSearch(res.data);
+                setSearchResult(res.data);
                 setSearching(false);
             })
             .catch(error => console.log(error));
@@ -58,7 +58,7 @@ export default function Header() {
                     onChange={getSearch}
                 />
                 <SearchIcon onClick={getSearch}/>
-                {search ? <SearchResultsBox/> : ''}
+                {searchBox ? <SearchResultsBox/> : ''}
             </SearchBoxMobile>
         </>
     );

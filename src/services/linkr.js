@@ -7,8 +7,8 @@ function getUserLinkrs(id) {
     return promise;
 }
 
-function getSearchedUsers(body) {
-    const promise = axios.get(`${URL_BASE}/search`, '', body);
+function getSearchedUsers() {
+    const promise = axios.get(`${URL_BASE}/search`);
     return promise;
 }
 
