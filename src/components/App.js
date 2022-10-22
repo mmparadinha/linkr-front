@@ -4,8 +4,8 @@ import { useState } from "react";
 import UserContext from "../contexts/UserContext";
 import SearchContext from "../contexts/SearchContext";
 import Hashtags from "./Hashtags.js";
-import Header from "./commons/header/Header.js";
 import Timeline from "./Timeline.js";
+import UserPage from "./UserPage.js";
 
 function App() {
   const [hashtags, setHashtags] = useState([]);
@@ -23,6 +23,7 @@ function App() {
         <Routes>
           <Route  path="/hashtags" element={<Hashtags />} />
           <Route path="/" element={<Timeline />} />
+          <Route path="/user/:id" element={<UserPage />} />
         </Routes>
       </BrowserRouter>
     </SearchContext.Provider>

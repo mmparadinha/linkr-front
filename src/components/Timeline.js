@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
-import { NewPosts } from "./Post";
+import NewPosts from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
 
@@ -28,7 +28,7 @@ export default function Timeline() {
         });
 
         try {
-            await axios.post(`${process.env.REACT_APP_BACK_END_URL}/timeline`, newPost);
+            await axios.post(`http://127.0.0.1:4000/timeline`, newPost);
             setLoading(false);
             setUrl("");
             setComment("");
@@ -46,7 +46,7 @@ export default function Timeline() {
 
     async function newPosts() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
+            const response = await axios.get(`http://127.0.0.1:4000/timeline`);
             setPosts(response.data);
         } catch (error) {
             alert('An error occured while trying to fetch the posts, please refresh the page');

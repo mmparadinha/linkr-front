@@ -17,7 +17,7 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
             </Link>
             <PostInfo>
                 <Link to={`/user/${userId}`}>
-                <h1>{username}</h1>
+                    <h1>{username}</h1>
                 </Link>
                 <ReactTagify colors={'#ffffff'} tagClicked={(tag => {isTagClicked(tag)})}>
                     <h2>{comment}</h2>
