@@ -6,6 +6,8 @@ import { createUser, checkEmail } from '../repository/authRepository.js';
 async function signupPost (req, res) {
     const { email, password, username, pictureUrl } = req.body;
 
+    console.log( email, password, username, pictureUrl);
+
     try {
         const isValid = signUpSchema.validate({
             email, password, username, pictureUrl
@@ -21,7 +23,7 @@ async function signupPost (req, res) {
 
         if((emailExist.rows).length) {
             res.status(STATUS_CODE.ERRORCONFLICT).send({
-                "message": "Preencha os dados corretamente!"
+                "message": "Esse endereço de email já está cadastrado!"
             });
             return;
         }
@@ -30,10 +32,9 @@ async function signupPost (req, res) {
 
         await createUser(email, excrypetPassword, username, pictureUrl);
 
-        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+        res.sendStatus(STATUS_CODE.SUCCESSCREATED);
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
-        return;
     }
 }
 
