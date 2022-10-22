@@ -6,7 +6,7 @@ async function getHashtags(req, res){
     try {
         const listHashtags = (await hashtagsRepository.getListHashtags()).rows;
 
-        return res.send(STATUS_CODE.SUCCESSOK).send(listHashtags);
+        return res.status(STATUS_CODE.SUCCESSOK).send(listHashtags);
     } catch (error) {
         console.error(error);
         return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
