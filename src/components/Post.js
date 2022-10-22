@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
+import { FiHeart } from "react-icons/fi";
+import { AiFillHeart } from "react-icons/ai";
 
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
     const navigate = useNavigate();
@@ -12,9 +14,12 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
 
     return (
         <Post >
-            <Link to={`/user/${userId}`}>
-                <Photo src={photo} />
-            </Link>
+            <Left>
+                <Link to={`/user/${userId}`}>
+                    <Photo src={photo} />
+                </Link>
+                <Like></Like>
+            </Left>
             <PostInfo>
                 <Link to={`/user/${userId}`}>
                 <h1>{username}</h1>
@@ -45,6 +50,26 @@ const Post = styled.div`
     padding: 18px;
     background-color: #171717;
     box-sizing: border-box;
+
+    a {
+        background-color: blue;
+        height: 53px;
+    }
+`;
+
+const Left = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+`
+
+const Like = styled(FiHeart)`
+    margin-top: 20px;
+    width: 20px;
+    height: 20px;
+    color: white;
+    cursor: pointer;
 `;
 
 const Photo = styled.img`
