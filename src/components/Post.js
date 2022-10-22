@@ -1,19 +1,32 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactTagify } from "react-tagify";
 
-export default function NewPosts({ photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
+export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
+    const navigate = useNavigate();
+
+    function isTagClicked(tag){
+        const hashtag = tag.replace("#", "");
+        navigate(`/hashtag/${hashtag}`);
+    }
 
     return (
         <Post >
-            <Photo src={photo} />
+            <Link to={`/user/${userId}`}>
+                <Photo src={photo} />
+            </Link>
             <PostInfo>
+                <Link to={`/user/${userId}`}>
                 <h1>{username}</h1>
-                <h2>{comment}</h2>
+                </Link>
+                <ReactTagify colors={'#ffffff'} tagClicked={(tag => {isTagClicked(tag)})}>
+                    <h2>{comment}</h2>
+                </ReactTagify>
                 <a href={url} target="_blank">
                     <Linkr>
                         <text>
                             <h1>{urlTitle}</h1>
-                            <h2>{urlDescription}</h2>
+                                <h2>{urlDescription}</h2>
                             <h3>{url}</h3>
                         </text>
                         <img alt="" src={urlImage} />
@@ -25,16 +38,14 @@ export default function NewPosts({ photo, username, comment, url, urlTitle, urlI
 };
 
 const Post = styled.div`
-    height: 276px;
     width: 611px;
     display: flex;
     border-radius: 16px;
-    margin-bottom: 16px;    
-    padding-top: 18px;
-    padding-left: 16px;
+    margin-bottom: 16px;
+    padding: 18px;
     background-color: #171717;
     box-sizing: border-box;
-`
+`;
 
 const Photo = styled.img`
     width: 53px;
@@ -54,7 +65,7 @@ const PostInfo = styled.div`
     h1 {
         width: 502px;
         height: 23px;
-        font-family: 'Lato';
+        font-family: 'Lato', sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 19px;
@@ -65,16 +76,15 @@ const PostInfo = styled.div`
 
     h2 {
         width: 502px;
-        height: 52px;
-        font-family: 'Lato';
+        font-family: 'Lato', sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 17px;
         line-height: 20px;
         color: #B7B7B7;
+        margin-bottom: 8px;
     }
-
-`
+`;
 
 const Linkr = styled.div`
     display: flex;
@@ -93,7 +103,7 @@ const Linkr = styled.div`
 
         h1 {
             width: 249.98px;
-            font-family: 'Lato';
+            font-family: 'Lato', sans-serif;
             font-weight: 400;
             font-size: 16px;
             line-height: 19px;
@@ -103,7 +113,7 @@ const Linkr = styled.div`
 
         h2 {
             width: 302.82px;
-            font-family: 'Lato';
+            font-family: 'Lato', sans-serif;
             font-weight: 400;
             font-size: 11px;
             line-height: 13px;
@@ -111,7 +121,7 @@ const Linkr = styled.div`
         }
 
         h3 {
-            font-family: 'Lato';
+            font-family: 'Lato', sans-serif;
             font-weight: 400;
             font-size: 11px;
             line-height: 13px;
@@ -125,4 +135,4 @@ const Linkr = styled.div`
         border-radius: 0px 11px 11px 0px;
         margin-left: 26px;
     };
-`
+`;
