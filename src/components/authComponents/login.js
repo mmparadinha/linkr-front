@@ -3,10 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import UserRegistration from "./signup";
-import UserContext from "../../contexts/UserContext";
 
 export default function Login({setToken}) {
-    const { userData, setUserData } = useContext(UserContext);
 
     const navigate = useNavigate();
     const [clicado, setClicado] = useState(false);
@@ -20,22 +18,21 @@ export default function Login({setToken}) {
             password,
         }
 
-        const promise = axios.post('http://localhost:4000/', dados);
+        const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
         promise.then((res) => {
-            setToken(res.data.token);
-            restForm();
-            setUserData(res.data);
-            navigate('/');
+            restForm()
+            navigate("/timeline")
+            setToken(res.data.token)
         })
         promise.catch((err) => {
-            alert('Não foi possível entar, verifique seus dados!')
+            alert('Não foi possível entar, verifique seu email ou a senha!')
         })
+    }
 
-        function restForm() {
-            setEmail('');
-            setPassword('');
-        }
+    function restForm() {
+        setEmail('');
+        setPassword('');
     }
 
     function registryAccess() {
@@ -64,7 +61,7 @@ export default function Login({setToken}) {
                         <label>
                             <input 
                                 id="forPassword"
-                                type="text"
+                                type="password"
                                 name='password'
                                 placeholder="password"
                                 onChange={(e) => {setPassword(e.target.value)}}
@@ -84,7 +81,7 @@ export default function Login({setToken}) {
 
         if(clicado) {
             return (
-                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado}/>
+                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate}/>
             );
         }
     }
@@ -130,6 +127,22 @@ const DescriptionComponents = styled.div`
         font-family: 'Oswald';
         line-height: 64px;
     }
+
+    @media(max-width: 950px) {
+        width: 50%;
+        padding-left: 35px;
+
+        h1 {
+            font-size: 80px;
+        }
+
+        p {
+            width: 250px;
+            font-size: 25px;
+            line-height: 50px;
+        }
+    }
+
 
     @media(max-width: 500px){
         width: 100%;
@@ -221,15 +234,61 @@ const RegistrationData = styled.div`
         display: flex;
         justify-content: center;
 
+        text-decoration: underline;
+
         cursor: pointer;
+    }
+
+    @media(max-width: 1200px) {
+
+        input {
+            width: 325px;
+            height: 65px;
+
+            font-size: 30px;
+        }
+        button {
+            width: 325px;
+            height: 65px;
+
+            font-size: 30px;
+        }
+
+        p {
+            width: 330px;
+            font-size: 19px;
+        }
+    }
+
+    @media(max-width: 950px) {
+        input {
+            width: 300px;
+            height: 55px;
+
+            font-size: 25px;
+        }
+
+        button {
+            width: 300px;
+            height: 55px;
+
+            font-size: 25px;
+        }
+
+        p {
+            width: 330px;
+            font-size: 17px;
+        }
     }
 
     @media(max-width: 500px) {
         width: 100%;
-        height: 100vh;
+        height: 600px;
 
         form {
+            padding: 0 17%;
             margin-top: 65px;
+            padding-top: 175px;
         }
 
         input {
@@ -249,6 +308,13 @@ const RegistrationData = styled.div`
         p {
             width: 330px;
             font-size: 17px;
+        }
+
+        @media(max-width: 414px) {
+            form {
+                padding: 0 10%;
+                padding-top: 175px;
+            }
         }
     }
 `

@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Login from "./signup";
 
 export default function UserRegistration({SignupComponents, DescriptionComponents, RegistrationData, setClicado}) {
+
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,15 +18,17 @@ export default function UserRegistration({SignupComponents, DescriptionComponent
             email,
             password,
             username,
-            url
+            pictureUrl: url
         };
-        const promise = axios.post('http://localhost:4000/signup', dadosDeCadastro);
+
+        const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/signup`, dadosDeCadastro);
 
         promise.then((res) => {
-            restForm();
+            restForm()
+            navigate("/")
         });
         promise.catch((err) => {
-            alert("Esse endereço de email já está cadastrado!")
+            alert(err.response.data.message)
         })
     }
 
