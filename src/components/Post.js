@@ -1,12 +1,17 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
+import {useContext} from 'react';
+import UserContext from '../contexts/UserContext';
 
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
+    const {setHashtagName} = useContext(UserContext);
     const navigate = useNavigate();
 
     function isTagClicked(tag){
         const hashtag = tag.replace("#", "");
+        console.log(hashtag)
+        setHashtagName(hashtag);
         navigate(`/hashtag/${hashtag}`);
     }
 
@@ -17,7 +22,7 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
             </Link>
             <PostInfo>
                 <Link to={`/user/${userId}`}>
-                <h1>{username}</h1>
+                    <h1>{username}</h1>
                 </Link>
                 <ReactTagify colors={'#ffffff'} tagClicked={(tag => {isTagClicked(tag)})}>
                     <h2>{comment}</h2>
