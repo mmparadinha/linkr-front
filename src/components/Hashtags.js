@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import {useContext, useEffect, useState} from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
-import Header from "./commons/header/Header";
+import HashtagPage from "./HashtagPage.js";
 
 export default function Hashtags(){
     const {hashtags, setHashtags, setHashtagName} = useContext(UserContext);

@@ -10,7 +10,6 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
 
     function isTagClicked(tag){
         const hashtag = tag.replace("#", "");
-        console.log(hashtag)
         setHashtagName(hashtag);
         navigate(`/hashtag/${hashtag}`);
     }

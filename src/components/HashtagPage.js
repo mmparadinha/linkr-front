@@ -8,14 +8,16 @@ import Hashtags from "./Hashtags";
 
 export default function HashtagPage(){
     const {hashtagName, setHashtagName, hashtagPosts, setHashtagPosts} = useContext(UserContext);
-    console.log(hashtagPosts)
 
     useEffect(() => {
-        const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtag/${hashtagName}`);
-        promise.then(res => {
-            setHashtagPosts(res.data);
-        });
-    }, [setHashtagName]);
+        if(hashtagName !== ''){
+            const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtag/${hashtagName}`);
+            promise.then(res => {
+                setHashtagPosts(res.data);
+                console.log(hashtagPosts)
+            });
+        }
+    }, [hashtagName]);
 
     return (
         <>
