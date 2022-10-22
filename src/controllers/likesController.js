@@ -25,3 +25,13 @@ export async function likeAndUnlike(req, res) {
         return res.status(500).send(err);
     }
 }
+
+export async function getLikes(req, res) {
+    const { postId } = req.params;
+    
+    try {
+        return res.sendStatus(503)
+    }catch(err){
+        return res.status(500).send(err)
+    }
+}
