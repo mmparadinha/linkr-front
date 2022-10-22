@@ -9,7 +9,6 @@ import Header from "./commons/header/Header.js";
 import Timeline from "./Timeline.js";
 
 function App() {
-  const [token, setToken] = useState('');
   const [hashtags, setHashtags] = useState([]);
 
   const contextValue = {
@@ -23,7 +22,7 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route  path="/" element={<Login  setToken={setToken}/>} />
+          <Route  path="/" element={<Login />} />
           <Route  path="/hashtags" element={<Hashtags />} />
           <Route path="/" element={<Timeline />} />
         </Routes>
