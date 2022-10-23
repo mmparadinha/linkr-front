@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
+import { useContext } from "react";
+import UserContext from '../contexts/UserContext';
+import {FiHeart} from "react-icons/fi";
 
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
     const navigate = useNavigate();
+    const {setHashtagName} = useContext(UserContext);
 
     function isTagClicked(tag) {
         const hashtag = tag.replace("#", "");

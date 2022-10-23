@@ -18,7 +18,10 @@ export default function Timeline() {
     const userId = localStorage.getItem('linkr-userId');
 
     // validUser
-    if (!userToken) { alert('Faça o login!'), navigate('/') };
+    if (!userToken) { 
+        alert('Faça o login!');
+        navigate('/') 
+    };
 
     // lógica de publicação
     const [url, setUrl] = useState("");
