@@ -6,7 +6,6 @@ import NewPosts from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
 
-
 export default function Timeline() {
 
     // const { user } = useContext(UserContext);
@@ -46,18 +45,18 @@ export default function Timeline() {
 
     async function newPosts() {
         try {
-            const response = await axios.get(`http://127.0.0.1:4000/timeline`);
+            //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
+            const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
             setPosts(response.data);
         } catch (error) {
             alert('An error occured while trying to fetch the posts, please refresh the page');
             console.log(error.response);
         };
-    };
+    };  
 
     useEffect(() => {
         newPosts();
     }, []);
-    console.log(posts);
 
     return (
         <>
@@ -160,7 +159,7 @@ const Photo = styled.img`
 const PublishContent = styled.div`
     padding-top: 10px;
     padding-left: 18px;
-    font-family: Lato;
+    font-family: var(--font-body);
     font-size: 20px;
     font-weight: 300;
     letter-spacing: 0em;
@@ -184,7 +183,7 @@ const Input1 = styled.input`
         cursor: pointer;
 
         ::placeholder {
-            font-family: Lato;
+            font-family: var(--font-body);
             font-size: 15px;
             font-weight: 300;
             line-height: 18px;
@@ -215,7 +214,7 @@ const Input2 = styled.input`
     cursor: pointer;
 
     ::placeholder {
-        font-family: Lato;
+        font-family: var(--font-body);
         font-size: 15px;
         font-weight: 300;
         line-height: 18px;
@@ -237,7 +236,7 @@ const Button1 = styled.button`
         background: #1877F2;
         border-radius: 5px;
 
-        font-family: Lato;
+        font-family: var(--font-body);
         font-size: 14px;
         font-weight: 700;
         line-height: 17px;
