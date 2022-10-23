@@ -30,6 +30,7 @@ const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 10;
 `;
 
 const Title = styled.h3`
@@ -38,7 +39,7 @@ const Title = styled.h3`
     font-weight: 700;
     font-family: var(--font-linkr);
 
-    @media(max-width: 500px){
+    @media(max-width: 645px){
         font-size: 45px;
     }
 `;
@@ -54,7 +55,7 @@ const Photo = styled.img`
     height: 53px;
     border-radius: 50%;
 
-    @media(max-width: 500px){
+    @media(max-width: 645px){
         width: 44px;
         height: 44px;
     }
@@ -65,7 +66,7 @@ const Icons = styled.div`
     font-size: 30px;
     margin-right: 12px;
 
-    @media(max-width: 500px){
+    @media(max-width: 645px){
         font-size: 26px;
     }
 `;
