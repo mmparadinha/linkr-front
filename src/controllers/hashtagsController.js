@@ -1,10 +1,9 @@
-import { hash } from "bcrypt";
-import connection from "../database/database.js";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
 import urlMetadata from "url-metadata";
 
 async function getHashtags(req, res){
+
     try {
         const listHashtags = (await hashtagsRepository.getListHashtags()).rows;
 
