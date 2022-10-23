@@ -3,9 +3,10 @@ import connection from "../database/database.js";
 async function getPosts() {
     return connection.query(`
     SELECT
+    	users.id as "userId",
         users.username,
         users."pictureUrl",
-        posts.id,
+        posts.id as "postId",
         posts.comment,
         posts.url
     FROM
