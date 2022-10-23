@@ -1,11 +1,25 @@
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
-import Header from "./commons/Header";
+import HashtagPage from "./HashtagPage.js";
 
 export default function Hashtags(){
+    const {hashtags, setHashtags, setHashtagName} = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtags`);
+        promise.then(res => {
+            setHashtags(res.data);
+        });
+    }, []);
+
+    function isTagClicked(hashtag){
+        setHashtagName(hashtag.name);
+        navigate(`/hashtag/${hashtag.name}`);
+    }
 
     return(
         <>
@@ -13,17 +27,9 @@ export default function Hashtags(){
                 <Title>trending</Title>
                 <Line></Line>
                 <List>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-                    <Item># javascript</Item>
-
+                    {hashtags.map((hashtag, index) => (
+                        <Item index={index} onClick={() => isTagClicked(hashtag)} ># {hashtag.name}</Item>
+                    ))}
                 </List>
             </Container>
 
@@ -41,8 +47,9 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin-left: 25px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -54,7 +61,7 @@ const Title = styled.h5`
     font-family: var(--font-titles);
     margin: 16px 16px 12px 16px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -63,7 +70,7 @@ const Line = styled.div`
     width: 100%;
     border: 1px solid #484848;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
@@ -73,7 +80,7 @@ const List = styled.div`
     flex-direction: column;
     margin: 22px 16px 30px 16px;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
             display: none;
     }
 `;
@@ -86,8 +93,9 @@ const Item = styled.h6`
     font-size: 19px;
     line-height: 22.8px;
     margin-bottom: 8px;
+    cursor: pointer;
 
-    @media (max-width: 600px) {
+    @media (max-width: 645px) {
         display: none;
     }
 `;
