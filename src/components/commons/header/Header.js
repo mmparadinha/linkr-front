@@ -1,3 +1,4 @@
+import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import profilePicture from "../../../assets/Imagens Teste/teste.jpeg";
