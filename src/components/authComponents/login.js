@@ -17,10 +17,7 @@ export default function Login() {
       password,
     };
 
-    const promise = axios.post(
-      `https://back-linkr-projetao.herokuapp.com/`,
-      dados
-    );
+    const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
     promise.then((res) => {
       restForm();

@@ -18,6 +18,7 @@ export default function Header() {
   function useOutsideSearchBox(ref1, ref2) {
     useEffect(() => {
       function handleClickOutside(event) {
+        console.log(ref1, ref2);
         if (
           ref1.current &&
           !ref1.current.contains(event.target) &&

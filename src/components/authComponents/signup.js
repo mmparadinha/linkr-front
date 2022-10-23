@@ -25,7 +25,7 @@ export default function UserRegistration({
     };
 
     const promise = axios.post(
-      `https://back-linkr-projetao.herokuapp.com/signup`,
+      `${process.env.REACT_APP_BACK_END_URL}/signup`,
       dadosDeCadastro
     );
 
@@ -34,7 +34,7 @@ export default function UserRegistration({
       navigate("/");
     });
     promise.catch((err) => {
-      alert("é aqui");
+      alert(err.response.data.message);
     });
   }
 

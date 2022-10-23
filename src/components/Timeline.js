@@ -27,7 +27,7 @@ export default function Timeline() {
 
     try {
       await axios.post(
-        `https://back-linkr-projetao.herokuapp.com/timeline`,
+        `${process.env.REACT_APP_BACK_END_URL}/timeline`,
         newPost
       );
       setLoading(false);
@@ -49,7 +49,7 @@ export default function Timeline() {
     try {
       //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
       const response = await axios.get(
-        `https://back-linkr-projetao.herokuapp.com/timeline`
+        `${process.env.REACT_APP_BACK_END_URL}/timeline`
       );
       setPosts(response.data);
     } catch (error) {

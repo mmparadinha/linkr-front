@@ -106,7 +106,7 @@ export default function NewPosts({
     setLoader("");
     axios
       .delete(
-        `https://back-linkr-projetao.herokuapp.com/timeline/post/delete/${postId}`,
+        `${process.env.REACT_APP_BACK_END_URL}/timeline/post/delete/${postId}`,
         {
           headers: {
             authorization:
