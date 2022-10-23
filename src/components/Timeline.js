@@ -3,17 +3,22 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
-import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
+import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
 
     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    const navigate = useNavigate();
 
+    // user information
     const userToken = localStorage.getItem('linkr-token');
     const userPicture = localStorage.getItem('linkr-pictureUrl');
     const userId = localStorage.getItem('linkr-userId');
+
+    // validUser
+    if (!userToken) { alert('Faça o login!'), navigate('/') };
 
     // lógica de publicação
     const [url, setUrl] = useState("");
