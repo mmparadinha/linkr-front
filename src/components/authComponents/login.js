@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import UserRegistration from "./signup";
 
 export default function Login() {
-
     const navigate = useNavigate();
     const [clicado, setClicado] = useState(false);
     const [email, setEmail] = useState('');
@@ -21,14 +20,14 @@ export default function Login() {
         const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
         promise.then((res) => {
-            restForm()
-            navigate("/timeline")
-            localStorage.setItem('linkr-token', res.data.token)
-            localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl)
-        })
+            restForm();
+            navigate("/timeline");
+            localStorage.setItem('linkr-token', res.data.token);
+            localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl);
+        });
         promise.catch((err) => {
-            alert('Não foi possível entar, verifique seu email ou a senha!')
-        })
+            alert('Não foi possível entar, verifique seu email ou a senha!');
+        });
     }
 
     function restForm() {
@@ -43,7 +42,7 @@ export default function Login() {
                 <DescriptionComponents>
                     <div className="description">
                         <h1>linkr</h1>
-                        <p>save, share and discover the best links on the web</p>
+                        <p>save, share and discover <br/> the best links on the web</p>
                     </div>
                 </DescriptionComponents>
                 <RegistrationData>
@@ -99,21 +98,19 @@ const SignupComponents = styled.div`
     display: flex;
     flex-direction: row;
 
-    @media(max-width: 500px){
-        display: flex;
+    @media(max-width: 645px){
         flex-direction: column;
     }
-`
+`;
 
 const DescriptionComponents = styled.div`
-    width: 60%;
+    width: 65vw;
     height: 100vh;
     background-color:  #151515;
 
     display: flex;
-    flex-direction: column;
-    padding-top: 12%;
-    padding-left: 144px;
+    justify-content: center;
+    align-items: center;
 
     color: white;
 
@@ -127,11 +124,11 @@ const DescriptionComponents = styled.div`
         font-size: 43px;
         font-family: 'Oswald';
         line-height: 64px;
+        font-weight: 400;
     }
 
     @media(max-width: 950px) {
         width: 50%;
-        padding-left: 35px;
 
         h1 {
             font-size: 80px;
@@ -145,56 +142,49 @@ const DescriptionComponents = styled.div`
     }
 
 
-    @media(max-width: 500px){
+    @media(max-width: 645px){
         width: 100%;
         height: 175px;
-        padding: 0 25%;
-        padding-top: 10px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         position: fixed;
 
         .description {
-            width: 238px;
+            width: 100%;
+            font-size: 23px;
+            line-height: 34.09px;
+            text-align: center;
         }
 
         h1 {
-            width: 230px;
+            width: 100%;
             font-size: 76px;
+            line-height: 83.86px;
 
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
         p {
             font-size: 23px;
-            width: 230px;
+            width: 100%;
             text-align: center;
-            line-height: 34px;
+            line-height: 17px;
+            line-height: 20.4px;
         }
     }
-`
+`;
 
 const RegistrationData = styled.div`
-    width: 30%;
-    height: 100vh;
+    width: 35vw;
     background-color:  #333333;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    form {
-        width: 10%;
-        height: 90%;
-        margin-top: 15px;
-        padding: 0 15%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+    padding: 20px;
 
     input {
-        width: 429px;
+        width: 100%;
         height: 65px;
         border: 0;
         border-radius: 6px;
@@ -210,7 +200,7 @@ const RegistrationData = styled.div`
     }
 
     button {
-        width: 429px;
+        width: 100%;
         height: 65px;
         background-color: #1877F2;
         border: 0;
@@ -227,10 +217,11 @@ const RegistrationData = styled.div`
     }
 
     p {
-        width: 429px;
+        width: 100%;
         color: white;
         font-size: 20px;
         font-family: 'Lato';
+        font-weight: 400;
 
         display: flex;
         justify-content: center;
@@ -240,82 +231,44 @@ const RegistrationData = styled.div`
         cursor: pointer;
     }
 
-    @media(max-width: 1200px) {
-
-        input {
-            width: 325px;
-            height: 65px;
-
-            font-size: 30px;
-        }
-        button {
-            width: 325px;
-            height: 65px;
-
-            font-size: 30px;
-        }
-
-        p {
-            width: 330px;
-            font-size: 19px;
-        }
-    }
-
     @media(max-width: 950px) {
+        width: 50vw;
+
         input {
-            width: 300px;
-            height: 55px;
-
-            font-size: 25px;
+            height: 45px;
+            font-size: 18px;
         }
-
         button {
-            width: 300px;
-            height: 55px;
-
-            font-size: 25px;
+            height: 45px;
+            font-size: 18px;
         }
 
         p {
-            width: 330px;
-            font-size: 17px;
+            font-size: 14px;
         }
     }
 
-    @media(max-width: 500px) {
+    @media(max-width: 645px) {
         width: 100%;
-        height: 600px;
-
-        form {
-            padding: 0 17%;
-            margin-top: 65px;
-            padding-top: 175px;
-        }
+        margin-top: 215px;
+        padding: 20px;
 
         input {
-            width: 330px;
+            width: 100%;
             height: 55px;
-
             font-size: 22px;
         }
 
         button {
-            width: 330px;
+            width: 100%;
             height: 55px;
-
             font-size: 22px;
         }
 
         p {
-            width: 330px;
+            width: 100%;
             font-size: 17px;
-        }
-
-        @media(max-width: 414px) {
-            form {
-                padding: 0 10%;
-                padding-top: 175px;
-            }
+            line-height: 20.4px;
         }
     }
-`
+`;

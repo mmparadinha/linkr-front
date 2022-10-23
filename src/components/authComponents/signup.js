@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Login from "./signup";
 
 export default function UserRegistration({SignupComponents, DescriptionComponents, RegistrationData, setClicado}) {
-
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
@@ -44,7 +42,7 @@ export default function UserRegistration({SignupComponents, DescriptionComponent
             <DescriptionComponents>
                 <div className="description">
                     <h1>linkr</h1>
-                    <p>save, share and discover the best links on the web</p>
+                    <p>save, share and discover<br/>the best links on the web</p>
                 </div>
             </DescriptionComponents>
             <RegistrationData>
