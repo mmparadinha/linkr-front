@@ -2,16 +2,19 @@ import styled from "styled-components";
 import { useEffect, useState } from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
-import { NewPosts } from "./Post";
+import NewPosts from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
+import Loading from "./commons/Loading";
 
 
 export default function Timeline() {
 
-    // const { user } = useContext(UserContext);
-    // user.name user.pictureUrl
-    // const user = localStorage.getItem("token");
+    const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+
+    // const token = localStorage.getItem('linkr-token');
+    // const token = localStorage.getItem('linkr-pictureUrl');
+
 
     // lógica de publicação
     const [url, setUrl] = useState("");
@@ -22,13 +25,16 @@ export default function Timeline() {
         e.preventDefault();
         setLoading(true);
 
+        // const userId = 7;
+
         let newPost = ({
             url: `${url}`,
             comment: `${comment}`
+            // userId: `${userId}`
         });
 
         try {
-            await axios.post(`${process.env.REACT_APP_BACK_END_URL}/timeline`, newPost);
+            await axios.post(`${URL_BASE}/timeline`, newPost);
             setLoading(false);
             setUrl("");
             setComment("");
@@ -46,8 +52,10 @@ export default function Timeline() {
 
     async function newPosts() {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
+            const response = await axios.get(`${URL_BASE}/timeline`);
+            console.log(response.data)
             setPosts(response.data);
+            if (response.data === 0) { alert("There are no posts yet") };
         } catch (error) {
             alert('An error occured while trying to fetch the posts, please refresh the page');
             console.log(error.response);
@@ -57,7 +65,6 @@ export default function Timeline() {
     useEffect(() => {
         newPosts();
     }, []);
-    console.log(posts);
 
     return (
         <>
@@ -81,12 +88,14 @@ export default function Timeline() {
                                 </form>
                             </PublishContent>
                         </Publish>
-                        {posts.length === 0 ? <h1>There are no posts yet.</h1>
-                            :
-                            <>
-                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
-                            </>
-                        }
+                        <>
+                            {posts.length === 0 ? <><Loading /></>
+                                :
+                                <>
+                                    {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                                </>
+                            }
+                        </>
                     </AlignBox>
                     <Hashtags />
                 </Container>

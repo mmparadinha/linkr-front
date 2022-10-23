@@ -5,7 +5,7 @@ import { ReactTagify } from "react-tagify";
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription }) {
     const navigate = useNavigate();
 
-    function isTagClicked(tag){
+    function isTagClicked(tag) {
         const hashtag = tag.replace("#", "");
         navigate(`/hashtag/${hashtag}`);
     }
@@ -17,16 +17,16 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
             </Link>
             <PostInfo>
                 <Link to={`/user/${userId}`}>
-                <h1>{username}</h1>
+                    <h1>{username}</h1>
                 </Link>
-                <ReactTagify colors={'#ffffff'} tagClicked={(tag => {isTagClicked(tag)})}>
+                <ReactTagify colors={'#ffffff'} tagClicked={(tag => { isTagClicked(tag) })}>
                     <h2>{comment}</h2>
                 </ReactTagify>
-                <a href={url} target="_blank">
+                <a href={url} target="_blank" rel="noreferrer">
                     <Linkr>
                         <text>
                             <h1>{urlTitle}</h1>
-                                <h2>{urlDescription}</h2>
+                            <h2>{urlDescription}</h2>
                             <h3>{url}</h3>
                         </text>
                         <img alt="" src={urlImage} />
