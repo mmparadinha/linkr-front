@@ -1,34 +1,56 @@
-import styled from "styled-components";
-import {Link} from "react-router-dom";
-import profilePicture from "../../../assets/Imagens Teste/teste.jpeg";
-import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { DebounceInput } from "react-debounce-input";
-import { useContext, useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
+import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
 
 export default function Header() {
+
+    const userPicture = localStorage.getItem('linkr-pictureUrl');
+
     const [searching, setSearching] = useState(false);
     const [searchBox, setSearchBox] = useState(false);
-    const {setSearchResult} = useContext(SearchContext);
+    const { setSearchResult } = useContext(SearchContext);
+    const wrapperRef1 = useRef(null);
+    const wrapperRef2 = useRef(null);
+
+    function useOutsideSearchBox(ref1, ref2) {
+        useEffect(() => {
+            function handleClickOutside(event) {
+                console.log(ref1, ref2)
+                if ((ref1.current && !ref1.current.contains(event.target)) && (ref2.current && !ref2.current.contains(event.target))) {
+                    setSearchBox(false);
+                }
+            }
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref1, ref2]);
+    }
+
+    useOutsideSearchBox(wrapperRef1, wrapperRef2);
 
     function getSearch(e) {
+        e.preventDefault();
         setSearching(true);
         setSearchBox(true);
         getSearchedUsers()
             .then(res => {
-                setSearchResult(res.data);
+                setSearchResult(res.data.filter((user) => user.username.includes(e.target.value)));
                 setSearching(false);
             })
             .catch(error => console.log(error));
-    };
+    }
 
     return (
         <>
             <Container>
                 <Title onClick={() => console.log('bora pro home')}>linkr</Title>
-                <SearchBox>
+                <SearchBox ref={wrapperRef1}>
                     <SearchBar
                         minLength={3}
                         debounceTimeout={300}
@@ -37,18 +59,18 @@ export default function Header() {
                         type='text'
                         onChange={getSearch}
                     />
-                    <SearchIcon onClick={getSearch}/>
-                    {searchBox ? <SearchResultsBox/> : ''}
+                    <SearchIcon onClick={getSearch} />
+                    {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
                 <AlignItems>
-                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')}/>
+                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')} />
                     <Link>
-                        <Photo src={profilePicture} />
+                        <Photo src={userPicture} />
                     </Link>
                 </AlignItems>
             </Container>
 
-            <SearchBoxMobile>
+            <SearchBoxMobile ref={wrapperRef2}>
                 <SearchBar
                     minLength={3}
                     debounceTimeout={300}
@@ -57,8 +79,8 @@ export default function Header() {
                     type='text'
                     onChange={getSearch}
                 />
-                <SearchIcon onClick={getSearch}/>
-                {searchBox ? <SearchResultsBox/> : ''}
+                <SearchIcon onClick={getSearch} />
+                {searchBox ? <SearchResultsBox /> : ''}
             </SearchBoxMobile>
         </>
     );

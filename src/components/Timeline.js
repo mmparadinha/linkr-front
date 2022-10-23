@@ -7,14 +7,13 @@ import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 
-
 export default function Timeline() {
 
     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
 
-    // const token = localStorage.getItem('linkr-token');
-    // const token = localStorage.getItem('linkr-pictureUrl');
-
+    const userToken = localStorage.getItem('linkr-token');
+    const userPicture = localStorage.getItem('linkr-pictureUrl');
+    const userId = localStorage.getItem('linkr-userId');
 
     // lógica de publicação
     const [url, setUrl] = useState("");
@@ -25,16 +24,16 @@ export default function Timeline() {
         e.preventDefault();
         setLoading(true);
 
-        // const userId = 7;
+        const token = { token: { Authorization: `Bearer ${userToken}` } };
 
         let newPost = ({
             url: `${url}`,
-            comment: `${comment}`
-            // userId: `${userId}`
+            comment: `${comment}`,
+            userId: `${userId}`
         });
 
         try {
-            await axios.post(`${URL_BASE}/timeline`, newPost);
+            await axios.post(`${URL_BASE}/timeline`, newPost, token);
             setLoading(false);
             setUrl("");
             setComment("");
@@ -53,7 +52,6 @@ export default function Timeline() {
     async function newPosts() {
         try {
             const response = await axios.get(`${URL_BASE}/timeline`);
-            console.log(response.data)
             setPosts(response.data);
             if (response.data === 0) { alert("There are no posts yet") };
         } catch (error) {
@@ -76,7 +74,7 @@ export default function Timeline() {
                 <Container>
                     <AlignBox>
                         <Publish>
-                            <Photo src={profilePicture} />
+                            <Photo src={userPicture} />
                             <PublishContent>
                                 <p>What are you going to share today?</p>
                                 <form onSubmit={handleSubmit}>
@@ -100,20 +98,20 @@ export default function Timeline() {
                     <Hashtags />
                 </Container>
             </Body>
-
         </>
     );
 };
 
-const Body = styled.div`
-	height: 100%;
+const Body = styled.div` 
 	width: 931px;
     display: flex;
     flex-direction: column;
     margin: 150px auto 30px auto;
+    box-sizing: border-box;
 
     @media (max-width: 645px) {
-        display: none;
+        width: 100%;
+        margin: 80px 0 20px 0;
     }
 `;
 
@@ -124,12 +122,19 @@ const Container = styled.div`
     justify-content: flex-start;
 
     h1 {
-        
     color: #ffffff;
     font-size: 27px;
     font-weight: 700;
     font-family: var(--font-titles);
     };
+
+    @media (max-width: 645px) {
+        width: 100%;
+    }
+    h1{
+        font-size: 17px;
+        font-family: var(--font-body);
+    }
 `;
 
 const Title = styled.h5`
@@ -140,6 +145,9 @@ const Title = styled.h5`
     margin-bottom: 43px;
 
     @media (max-width: 645px) {
+        font-size: 33px;
+        margin-left: 17px;
+        margin-bottom: 19px;
     }
 `;
 
@@ -148,11 +156,21 @@ const Publish = styled.div`
     width: 611px;
     display: flex;
     border-radius: 16px;
-    margin-bottom: 48px;
+    margin-bottom: 29px;
     padding-top: 18px;
     padding-left: 16px;
     background-color: white;
     box-sizing: border-box;
+
+    @media (max-width: 645px) {
+        width: 100%;
+        height: 164px;
+        border: none;
+        border-radius: 0px;
+        padding: 0px;
+        margin-bottom: 16px;
+        position: relative; 
+    }
 `;
 
 const Photo = styled.img`
@@ -161,20 +179,31 @@ const Photo = styled.img`
     border-radius: 50%;
 
     @media(max-width: 645px){
-        width: 44px;
-        height: 44px;
+        display: none;
     }
 `;
 
 const PublishContent = styled.div`
     padding-top: 10px;
     padding-left: 18px;
-    font-family: Lato;
+    font-family: var(--font-body);
     font-size: 20px;
     font-weight: 300;
     letter-spacing: 0em;
     text-align: left;
     color: #707070;
+
+    @media (max-width: 645px) {
+        width: 100%;
+        padding: 15px;
+        font-size: 17px;
+        display: flex;
+        flex-direction: column;  
+
+        p{
+            text-align: center;
+        }
+    }
 `;
 
 const Input1 = styled.input`        
@@ -193,7 +222,7 @@ const Input1 = styled.input`
         cursor: pointer;
 
         ::placeholder {
-            font-family: Lato;
+            font-family: var(--font-body);
             font-size: 15px;
             font-weight: 300;
             line-height: 18px;
@@ -206,6 +235,15 @@ const Input1 = styled.input`
         &:disabled{
             opacity: 0.7;
         }
+
+    @media (max-width: 645px) {
+        width: 100%;
+        height: 30px;
+
+        ::placeholder {
+            font-size: 13px;
+        }
+    }
 `;
 
 const Input2 = styled.input`
@@ -224,7 +262,7 @@ const Input2 = styled.input`
     cursor: pointer;
 
     ::placeholder {
-        font-family: Lato;
+        font-family: var(--font-body);
         font-size: 15px;
         font-weight: 300;
         line-height: 18px;
@@ -237,6 +275,15 @@ const Input2 = styled.input`
     &:disabled{
         opacity: 0.7;
     }
+
+    @media (max-width: 645px) {
+        width: 100%;
+        height: 47px;
+
+        ::placeholder {
+            font-size: 13px;
+        }
+    }
 `;
 
 const Button1 = styled.button`
@@ -246,7 +293,7 @@ const Button1 = styled.button`
         background: #1877F2;
         border-radius: 5px;
 
-        font-family: Lato;
+        font-family: var(--font-body);
         font-size: 14px;
         font-weight: 700;
         line-height: 17px;
@@ -269,6 +316,14 @@ const Button1 = styled.button`
         &:disabled{
             opacity: 0.7;
         }
+
+    @media (max-width: 645px) {
+        margin-left: 0;
+        height: 22px;
+        position: absolute;
+        bottom: 12px;
+        right: 15px;
+    }
 `;
 
 const AlignBox = styled.div`
@@ -277,4 +332,8 @@ const AlignBox = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+
+    @media (max-width: 645px) {
+        width: 100%;
+    }
 `;
