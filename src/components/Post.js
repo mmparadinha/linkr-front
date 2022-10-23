@@ -199,7 +199,7 @@ const Linkr = styled.div`
             h1 {
             font-size: 11px;
             margin: 0;
-            margin-bottom: 4px;
+            margin-bottom: 12px;
             margin-top: 7px;
             width: 100%;
             };
@@ -215,6 +215,7 @@ const Linkr = styled.div`
                 font-size: 9px;
                 margin: 0;
                 width: 100%;
+                margin-bottom: 4px;
             };
         }
 

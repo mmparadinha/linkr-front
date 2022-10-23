@@ -3,7 +3,6 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import profilePicture from "../../../assets/Imagens Teste/teste.jpeg";
 import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
-import { DebounceInput } from "react-debounce-input";
 import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";

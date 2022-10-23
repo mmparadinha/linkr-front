@@ -94,8 +94,7 @@ export default function Timeline() {
     );
 };
 
-const Body = styled.div`
-	height: 100%;   
+const Body = styled.div` 
 	width: 931px;
     display: flex;
     flex-direction: column;
@@ -104,7 +103,7 @@ const Body = styled.div`
 
     @media (max-width: 645px) {
         width: 100%;
-        margin: 99px 0 20px 0;
+        margin: 80px 0 20px 0;
     }
 `;
 
@@ -149,7 +148,7 @@ const Publish = styled.div`
     width: 611px;
     display: flex;
     border-radius: 16px;
-    margin-bottom: 48px;
+    margin-bottom: 29px;
     padding-top: 18px;
     padding-left: 16px;
     background-color: white;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import Header from "./commons/Header";
+import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import {useContext, useEffect} from 'react';
 import UserContext from '../contexts/UserContext';
@@ -43,7 +43,6 @@ export default function HashtagPage(){
 };
 
 const Body = styled.div`
-	height: 100%;   
 	width: 931px;
     display: flex;
     flex-direction: column;
@@ -58,7 +57,6 @@ const Body = styled.div`
 
 const Container = styled.div`
     width: 937px;
-    height: 100%;
     display: flex;
     justify-content: flex-start;
 
