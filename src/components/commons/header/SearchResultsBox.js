@@ -4,11 +4,11 @@ import SearchContext from "../../../contexts/SearchContext.js";
 import UserSearched from "./UserSearched";
 
 export default function SearchResultBox() {
-    const {search} = useContext(SearchContext);
+    const {searchResult} = useContext(SearchContext);
 
     return (
         <Box>
-            {search !== null ? search.map((user) => <UserSearched key={user.id} data={user} />) : "Não encontramos nenhum resultado para a sua pesquisa..."}
+            {searchResult && searchResult.length !== 0 ? searchResult.map((user) => <UserSearched key={user.id} data={user} />) : "Não encontramos nenhum resultado para a sua pesquisa..."}
         </Box>
     );
 };

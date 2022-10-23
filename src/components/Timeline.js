@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import Header from "./commons/Header";
+import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
