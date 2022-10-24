@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 export default function Likes({ postId }) {
   const [isLiked, setIsLiked] = useState(false);
 
-  const URL_BASE = 'http://127.0.0.1:4000';
+  const URL_BASE = 'http://back-linkr-projetao.herokuapp.com';
 
     useEffect(() => {
         const token = localStorage.getItem('linkr-token');
