@@ -29,9 +29,9 @@ async function getListPostsFromHashtag(hashtag){
     );
 }
 
-async function postHashtagId(postId, hashtagId){
+async function postHashtagId(postId, id){
     return connection.query('INSERT INTO "postHashtags" ("postId", "hashtagId") VALUES ($1, $2);',
-    [postId, hashtagId]);
+    [postId, id]);
 }
 
 async function newHashtag(name){
