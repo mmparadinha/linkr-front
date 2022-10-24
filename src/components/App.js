@@ -6,7 +6,6 @@ import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
 import Login from "./authComponents/login";
 import SearchContext from "../contexts/SearchContext";
-import Header from "./commons/header/Header.js";
 import HashtagPage from "./HashtagPage.js";
 
 function App() {
@@ -35,7 +34,6 @@ function App() {
           <Route path="/timeline" element={<Timeline />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route  path="/hashtag/:hashtag" element={<HashtagPage />} />
-          <Route  path="/header" element={<Header />} />
         </Routes>
       </BrowserRouter>
     </SearchContext.Provider>

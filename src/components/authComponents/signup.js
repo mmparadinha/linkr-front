@@ -31,7 +31,7 @@ export default function UserRegistration({
             setClicado(false);
         });
         promise.catch((err) => {
-            alert(err.response.data.message);
+            console.log(err);
         })
     }
 

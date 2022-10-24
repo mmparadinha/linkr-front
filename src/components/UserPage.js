@@ -4,11 +4,20 @@ import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function UserPage() {
     const { id } = useParams();
     const [userPosts, setUserPosts] = useState([]);
+    const userPicture = localStorage.getItem('linkr-pictureUrl');
+    const username = localStorage.getItem("linkr-username");
+    const userToken = localStorage.getItem('linkr-token');
+    const navigate = useNavigate();
+
+    if (!userToken) { 
+        alert('Você não está autorizado para esse acesso, faça o login!');
+        navigate('/') 
+    };
 
     useEffect(() => {
         getUserLinkrs(id)
@@ -23,8 +32,8 @@ export default function UserPage() {
             </Header>
             <Body>
                 <Title>
-                    <img src="fotinho" alt="Profile picture"/>
-                    <h1>username's posts</h1>
+                    <img src={userPicture} alt="Profile picture"/>
+                    <h1>{username}'s posts</h1>
                 </Title>
                 <Container>
                     <AlignBox>
