@@ -46,7 +46,7 @@ export default function Timeline() {
     async function newPosts() {
         try {
             //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
-            const response = await axios.get(`${process.env.REACT_APP_BACK_END_URL}/timeline`);
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline`);
             setPosts(response.data);
         } catch (error) {
             alert('An error occured while trying to fetch the posts, please refresh the page');
@@ -83,7 +83,7 @@ export default function Timeline() {
                         {posts.length === 0 ? <h1>There are no posts yet.</h1>
                             :
                             <>
-                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} postId={a.id} />)}
                             </>
                         }
                     </AlignBox>
