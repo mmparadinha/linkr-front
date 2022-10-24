@@ -23,7 +23,7 @@ const LogoutComponents = styled.div`
     height: 43px;
     background-color: #171717;
 
-    left: cal(80% - 10%);
+    left: cal(90% - 10%);
     top: 72px;
     position: absolute;
 
