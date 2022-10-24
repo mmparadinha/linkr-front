@@ -11,8 +11,7 @@ import UserContext from '../contexts/UserContext';
 export default function Timeline() {
     const {config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts} = useContext(UserContext);
     const navigate = useNavigate();
-    //const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
-    const URL_BASE = 'http://localhost:4000';
+    const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
 
     // validUser
     if (!userToken) { 
@@ -66,13 +65,13 @@ export default function Timeline() {
       const response = await axios.get(`${URL_BASE}/timeline`, config);
       setPosts(response.data);
       if (response.data === 0) {
-        alert("There are no posts yet");
+        console.log("There are no posts yet");
       }
     } catch (error) {
-      alert(
+      console.log(
         "An error occured while trying to fetch the posts, please refresh the page"
       );
-      console.log(error.response);
+      console.log(error);
     }
   }
 

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserContext from "../contexts/UserContext";
+import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
 import Login from "./authComponents/login";
-import SearchContext from "../contexts/SearchContext";
+import SearchContext from "../contexts/SearchContext.js";
 import HashtagPage from "./HashtagPage.js";
+import PrivatePage from "./PrivatePage.js";
 
 function App() {
   const [hashtags, setHashtags] = useState([]);
@@ -37,9 +38,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route  path="/" element={<Login />} />
-          <Route path="/timeline" element={<Timeline />} />
-          <Route path="/user/:id" element={<UserPage />} />
-          <Route  path="/hashtag/:hashtag" element={<HashtagPage />} />
+          <Route element={<PrivatePage/>}>
+            <Route path="/timeline" element={<Timeline />} />
+            <Route path="/user/:id" element={<UserPage />} />
+            <Route  path="/hashtag/:hashtag" element={<HashtagPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </SearchContext.Provider>
