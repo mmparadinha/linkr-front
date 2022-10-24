@@ -1,64 +1,69 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useContext} from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
+import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
-  const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
-  const navigate = useNavigate();
+    const {config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts} = useContext(UserContext);
+    const navigate = useNavigate();
+    //const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    const URL_BASE = 'http://localhost:4000';
 
-  // user information
-  const userToken = localStorage.getItem("linkr-token");
-  const userPicture = localStorage.getItem("linkr-pictureUrl");
-  const userId = localStorage.getItem("linkr-userId");
-
-  // validUser
-  if (!userToken) {
-    alert("Faça o login!");
-    navigate("/");
-  }
-
-  // lógica de publicação
-  const [url, setUrl] = useState("");
-  const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    const token = { authorization: `Bearer ${userToken}` };
-
-    let newPost = {
-      url: `${url}`,
-      comment: `${comment}`,
-      userId: `${userId}`,
+    // validUser
+    if (!userToken) { 
+        alert('Faça o login!');
+        navigate('/') 
     };
 
-    try {
-      await axios.post(`${URL_BASE}/timeline`, newPost, { headers: token });
-      setLoading(false);
-      setUrl("");
-      setComment("");
-      alert("Post criado com sucesso!");
-      newPosts();
-    } catch (error) {
-      alert("Houve um erro ao publicar seu link.");
-      setLoading(false);
-      console.log(error.response);
-    }
-  }
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setLoading(true);
+
+        let newPost = ({
+            url: `${url}`,
+            comment: `${comment}`,
+            userId: `${userId}`
+        });
+
+        const commentArray = comment.split(" ");
+        const hashtags = commentArray.filter((hashtag) => {
+            return hashtag.includes('#');
+        });
+
+        try {
+            const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
+            const postId = post.data.postId;
+
+            hashtags.map(async (hashtag) => {
+                const name = hashtag.replace('#', '');
+                const dataHashtag = {
+                    postId: post.data.postId,
+                    name
+                };
+                await axios.post(`${URL_BASE}/hashtags`, dataHashtag, config);
+            });
+            
+            setLoading(false);
+            setUrl("");
+            setComment("");
+            alert('Post criado com sucesso!');
+            newPosts();
+        } catch (error) {
+            alert('Houve um erro ao publicar seu link.');
+            setLoading(false);
+            console.log(error.response);
+        };
+    };
 
   // lógica das postagens
-  const [posts, setPosts] = useState([]);
-
   async function newPosts() {
     try {
-      const response = await axios.get(`${URL_BASE}/timeline`);
+      const response = await axios.get(`${URL_BASE}/timeline`, config);
       setPosts(response.data);
       if (response.data === 0) {
         alert("There are no posts yet");
@@ -71,9 +76,9 @@ export default function Timeline() {
     }
   }
 
-  useEffect(() => {
-    newPosts();
-  }, []);
+    useEffect(() => {
+        newPosts();
+    }, []);
 
   return (
     <>
@@ -109,7 +114,7 @@ export default function Timeline() {
               </PublishContent>
             </Publish>
             {posts.length === 0 ? (
-              <h1>There are no posts yet.</h1>
+              <Loading />
             ) : (
               <>
                 {posts.map((a) => (

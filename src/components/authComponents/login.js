@@ -165,7 +165,6 @@ export default function Login() {
 const SignupComponents = styled.div`
   display: flex;
   flex-direction: row;
-
   @media (max-width: 645px) {
     flex-direction: column;
   }
@@ -175,18 +174,14 @@ const DescriptionComponents = styled.div`
   width: 65vw;
   height: 100vh;
   background-color: #151515;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   color: white;
-
   h1 {
     font-size: 106px;
     font-family: "Passion One";
   }
-
   p {
     width: 435px;
     font-size: 43px;
@@ -194,67 +189,54 @@ const DescriptionComponents = styled.div`
     line-height: 64px;
     font-weight: 400;
   }
-
   @media (max-width: 950px) {
     width: 50%;
-
     h1 {
       font-size: 80px;
     }
-
     p {
       width: 250px;
       font-size: 25px;
       line-height: 50px;
     }
   }
-
   @media (max-width: 645px) {
     width: 100%;
     height: 175px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: fixed;
-
     .description {
       width: 100%;
       font-size: 23px;
       line-height: 34.09px;
       text-align: center;
     }
-
     h1 {
       width: 100%;
       font-size: 76px;
       line-height: 83.86px;
-
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
-
     @media(max-width: 645px){
         width: 100%;
         height: 175px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         position: fixed;
-
         .description {
             width: 100%;
             font-size: 23px;
             text-align: center;
         }
-
         h1 {
             width: 100%;
             font-size: 76px;
             line-height: 83.86px;
-
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         p {
             font-size: 23px;
             width: 100%;
@@ -272,58 +254,45 @@ const RegistrationData = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 20px;
-
   input {
     width: 100%;
     height: 65px;
     border: 0;
     border-radius: 6px;
     background-color: white;
-
     padding-left: 15px;
     margin-bottom: 15px;
-
     font-family: "Oswald";
     font-size: 27px;
     color: #9f9f9f;
     font-weight: 700;
   }
-
   button {
     width: 100%;
     height: 65px;
     background-color: #1877f2;
     border: 0;
     border-radius: 6px;
-
     color: white;
     font-family: "Oswald";
     font-size: 27px;
     font-weight: 700;
-
     margin-bottom: 20px;
-
     cursor: pointer;
   }
-
   p {
     width: 100%;
     color: white;
     font-size: 20px;
     font-family: "Lato";
     font-weight: 400;
-
     display: flex;
     justify-content: center;
-
     text-decoration: underline;
-
     cursor: pointer;
   }
-
   @media (max-width: 950px) {
     width: 50vw;
-
     input {
       height: 45px;
       font-size: 18px;
@@ -332,29 +301,24 @@ const RegistrationData = styled.div`
       height: 45px;
       font-size: 18px;
     }
-
     p {
       font-size: 14px;
     }
   }
-
   @media (max-width: 645px) {
     width: 100%;
     margin-top: 215px;
     padding: 20px;
-
     input {
       width: 100%;
       height: 55px;
       font-size: 22px;
     }
-
     button {
       width: 100%;
       height: 55px;
       font-size: 22px;
     }
-
     p {
       width: 100%;
       font-size: 17px;

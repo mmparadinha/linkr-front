@@ -8,7 +8,6 @@ export default function UserRegistration({
   RegistrationData,
   setClicado,
 }) {
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +30,7 @@ export default function UserRegistration({
             setClicado(false);
         });
         promise.catch((err) => {
-            alert(err.response.data.message);
+            console.log(err);
         })
     }
 
@@ -100,5 +99,6 @@ export default function UserRegistration({
             </RegistrationData>
         </SignupComponents>
     );
+
 };
 
