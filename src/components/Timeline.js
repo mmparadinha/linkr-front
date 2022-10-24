@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState, useContext} from 'react';
+import { useEffect, useContext} from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
@@ -9,26 +9,16 @@ import { useNavigate } from "react-router-dom";
 import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
-    const {config} = useContext(UserContext);
-
-    const URL_BASE = 'http://back-linkr-projetao.herokuapp.com';
+    const {config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts} = useContext(UserContext);
     const navigate = useNavigate();
-
-    // user information
-    const userToken = localStorage.getItem('linkr-token');
-    const userPicture = localStorage.getItem('linkr-pictureUrl');
-    const userId = localStorage.getItem('linkr-userId');
+    //const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    const URL_BASE = 'http://localhost:4000';
 
     // validUser
     if (!userToken) { 
         alert('Faça o login!');
         navigate('/') 
     };
-
-    // lógica de publicação
-    const [url, setUrl] = useState("");
-    const [comment, setComment] = useState("");
-    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -50,13 +40,12 @@ export default function Timeline() {
             const postId = post.data.postId;
 
             hashtags.map(async (hashtag) => {
-                const hashtagName = hashtag.replace('#', '');
-                const hashId = (await axios.post(`${URL_BASE}/hashtags`, hashtagName, config)).rows[0].id;
+                const name = hashtag.replace('#', '');
                 const dataHashtag = {
-                    postId: postId,
-                    hashtagId: hashId,
+                    postId: post.data.postId,
+                    name
                 };
-                await axios.post(`${URL_BASE}/postHashtag`, dataHashtag, config);
+                await axios.post(`${URL_BASE}/hashtags`, dataHashtag, config);
             });
             
             setLoading(false);
@@ -71,23 +60,21 @@ export default function Timeline() {
         };
     };
 
-    // lógica das postagens
-    const [posts, setPosts] = useState([]);
-
-    async function newPosts() {
-        try {
-        const response = await axios.get(`${URL_BASE}/timeline`);
-        setPosts(response.data);
-        if (response.data === 0) {
-            alert("There are no posts yet");
-        }
-        } catch (error) {
-        alert(
-            "An error occured while trying to fetch the posts, please refresh the page"
-        );
-        console.log(error.response);
-        }
+  // lógica das postagens
+  async function newPosts() {
+    try {
+      const response = await axios.get(`${URL_BASE}/timeline`, config);
+      setPosts(response.data);
+      if (response.data === 0) {
+        alert("There are no posts yet");
+      }
+    } catch (error) {
+      alert(
+        "An error occured while trying to fetch the posts, please refresh the page"
+      );
+      console.log(error.response);
     }
+  }
 
     useEffect(() => {
         newPosts();

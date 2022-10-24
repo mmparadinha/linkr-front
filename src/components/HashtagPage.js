@@ -5,9 +5,11 @@ import NewPosts from "./Post";
 import {useContext, useEffect} from 'react';
 import UserContext from '../contexts/UserContext';
 import Hashtags from "./Hashtags";
+import {useParams} from 'react-router-dom';
 
 export default function HashtagPage(){
-    const {hashtagName, hashtagPosts, setHashtagPosts, config} = useContext(UserContext);
+    const {hashtagName, hashtagPosts, setHashtagPosts, config, setHashtagName} = useContext(UserContext);
+    const {hashtag} = useParams();
 
     useEffect(() => {
         if(hashtagName !== ''){
@@ -17,6 +19,10 @@ export default function HashtagPage(){
             });
         }
     }, [hashtagName]);
+
+    useEffect(() => {
+        setHashtagName(hashtag);
+    }, []);
 
     return (
         <>

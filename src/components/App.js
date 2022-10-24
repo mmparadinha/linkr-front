@@ -13,6 +13,12 @@ function App() {
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
   const userToken = localStorage.getItem('linkr-token');
+  const userId = localStorage.getItem('linkr-userId');
+  const userPicture = localStorage.getItem('linkr-pictureUrl');
+  const [url, setUrl] = useState("");
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState([]);
   const config = {
       headers: {
           Authorization: `Bearer ${userToken}`
@@ -20,7 +26,7 @@ function App() {
   };
 
   const contextValue = {
-    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config
+    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts
   };
   const [searchResult, setSearchResult] = useState(null);
 
