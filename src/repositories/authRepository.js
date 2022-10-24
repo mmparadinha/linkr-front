@@ -17,4 +17,8 @@ async function loginUser(verification ,token) {
     );
 }
 
-export { createUser, checkEmail, loginUser };
+async function getUserData(email) {
+    return connection.query(`SELECT username, "pictureUrl"  FROM users WHERE email=($1);`, [email]);
+}
+
+export { createUser, checkEmail, loginUser, getUserData };
