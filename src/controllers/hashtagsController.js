@@ -37,10 +37,12 @@ async function getPostsFromHashtag(req,res){
 }
 
 async function newHashtag(req, res){
-    const {hashtagName} = req.body;
+    const {name, postId} = req.body;
 
     try {
-        await hashtagsRepository.newHashtag(hashtagName);
+        const id = (await hashtagsRepository.newHashtag(name)).rows[0].id;
+        console.log(id)
+        await hashtagsRepository.postHashtagId(postId, id);
 
         return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
     } catch (error) {
@@ -49,17 +51,4 @@ async function newHashtag(req, res){
     }
 }
 
-async function postHashtagId(req, res){
-    const {postId, hashtagId} = req.body;
-
-    try {
-        await hashtagsRepository.postHashtagId(postId, hashtagId);
-
-        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
-    } catch (error) {
-        console.error(error);
-        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
-    }
-}
-
-export {getHashtags, getPostsFromHashtag, newHashtag, postHashtagId};
+export {getHashtags, getPostsFromHashtag, newHashtag};
