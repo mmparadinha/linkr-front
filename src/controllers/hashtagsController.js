@@ -1,6 +1,7 @@
 import { STATUS_CODE } from "../enums/statusCode.js";
 import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
 import urlMetadata from "url-metadata";
+import {stripHtml} from "string-strip-html";
 
 async function getHashtags(req, res){
 
@@ -36,4 +37,31 @@ async function getPostsFromHashtag(req,res){
     }
 }
 
-export {getHashtags, getPostsFromHashtag};
+async function newHashtag(req, res){
+    let {name} = req.body;
+    name = stripHtml(name).result.trim();
+
+    try {
+        await hashtagsRepository.newHashtag(name);
+
+        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    }
+}
+
+async function postHashtagId(req, res){
+    const {postId, hashtagId} = req.body;
+
+    try {
+        await hashtagsRepository.postHashtagId(postId, hashtagId);
+
+        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    }
+}
+
+export {getHashtags, getPostsFromHashtag, newHashtag, postHashtagId};

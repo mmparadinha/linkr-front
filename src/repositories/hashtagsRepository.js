@@ -29,4 +29,16 @@ async function getListPostsFromHashtag(hashtag){
     );
 }
 
-export {getListHashtags, getListPostsFromHashtag};
+async function postHashtagId(postId, hashtagId){
+    return connection.query('INSERT INTO "postHashtags" ("postId", "hashtagId") VALUES ($1, $2);',
+    [postId, hashtagId]);
+}
+
+async function newHashtag(name){
+    return connection.query(
+        'INSERT INTO hashtags ("name") VALUES ($1);',
+        [name]
+    );
+}
+
+export {getListHashtags, getListPostsFromHashtag, newHashtag, postHashtagId};
