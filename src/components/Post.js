@@ -194,7 +194,6 @@ export default function NewPosts({
   }
   function enviar() {
     if (newComment !== "") {
-      console.log("foi");
       axios
         .put(
           `${URL_BASE}/timeline/post/edit/${postId}`,

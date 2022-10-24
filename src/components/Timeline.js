@@ -52,7 +52,6 @@ export default function Timeline() {
             hashtags.map(async (hashtag) => {
                 const hashtagName = hashtag.replace('#', '');
                 const hashId = (await axios.post(`${URL_BASE}/hashtags`, hashtagName, config)).rows[0].id;
-                console.log()
                 const dataHashtag = {
                     postId: postId,
                     hashtagId: hashId,
