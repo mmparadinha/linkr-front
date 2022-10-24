@@ -9,7 +9,13 @@ import { useNavigate } from "react-router-dom";
 import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
+<<<<<<< HEAD
     const {config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts} = useContext(UserContext);
+=======
+    const {config} = useContext(UserContext);
+
+    const URL_BASE = 'http://back-linkr-projetao.herokuapp.com';
+>>>>>>> main
     const navigate = useNavigate();
     //const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
     const URL_BASE = 'http://localhost:4000';
@@ -37,12 +43,22 @@ export default function Timeline() {
 
         try {
             const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
+            const postId = post.data.postId;
 
             hashtags.map(async (hashtag) => {
+<<<<<<< HEAD
                 const name = hashtag.replace('#', '');
                 const dataHashtag = {
                     postId: post.data.postId,
                     name
+=======
+                const hashtagName = hashtag.replace('#', '');
+                const hashId = (await axios.post(`${URL_BASE}/hashtags`, hashtagName, config)).rows[0].id;
+                console.log()
+                const dataHashtag = {
+                    postId: postId,
+                    hashtagId: hashId,
+>>>>>>> main
                 };
                 await axios.post(`${URL_BASE}/hashtags`, dataHashtag, config);
             });
@@ -59,6 +75,7 @@ export default function Timeline() {
         };
     };
 
+<<<<<<< HEAD
   // lógica das postagens
   async function newPosts() {
     try {
@@ -75,10 +92,29 @@ export default function Timeline() {
       console.log(error.response);
     }
   }
+=======
+    // lógica das postagens
+    const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    newPosts();
-  }, []);
+    async function newPosts() {
+        try {
+        const response = await axios.get(`${URL_BASE}/timeline`);
+        setPosts(response.data);
+        if (response.data === 0) {
+            alert("There are no posts yet");
+        }
+        } catch (error) {
+        alert(
+            "An error occured while trying to fetch the posts, please refresh the page"
+        );
+        console.log(error.response);
+        }
+    }
+>>>>>>> main
+
+    useEffect(() => {
+        newPosts();
+    }, []);
 
   return (
     <>
@@ -114,7 +150,7 @@ export default function Timeline() {
               </PublishContent>
             </Publish>
             {posts.length === 0 ? (
-              <h1>There are no posts yet.</h1>
+              <Loading />
             ) : (
               <>
                 {posts.map((a) => (

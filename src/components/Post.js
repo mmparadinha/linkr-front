@@ -3,8 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
 import { useContext, useState, useRef, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
-import { FiHeart } from "react-icons/fi";
-import { AiFillHeart } from "react-icons/ai";
 import { SlPencil } from "react-icons/sl";
 import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
@@ -100,7 +98,7 @@ export default function NewPosts({
         <Link to={`/user/${userId}`}>
           <Photo src={photo} />
         </Link>
-        <Like></Like>
+        <Likes postId={postId} />
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
@@ -302,14 +300,6 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Like = styled(FiHeart)`
-  margin-top: 20px;
-  width: 20px;
-  height: 20px;
-  color: white;
-  cursor: pointer;
 `;
 
 const Photo = styled.img`

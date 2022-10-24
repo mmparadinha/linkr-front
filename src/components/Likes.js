@@ -1,39 +1,38 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { FiHeart } from 'react-icons/fi';
+import { AiOutlineHeart } from 'react-icons/ai';
 import { AiFillHeart } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
 
 export default function Likes({ postId }) {
   const [isLiked, setIsLiked] = useState(false);
 
-  const URL_BASE = 'http://127.0.0.1:4000';
+  const URL_BASE = 'http://back-linkr-projetao.herokuapp.com';
 
     useEffect(() => {
         const token = localStorage.getItem('linkr-token');
-        const config = {headers: {Authorization: `Bearer ${token}`}}
+        const config = { headers: {Authorization: `Bearer ${token}` }}
 
-    const promise = axios.get(
-      `${URL_BASE}/likes/${postId}`,
-      config
-    );
+        const promise = axios.get(
+          `${URL_BASE}/likes/${postId}`,
+          config
+        );
 
         promise.then((res) => {
-          if (res.data) {
+          if (res.data.length > 0) {
             setIsLiked(true);
           }else {
             setIsLiked(false);
           }
+          console.log(res.data)
         });
     
         promise.catch((error) => {
-          //alert("An error has occurred");
+          alert("An error has occurred");
         });
     }, []);
     
     function toggleLike() {
-        console.log("aoba")
         const token = localStorage.getItem('linkr-token');
         const config = {
             headers: {
@@ -41,7 +40,6 @@ export default function Likes({ postId }) {
             }
         }
         
-        console.log(token)
         const promise = axios.post(
             `${URL_BASE}/likes/${postId}`,
             {},
@@ -49,33 +47,26 @@ export default function Likes({ postId }) {
         );
 
         promise.then((response) => {
-            if (response.status === 200){
-                setIsLiked(true);
-            }
-
-            if (response.status === 201){
-                setIsLiked(false);
-            }
+            setIsLiked(!isLiked);
                 
             promise.catch((error) => {
-            alert("Não foi possível curtir o post res");
+                alert("Não foi possível interagir com o post");
             });
         });
     
         promise.catch((error) => {
-            alert("Não foi possível curtir o post");
+            alert("Não foi possível interagir com o post");
         });
     }
 
     return (
         <>
-            {/* <FiHeartedLike /> */}
             {isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
         </>
     );
 }
 
-const FiHeartedLike = styled(FiHeart)`
+const FiHeartedLike = styled(AiOutlineHeart)`
     margin-top: 20px;
     width: 20px;
     height: 20px;
