@@ -75,51 +75,22 @@ export default function Timeline() {
 
     async function newPosts() {
         try {
-            //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
-            const response = await axios.get(`${URL_BASE}/timeline`);
-            setPosts(response.data);
-            if (response.data === 0) { alert("There are no posts yet") };
+        const response = await axios.get(`${URL_BASE}/timeline`);
+        setPosts(response.data);
+        if (response.data === 0) {
+            alert("There are no posts yet");
+        }
         } catch (error) {
-            alert('An error occured while trying to fetch the posts, please refresh the page');
-            console.log(error.response);
-        };
-    };
-
-    try {
-      await axios.post(`${URL_BASE}/timeline`, newPost, { headers: token });
-      setLoading(false);
-      setUrl("");
-      setComment("");
-      alert("Post criado com sucesso!");
-      newPosts();
-    } catch (error) {
-      alert("Houve um erro ao publicar seu link.");
-      setLoading(false);
-      console.log(error.response);
+        alert(
+            "An error occured while trying to fetch the posts, please refresh the page"
+        );
+        console.log(error.response);
+        }
     }
-  }
 
-  // lógica das postagens
-  const [posts, setPosts] = useState([]);
-
-  async function newPosts() {
-    try {
-      const response = await axios.get(`${URL_BASE}/timeline`);
-      setPosts(response.data);
-      if (response.data === 0) {
-        alert("There are no posts yet");
-      }
-    } catch (error) {
-      alert(
-        "An error occured while trying to fetch the posts, please refresh the page"
-      );
-      console.log(error.response);
-    }
-  }
-
-  useEffect(() => {
-    newPosts();
-  }, []);
+    useEffect(() => {
+        newPosts();
+    }, []);
 
   return (
     <>
