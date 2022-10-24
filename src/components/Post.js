@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
 import { FiHeart } from "react-icons/fi";
 import { AiFillHeart } from "react-icons/ai";
@@ -9,6 +9,7 @@ import { SlPencil } from "react-icons/sl";
 import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import Likes from "./Likes";
 
 export default function NewPosts({
   userId,
@@ -21,18 +22,58 @@ export default function NewPosts({
   urlDescription,
   postId,
 }) {
+  const [newComment, setNewComment] = useState("");
+  const [edit, setEdit] = useState("apagar");
+  const [edit2, setEdit2] = useState("");
   const [botao, setBotao] = useState("");
   const [loader, setLoader] = useState("apagar");
   const [modalIsOpen, setIsOpen] = useState("apagar");
   const { setHashtagName } = useContext(UserContext);
   const navigate = useNavigate();
-  let subtitle;
+  const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
+  const inputEdit = useRef();
+  const [clicado, setClicado] = useState(false);
+  const [desativarInput, setDesativarInput] = useState(false);
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
     setHashtagName(hashtag);
     navigate(`/hashtag/${hashtag}`);
   }
+
+  const handleEscape = () => {
+    setEdit("apagar");
+    setEdit2("");
+    setClicado(false);
+  };
+
+  const handleSubmit = () => {
+    setDesativarInput(true);
+    enviar();
+  };
+
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+
+        // 👇️ call submit function here
+        handleEscape();
+      }
+      if (event.key === "Enter") {
+        event.preventDefault();
+
+        // 👇️ call submit function here
+        handleSubmit();
+      }
+    };
+
+    document.addEventListener("keydown", keyDownHandler);
+
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler);
+    };
+  }, []);
 
   return (
     <Post>
@@ -66,7 +107,7 @@ export default function NewPosts({
             <h1>{username}</h1>
           </Link>
           <div className="container-icons">
-            <div className="icon">
+            <div className="icon" onClick={abrirEdit}>
               <SlPencil color="white" fontSize={15} />
             </div>
             <div className="icon" onClick={abrirModal}>
@@ -74,14 +115,31 @@ export default function NewPosts({
             </div>
           </div>
         </div>
-        <ReactTagify
-          colors={"#ffffff"}
-          tagClicked={(tag) => {
-            isTagClicked(tag);
-          }}
-        >
-          <h2>{comment}</h2>
-        </ReactTagify>
+        <div className={edit2}>
+          <ReactTagify
+            colors={"#ffffff"}
+            tagClicked={(tag) => {
+              isTagClicked(tag);
+            }}
+          >
+            <h2>{comment}</h2>
+          </ReactTagify>
+        </div>
+
+        <div className={edit}>
+          <input
+            disabled={desativarInput}
+            ref={inputEdit}
+            type="text"
+            name="newComment"
+            placeholder="edit comment"
+            onChange={(e) => {
+              setNewComment(e.target.value);
+            }}
+            value={newComment}
+            required
+          />
+        </div>
         <a href={url} target="_blank" rel="noreferrer">
           <Linkr>
             <text>
@@ -105,15 +163,12 @@ export default function NewPosts({
     setBotao("apagar");
     setLoader("");
     axios
-      .delete(
-        `${process.env.REACT_APP_BACK_END_URL}/timeline/post/delete/${postId}`,
-        {
-          headers: {
-            authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
-          },
-        }
-      )
+      .delete(`${URL_BASE}/timeline/post/delete/${postId}`, {
+        headers: {
+          authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
+        },
+      })
       .then(() => {
         alert("post deletado");
         window.location.reload();
@@ -124,6 +179,43 @@ export default function NewPosts({
         setLoader("apagar");
         closeModal();
       });
+  }
+  function abrirEdit() {
+    if (!clicado) {
+      setDesativarInput(false);
+      setEdit("edit");
+      setEdit2("apagar");
+      inputEdit.current.focus();
+      setClicado(true);
+    } else {
+      setEdit("apagar");
+      setEdit2("");
+      setClicado(false);
+    }
+  }
+  function enviar() {
+    if (newComment !== "") {
+      console.log("foi");
+      axios
+        .put(
+          `${URL_BASE}/timeline/post/edit/${postId}`,
+          {
+            url: url,
+            comment: newComment,
+          },
+          {
+            headers: {
+              authorization:
+                "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
+            },
+          }
+        )
+        .then(() => window.location.reload())
+        .catch(() => {
+          alert("não foi possível editar o post");
+          setDesativarInput(false);
+        });
+    } else alert("campo editar está em branco");
   }
 }
 
@@ -138,10 +230,6 @@ const Post = styled.div`
 
   h1 {
     width: 15px;
-  }
-
-  a {
-    height: 53px;
   }
 
   .editIconsPositions {
@@ -185,6 +273,28 @@ const Post = styled.div`
     padding: 15px;
     padding-top: 9px;
   }
+  .edit {
+    input {
+      width: 503px;
+      height: 44px;
+
+      background: #ffffff;
+      border-radius: 7px;
+      border: 1px solid #d5d5d5;
+      background: #ffffff;
+      border-radius: 5px;
+      outline: none;
+      padding-left: 15px;
+      font-family: "Lato";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+
+      color: #4c4c4c;
+      margin-bottom: 8px;
+    }
+  }
 `;
 
 const Left = styled.div`
@@ -216,7 +326,6 @@ const PostInfo = styled.div`
   margin-left: 18px;
 
   h1 {
-    height: 23px;
     font-family: "Lato", sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -227,7 +336,6 @@ const PostInfo = styled.div`
   }
 
   h2 {
-    width: 502px;
     font-family: "Lato", sans-serif;
     font-style: normal;
     font-weight: 400;
