@@ -5,7 +5,7 @@ async function createUser(email, excrypetPassword, username, pictureUrl) {
 }
 
 async function checkEmail(email) {
-    return connection.query("SELECT * FROM users WHERE email=($1) limit 1;", [email]);
+    return connection.query(`SELECT * FROM users WHERE email=($1) limit 1;`, [email]);
 }
 
 async function loginUser(verification ,token) {
@@ -17,4 +17,8 @@ async function loginUser(verification ,token) {
     );
 }
 
-export { createUser, checkEmail, loginUser };
+async function getUserData(email) {
+    return connection.query(`SELECT username, "pictureUrl", id AS "userId" FROM users WHERE email=($1);`, [email]);
+}
+
+export { createUser, checkEmail, loginUser, getUserData };

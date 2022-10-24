@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-async function getPosts() {
+export default async function getUserData(id) {
     return connection.query(`
     SELECT
     	users.id as "userId",
@@ -12,16 +12,9 @@ async function getPosts() {
     FROM
         posts
     JOIN users ON posts."userId" = users.id
+    WHERE posts."userId" = $1
     ORDER BY
         posts."createdAt" DESC
     LIMIT
-        20;`);
-};
-
-async function newPost(userId, url, comment) {
-    return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW()) RETURNING id;', [userId, url, comment]);
-};
-
-export const postRepository = {
-    getPosts, newPost
+        20;`, [id]);
 };

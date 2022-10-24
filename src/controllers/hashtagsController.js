@@ -1,6 +1,7 @@
-import connection from "../database/database.js";
 import { STATUS_CODE } from "../enums/statusCode.js";
-import * as hashtagsRepository from "../repository/hashtagsRepository.js";
+import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
+import urlMetadata from "url-metadata";
+import {stripHtml} from "string-strip-html";
 
 async function getHashtags(req, res){
     try {
@@ -13,35 +14,52 @@ async function getHashtags(req, res){
     }
 }
 
-async function getPostFromHashtag(req,res){
+async function getPostsFromHashtag(req,res){
     const {hashtag} = req.params;
 
     try {
-        const listPosts = await connection.query(
-            `SELECT 
-            users.username AS username,
-            users."pictureUrl" AS "pictureUrl",
-            hashtags.name AS hashtag,
-            posts."userId" AS "userId",
-            posts.url AS url,
-            posts.comment AS comment
-            FROM posts 
-            JOIN "postHashtags" 
-            ON "postHashtags"."postId" = posts.id 
-            JOIN hashtags 
-            ON hashtags.id = "postHashtags"."hashtagId"
-            JOIN users 
-            ON users.id = posts."userId"
-            ORDER BY posts."createdAt" DESC
-            WHERE hashtags.name = $1;`,
-            [{hashtag}]
+        const listPosts = (await hashtagsRepository.getListPostsFromHashtag(hashtag)).rows;
+
+        await Promise.all(
+            listPosts.map(async (post) => {
+                const {title, image, description} = await urlMetadata(post.url);
+                post.urlTitle = title;
+                post.urlImage = image;
+                post.urlDescription = description;
+            })
         );
 
-        return res.status(STATUS_CODE.SUCCESSOK).send(listPosts.rows);
-
+        return res.status(STATUS_CODE.SUCCESSOK).send(listPosts);
     } catch (error) {
-        
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
     }
 }
 
-export {getHashtags, getPostFromHashtag};
+async function newHashtag(req, res){
+    const {hashtagName} = req.body;
+
+    try {
+        await hashtagsRepository.newHashtag(hashtagName);
+
+        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    }
+}
+
+async function postHashtagId(req, res){
+    const {postId, hashtagId} = req.body;
+
+    try {
+        await hashtagsRepository.postHashtagId(postId, hashtagId);
+
+        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    }
+}
+
+export {getHashtags, getPostsFromHashtag, newHashtag, postHashtagId};
