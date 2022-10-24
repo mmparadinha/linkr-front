@@ -63,7 +63,7 @@ export default function Timeline() {
   // lógica das postagens
   async function newPosts() {
     try {
-      const response = await axios.get(`${URL_BASE}/timeline`);
+      const response = await axios.get(`${URL_BASE}/timeline`, config);
       setPosts(response.data);
       if (response.data === 0) {
         alert("There are no posts yet");
