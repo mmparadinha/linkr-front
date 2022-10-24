@@ -59,6 +59,7 @@ export default function Timeline() {
 
     async function newPosts() {
         try {
+            //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
             const response = await axios.get(`${URL_BASE}/timeline`);
             setPosts(response.data);
             if (response.data === 0) { alert("There are no posts yet") };
@@ -94,14 +95,12 @@ export default function Timeline() {
                                 </form>
                             </PublishContent>
                         </Publish>
-                        <>
-                            {posts.length === 0 ? <><Loading /></>
-                                :
-                                <>
-                                    {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
-                                </>
-                            }
-                        </>
+                        {posts.length === 0 ? <h1>There are no posts yet.</h1>
+                            :
+                            <>
+                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} postId={a.id} />)}
+                            </>
+                        }
                     </AlignBox>
                     <Hashtags />
                 </Container>
