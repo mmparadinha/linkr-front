@@ -12,7 +12,10 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-loader-spinner": "^5.3.4",
+<<<<<<< HEAD
     "react-modal": "^3.16.1",
+=======
+>>>>>>> main
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-tagify": "^0.1.4",

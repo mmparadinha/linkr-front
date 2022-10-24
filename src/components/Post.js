@@ -9,6 +9,8 @@ import { SlPencil } from "react-icons/sl";
 import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 import Likes from "./Likes";
 
 export default function NewPosts({
@@ -34,6 +36,7 @@ export default function NewPosts({
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);
+  
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
