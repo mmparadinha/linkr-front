@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import { Link, useNavigate } from 'react-router-dom';
-import {useContext, useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import {useContext, useEffect} from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
-import HashtagPage from "./HashtagPage.js";
 
 export default function Hashtags(){
-    const {hashtags, setHashtags, setHashtagName} = useContext(UserContext);
+    const {hashtags, setHashtags, setHashtagName, config} = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtags`);
+        const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtags`, config);
         promise.then(res => {
             setHashtags(res.data);
         });

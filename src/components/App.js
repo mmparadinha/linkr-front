@@ -2,7 +2,6 @@ import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import Hashtags from "./Hashtags.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
 import Login from "./authComponents/login";
@@ -14,9 +13,15 @@ function App() {
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
+  const userToken = localStorage.getItem('linkr-token');
+  const config = {
+      headers: {
+          Authorization: `Bearer ${userToken}`
+      },
+  };
 
   const contextValue = {
-    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName
+    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config
   };
   const [searchResult, setSearchResult] = useState(null);
 
