@@ -31,7 +31,7 @@ export default function Timeline() {
     e.preventDefault();
     setLoading(true);
 
-    const token = { token: { Authorization: `Bearer ${userToken}` } };
+    const token = { authorization: `Bearer ${userToken}` };
 
     let newPost = {
       url: `${url}`,
@@ -40,7 +40,7 @@ export default function Timeline() {
     };
 
     try {
-      await axios.post(`${URL_BASE}/timeline`, newPost, token);
+      await axios.post(`${URL_BASE}/timeline`, newPost, { headers: token });
       setLoading(false);
       setUrl("");
       setComment("");
@@ -58,7 +58,6 @@ export default function Timeline() {
 
   async function newPosts() {
     try {
-      //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
       const response = await axios.get(`${URL_BASE}/timeline`);
       setPosts(response.data);
       if (response.data === 0) {
@@ -75,8 +74,6 @@ export default function Timeline() {
   useEffect(() => {
     newPosts();
   }, []);
-
-  console.log(posts);
 
   return (
     <>

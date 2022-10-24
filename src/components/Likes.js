@@ -5,19 +5,19 @@ import { AiFillHeart } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-export default function Likes({postId}) {
-    const [isLiked, setIsLiked] = useState(false);
+export default function Likes({ postId }) {
+  const [isLiked, setIsLiked] = useState(false);
 
-    const URL_BASE = 'http://127.0.0.1:4000';
+  const URL_BASE = 'http://127.0.0.1:4000';
 
     useEffect(() => {
         const token = localStorage.getItem('linkr-token');
         const config = {headers: {Authorization: `Bearer ${token}`}}
 
-        const promise = axios.get(
-          `${URL_BASE}/likes/${postId}`,
-          config
-        );
+    const promise = axios.get(
+      `${URL_BASE}/likes/${postId}`,
+      config
+    );
 
         promise.then((res) => {
           if (res.data) {
@@ -28,11 +28,7 @@ export default function Likes({postId}) {
         });
     
         promise.catch((error) => {
-<<<<<<< HEAD
           alert("An error has occurred");
-=======
-          // alert("An error has occurred");
->>>>>>> main
         });
     }, []);
     
