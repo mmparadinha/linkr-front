@@ -8,7 +8,6 @@ import Likes from "./Likes";
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription, postId }) {
     const {setHashtagName} = useContext(UserContext);
     const navigate = useNavigate();
-    const {setHashtagName} = useContext(UserContext);
 
     function isTagClicked(tag) {
         const hashtag = tag.replace("#", "");

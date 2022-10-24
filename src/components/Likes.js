@@ -29,7 +29,7 @@ export default function Likes({postId}) {
         });
     
         promise.catch((error) => {
-          alert("An error has occurred");
+          // alert("An error has occurred");
         });
     }, []);
 

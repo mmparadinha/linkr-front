@@ -20,14 +20,13 @@ export default function Login() {
         const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
         promise.then((res) => {
-            restForm();
             navigate("/timeline");
             localStorage.setItem('linkr-token', res.data.token);
             localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl);
-            localStorage.setItem('linkr-userId', res.data.userId);
+            localStorage.setItem('linkr-userId', res.data.username);
         });
         promise.catch((err) => {
-            alert('Não foi possível entar, verifique seu email ou a senha!');
+            alert('Não foi possível entrar, verifique seu email ou a senha!');
         });
     }
 
@@ -152,7 +151,6 @@ const DescriptionComponents = styled.div`
         .description {
             width: 100%;
             font-size: 23px;
-            line-height: 34.09px;
             text-align: center;
         }
 
@@ -170,8 +168,7 @@ const DescriptionComponents = styled.div`
             font-size: 23px;
             width: 100%;
             text-align: center;
-            line-height: 17px;
-            line-height: 20.4px;
+            line-height: 25px;
         }
     }
 `;
