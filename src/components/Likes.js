@@ -27,8 +27,7 @@ export default function Likes({ postId }) {
         });
     
         promise.catch((error) => {
-          alert("An error has occurred");
-          console.error(error);
+        //   alert("An error has occurred")
         });
     }, []);
     

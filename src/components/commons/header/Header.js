@@ -6,6 +6,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
+import Logout from './HeaderLogout';
 
 export default function Header() {
     const userPicture = localStorage.getItem('linkr-pictureUrl');
@@ -15,6 +16,8 @@ export default function Header() {
     const navigate = useNavigate();
     const wrapperRef1 = useRef(null);
     const wrapperRef2 = useRef(null);
+
+    const [logout , setLogout] = useState(false);
 
   function useOutsideSearchBox(ref1, ref2) {
     useEffect(() => {
@@ -52,40 +55,41 @@ export default function Header() {
 
     return (
         <>
-          <Container>
-              <Title onClick={() => navigate("/timeline")}>linkr</Title>
-              <SearchBox ref={wrapperRef1}>
-                  <SearchBar
-                      minLength={3}
-                      debounceTimeout={300}
-                      placeholder="Search for people and friends"
-                      disabled={searching}
-                      type='text'
-                      onChange={getSearch}
-                  />
-                  <SearchIcon onClick={getSearch} />
-                  {searchBox ? <SearchResultsBox /> : ''}
-              </SearchBox>
-              <AlignItems>
-                  <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')} />
-                  <Link>
-                      <Photo src={userPicture} />
-                  </Link>
-              </AlignItems>
-          </Container>
+            <Container>
+                <Title onClick={() => navigate("/timeline")}>linkr</Title>
+                <SearchBox ref={wrapperRef1}>
+                    <SearchBar
+                        minLength={3}
+                        debounceTimeout={300}
+                        placeholder="Search for people and friends"
+                        disabled={searching}
+                        type='text'
+                        onChange={getSearch}
+                    />
+                    <SearchIcon onClick={getSearch} />
+                    {searchBox ? <SearchResultsBox /> : ''}
+                </SearchBox>
+                <AlignItems>
+                    <ProfileIcon onClick={() => {setLogout(!logout)}} logout={logout}/>
+                    {logout ? <Logout setLogout={setLogout}/> : <></>}
+                    <Link>
+                        <Photo src={userPicture} />
+                    </Link>
+                </AlignItems>
+            </Container>
 
-          <SearchBoxMobile ref={wrapperRef2}>
-              <SearchBar
-                  minLength={3}
-                  debounceTimeout={300}
-                  placeholder="Search for people and friends"
-                  disabled={searching}
-                  type='text'
-                  onChange={getSearch}
-              />
-              <SearchIcon onClick={getSearch} />
-              {searchBox ? <SearchResultsBox /> : ''}
-          </SearchBoxMobile>
+            <SearchBoxMobile ref={wrapperRef2}>
+                <SearchBar
+                    minLength={3}
+                    debounceTimeout={300}
+                    placeholder="Search for people and friends"
+                    disabled={searching}
+                    type='text'
+                    onChange={getSearch}
+                />
+                <SearchIcon onClick={getSearch} />
+                {searchBox ? <SearchResultsBox /> : ''}
+            </SearchBoxMobile>
         </>
     );
 }
@@ -193,9 +197,10 @@ const Photo = styled.img`
 `;
 
 const ProfileIcon = styled(IoChevronDownOutline)`
-  color: #ffffff;
-  font-size: 30px;
-  margin-right: 12px;
+    color: #ffffff;
+    font-size: 30px;
+    margin-right: 12px;
+    transform: rotate(${props => props.logout ? 180:0}deg);
 
   &:hover {
     cursor: pointer;
