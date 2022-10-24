@@ -4,7 +4,6 @@ import urlMetadata from "url-metadata";
 import {stripHtml} from "string-strip-html";
 
 async function getHashtags(req, res){
-
     try {
         const listHashtags = (await hashtagsRepository.getListHashtags()).rows;
 
@@ -38,8 +37,7 @@ async function getPostsFromHashtag(req,res){
 }
 
 async function newHashtag(req, res){
-    let {name} = req.body;
-    name = stripHtml(name).result.trim();
+    const {name} = req.body;
 
     try {
         await hashtagsRepository.newHashtag(name);
