@@ -36,7 +36,7 @@ async function postHashtagId(postId, hashtagId){
 
 async function newHashtag(name){
     return connection.query(
-        'INSERT INTO hashtags ("name") VALUES ($1);',
+        'INSERT INTO hashtags ("name") VALUES ($1) RETURNING id;',
         [name]
     );
 }
