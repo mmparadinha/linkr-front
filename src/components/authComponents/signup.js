@@ -22,11 +22,11 @@ export default function UserRegistration({SignupComponents, DescriptionComponent
         const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/signup`, dadosDeCadastro);
 
         promise.then((res) => {
-            restForm()
-            navigate("/")
+            restForm();
+            setClicado(false);
         });
         promise.catch((err) => {
-            alert(err.response.data.message)
+            alert(err.response.data.message);
         })
     }
 
