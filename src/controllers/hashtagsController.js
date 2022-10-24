@@ -37,10 +37,10 @@ async function getPostsFromHashtag(req,res){
 }
 
 async function newHashtag(req, res){
-    const {name} = req.body;
+    const {hashtagName} = req.body;
 
     try {
-        await hashtagsRepository.newHashtag(name);
+        await hashtagsRepository.newHashtag(hashtagName);
 
         return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
     } catch (error) {
