@@ -19,7 +19,7 @@ async function getPosts() {
 };
 
 async function newPost(userId, url, comment) {
-    return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW())', [userId, url, comment])
+    return connection.query('INSERT INTO posts ("userId", url, comment, "createdAt") VALUES ($1,$2,$3,NOW()) RETURNING id;', [userId, url, comment]);
 };
 
 export const postRepository = {

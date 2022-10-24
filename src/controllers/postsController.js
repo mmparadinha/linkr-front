@@ -38,15 +38,14 @@ export async function newPost(req, res) {
         .send({ message: errors });
     }
 
-    await postRepository.newPost(userId, url, comment);
+    const postId = (await postRepository.newPost(userId, url, comment)).rows[0].id;
 
-    res.sendStatus(201);
+    res.status(201).send({postId});
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 }
-
 
 export async function deletePost(req, res) {
   const { id } = req.params;
