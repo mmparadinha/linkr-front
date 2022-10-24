@@ -111,10 +111,10 @@ export default function UserRegistration({
   }
 
   function restForm() {
-    setEmail("");
-    setPassword("");
-    setUsername("");
-    setUrl("");
+    setEmail('');
+    setPassword('');
+    setUsername('');
+    setUrl('');
   }
 
   return (
@@ -122,11 +122,7 @@ export default function UserRegistration({
       <DescriptionComponents>
         <div className="description">
           <h1>linkr</h1>
-          <p>
-            save, share and discover
-            <br />
-            the best links on the web
-          </p>
+          <p>save, share and discover<br />the best links on the web</p>
         </div>
       </DescriptionComponents>
       <RegistrationData>
@@ -134,11 +130,9 @@ export default function UserRegistration({
           <label>
             <input
               type="text"
-              name="email"
+              name='email'
               placeholder="e-mail"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => { setEmail(e.target.value) }}
               value={email}
               required
             />
@@ -146,11 +140,9 @@ export default function UserRegistration({
           <label>
             <input
               type="password"
-              name="password"
+              name='password'
               placeholder="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => { setPassword(e.target.value) }}
               value={password}
               required
             />
@@ -158,11 +150,9 @@ export default function UserRegistration({
           <label>
             <input
               type="text"
-              name="name"
+              name='name'
               placeholder="username"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
+              onChange={(e) => { setUsername(e.target.value) }}
               value={username}
               required
             />
@@ -170,25 +160,97 @@ export default function UserRegistration({
           <label>
             <input
               type="text"
-              name="url"
+              name='url'
               placeholder="picture url"
-              onChange={(e) => {
-                setUrl(e.target.value);
-              }}
+              onChange={(e) => { setUrl(e.target.value) }}
               value={url}
               required
             />
           </label>
           <button>Sign Up</button>
-          <p
-            onClick={() => {
-              setClicado(false);
-            }}
-          >
-            Switch back to log in
-          </p>
+          <p onClick={() => {
+            setClicado(false);
+          }}>Switch back to log in</p>
         </form>
       </RegistrationData>
     </SignupComponents>
   );
-}
+
+
+};
+
+// return (
+//   <SignupComponents>
+//     <DescriptionComponents>
+//       <div className="description">
+//         <h1>linkr</h1>
+//         <p>
+//           save, share and discover
+//           <br />
+//           the best links on the web
+//         </p>
+//       </div>
+//     </DescriptionComponents>
+//     <RegistrationData>
+//       <form onSubmit={handleForm}>
+//         <label>
+//           <input
+//             type="text"
+//             name="email"
+//             placeholder="e-mail"
+//             onChange={(e) => {
+//               setEmail(e.target.value);
+//             }}
+//             value={email}
+//             required
+//           />
+//         </label>
+//         <label>
+//           <input
+//             type="password"
+//             name="password"
+//             placeholder="password"
+//             onChange={(e) => {
+//               setPassword(e.target.value);
+//             }}
+//             value={password}
+//             required
+//           />
+//         </label>
+//         <label>
+//           <input
+//             type="text"
+//             name="name"
+//             placeholder="username"
+//             onChange={(e) => {
+//               setUsername(e.target.value);
+//             }}
+//             value={username}
+//             required
+//           />
+//         </label>
+//         <label>
+//           <input
+//             type="text"
+//             name="url"
+//             placeholder="picture url"
+//             onChange={(e) => {
+//               setUrl(e.target.value);
+//             }}
+//             value={url}
+//             required
+//           />
+//         </label>
+//         <button>Sign Up</button>
+//         <p
+//           onClick={() => {
+//             setClicado(false);
+//           }}
+//         >
+//           Switch back to log in
+//         </p>
+//       </form>
+//     </RegistrationData>
+//   </SignupComponents>
+// );
+// }

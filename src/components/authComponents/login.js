@@ -24,6 +24,7 @@ export default function Login() {
       navigate("/timeline");
       localStorage.setItem("linkr-token", res.data.token);
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
+      localStorage.setItem("linkr-username", res.data.username)
       localStorage.setItem("linkr-userId", res.data.userId);
     });
     promise.catch((err) => {
@@ -147,12 +148,12 @@ export default function Login() {
             );
         }
 
-        if (clicado) {
-            return (
-                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
-            );
-        }
+    if (clicado) {
+      return (
+        <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
+      );
     }
+  }
 
     return (
         <>
@@ -231,14 +232,6 @@ const DescriptionComponents = styled.div`
       align-items: center;
     }
 
-<<<<<<< HEAD
-    p {
-      font-size: 23px;
-      width: 100%;
-      text-align: center;
-      line-height: 17px;
-      line-height: 20.4px;
-=======
 
     @media(max-width: 645px){
         width: 100%;
@@ -268,7 +261,6 @@ const DescriptionComponents = styled.div`
             text-align: center;
             line-height: 25px;
         }
->>>>>>> main
     }
   }
 `;

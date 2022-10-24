@@ -34,7 +34,7 @@ export default function NewPosts({
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);
-  
+
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
