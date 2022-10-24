@@ -122,7 +122,7 @@ export default function Timeline() {
                     urlTitle={a.urlTitle}
                     urlImage={a.urlImage}
                     urlDescription={a.urlDescription}
-                    postId={a.id}
+                    postId={a.postId}
                   />
                 ))}
               </>
