@@ -3,14 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { ReactTagify } from "react-tagify";
 import { useContext, useState, useRef, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
-import { FiHeart } from "react-icons/fi";
-import { AiFillHeart } from "react-icons/ai";
 import { SlPencil } from "react-icons/sl";
 import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import { useContext } from "react";
-import UserContext from "../contexts/UserContext";
+import { FiHeart } from 'react-icons/fi';
 import Likes from "./Likes";
 
 export default function NewPosts({

@@ -17,7 +17,7 @@ export default function Likes({postId}) {
         const promise = axios.get(
           `${URL_BASE}/likes/${postId}`,
           config
-        );
+        );    
 
         promise.then((res) => {
           if (res.data) {
@@ -28,11 +28,7 @@ export default function Likes({postId}) {
         });
     
         promise.catch((error) => {
-<<<<<<< HEAD
           alert("An error has occurred");
-=======
-          // alert("An error has occurred");
->>>>>>> main
         });
     }, []);
     

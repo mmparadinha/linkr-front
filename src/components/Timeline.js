@@ -8,7 +8,7 @@ import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
-  const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
+  const URL_BASE = "http://localhost:4000";
   const navigate = useNavigate();
 
   // user information
