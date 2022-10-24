@@ -5,17 +5,14 @@ import { AiFillHeart } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-export default function Likes({postId}) {
-    const [isLiked, setIsLiked] = useState(false);
+export default function Likes({ postId }) {
+  const [isLiked, setIsLiked] = useState(false);
 
-    const URL_BASE = 'http://127.0.0.1:4000';
+  const URL_BASE = 'http://127.0.0.1:4000';
 
     useEffect(() => {
         const token = localStorage.getItem('linkr-token');
-
         const config = {headers: {Authorization: `Bearer ${token}`}}
-
-        console.log("Oiiiieeee: ", postId);
 
         const promise = axios.get(
           `${URL_BASE}/likes/${postId}`,
@@ -31,24 +28,49 @@ export default function Likes({postId}) {
         });
     
         promise.catch((error) => {
-          // alert("An error has occurred");
+        //   alert("An error has occurred");
         });
     }, []);
-
-    function dislike() {
-        console.log("entrei")
-        return setIsLiked(false);
-    }
-
-    function like() {
+    
+    function toggleLike() {
         console.log("aoba")
-        return setIsLiked(true);
+        const token = localStorage.getItem('linkr-token');
+        const config = {
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        }
+        
+        console.log(token)
+        const promise = axios.post(
+            `${URL_BASE}/likes/${postId}`,
+            {},
+            config
+        );
+
+        promise.then((response) => {
+            if (response.status === 200){
+                setIsLiked(true);
+            }
+
+            if (response.status === 201){
+                setIsLiked(false);
+            }
+                
+            promise.catch((error) => {
+            alert("Não foi possível curtir o post res");
+            });
+        });
+    
+        promise.catch((error) => {
+            alert("Não foi possível curtir o post");
+        });
     }
 
     return (
         <>
             {/* <FiHeartedLike /> */}
-            {isLiked ? <FiHeartedLike onClick={dislike} /> : <AllFillHeartedLike onClick={like} />}
+            {isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
         </>
     );
 }

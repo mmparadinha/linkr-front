@@ -2,22 +2,27 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function UserRegistration({SignupComponents, DescriptionComponents, RegistrationData, setClicado}) {
-    const navigate = useNavigate();
+export default function UserRegistration({
+  SignupComponents,
+  DescriptionComponents,
+  RegistrationData,
+  setClicado,
+}) {
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [url, setUrl] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [url, setUrl] = useState("");
 
-    function handleForm(e) {
-        e.preventDefault();
-        const dadosDeCadastro = {
-            email,
-            password,
-            username,
-            pictureUrl: url
-        };
+  function handleForm(e) {
+    e.preventDefault();
+    const dadosDeCadastro = {
+      email,
+      password,
+      username,
+      pictureUrl: url,
+    };
 
         const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/signup`, dadosDeCadastro);
 
@@ -95,4 +100,5 @@ export default function UserRegistration({SignupComponents, DescriptionComponent
             </RegistrationData>
         </SignupComponents>
     );
-}
+};
+
