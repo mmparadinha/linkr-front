@@ -1,13 +1,15 @@
 import styled from "styled-components";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext} from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
+import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
+    const {config} = useContext(UserContext);
 
     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
     const navigate = useNavigate();
@@ -32,16 +34,30 @@ export default function Timeline() {
         e.preventDefault();
         setLoading(true);
 
-        const token = { token: { Authorization: `Bearer ${userToken}` } };
-
         let newPost = ({
             url: `${url}`,
             comment: `${comment}`,
             userId: `${userId}`
         });
 
+        const commentArray = comment.split(" ");
+        const hashtags = commentArray.filter((hashtag) => {
+            return hashtag.includes('#');
+        });
+
         try {
-            await axios.post(`${URL_BASE}/timeline`, newPost, token);
+            const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
+
+            hashtags.map(async (hashtag) => {
+                const name = hashtag.replace('#', '');
+                const hashId = (await axios.post(`${URL_BASE}/hashtags`, name, config)).rows[0].id;
+                const dataHashtag = {
+                    postId: post.data.postId,
+                    hashtagId: hashId,
+                };
+                await axios.post(`${URL_BASE}/postHashtag`, dataHashtag, config);
+            });
+            
             setLoading(false);
             setUrl("");
             setComment("");
