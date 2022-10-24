@@ -19,12 +19,12 @@ export default function Login() {
 
     const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
-<<<<<<< HEAD
     promise.then((res) => {
       restForm();
       navigate("/timeline");
       localStorage.setItem("linkr-token", res.data.token);
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
+      localStorage.setItem("linkr-username", res.data.username)
       localStorage.setItem("linkr-userId", res.data.userId);
     });
     promise.catch((err) => {
@@ -89,17 +89,6 @@ export default function Login() {
           </RegistrationData>
         </SignupComponents>
       );
-=======
-        promise.then((res) => {
-            navigate("/timeline");
-            localStorage.setItem('linkr-token', res.data.token);
-            localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl);
-            localStorage.setItem('linkr-userId', res.data.username);
-        });
-        promise.catch((err) => {
-            alert('Não foi possível entrar, verifique seu email ou a senha!');
-        });
->>>>>>> main
     }
 
     if (clicado) {
@@ -115,66 +104,62 @@ export default function Login() {
     }
   }
 
-<<<<<<< HEAD
-  return <>{registryAccess()}</>;
-=======
-    function registryAccess() {
-        if (!clicado) {
-            return (
-                <SignupComponents>
-                    <DescriptionComponents>
-                        <div className="description">
-                            <h1>linkr</h1>
-                            <p>save, share and discover <br /> the best links on the web</p>
-                        </div>
-                    </DescriptionComponents>
-                    <RegistrationData>
-                        <form onSubmit={handleForm}>
-                            <label>
-                                <input
-                                    id="formEmail"
-                                    type="text"
-                                    name='email'
-                                    placeholder="e-mail"
-                                    onChange={(e) => { setEmail(e.target.value) }}
-                                    value={email}
-                                    required
-                                />
-                            </label>
-                            <label>
-                                <input
-                                    id="forPassword"
-                                    type="password"
-                                    name='password'
-                                    placeholder="password"
-                                    onChange={(e) => { setPassword(e.target.value) }}
-                                    value={password}
-                                    required
-                                />
-                            </label>
-                            <button>Log In</button>
-                            <p onClick={() => {
-                                setClicado(true);
-                            }}>First time? Create an account!</p>
-                        </form>
-                    </RegistrationData>
-                </SignupComponents>
-            );
-        }
-
-        if (clicado) {
-            return (
-                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
-            );
-        }
+  function registryAccess() {
+    if (!clicado) {
+      return (
+        <SignupComponents>
+          <DescriptionComponents>
+            <div className="description">
+              <h1>linkr</h1>
+              <p>save, share and discover <br /> the best links on the web</p>
+            </div>
+          </DescriptionComponents>
+          <RegistrationData>
+            <form onSubmit={handleForm}>
+              <label>
+                <input
+                  id="formEmail"
+                  type="text"
+                  name='email'
+                  placeholder="e-mail"
+                  onChange={(e) => { setEmail(e.target.value) }}
+                  value={email}
+                  required
+                />
+              </label>
+              <label>
+                <input
+                  id="forPassword"
+                  type="password"
+                  name='password'
+                  placeholder="password"
+                  onChange={(e) => { setPassword(e.target.value) }}
+                  value={password}
+                  required
+                />
+              </label>
+              <button>Log In</button>
+              <p onClick={() => {
+                setClicado(true);
+              }}>First time? Create an account!</p>
+            </form>
+          </RegistrationData>
+        </SignupComponents>
+      );
     }
 
-    return (
-        <>
-            {registryAccess()}
-        </>
-    );
->>>>>>> main
+    if (clicado) {
+      return (
+        <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
+      );
+    }
+  }
+
+  return (
+    <>
+      {registryAccess()}
+    </>
+  );
 }
 
 const SignupComponents = styled.div`
@@ -247,14 +232,6 @@ const DescriptionComponents = styled.div`
       align-items: center;
     }
 
-<<<<<<< HEAD
-    p {
-      font-size: 23px;
-      width: 100%;
-      text-align: center;
-      line-height: 17px;
-      line-height: 20.4px;
-=======
 
     @media(max-width: 645px){
         width: 100%;
@@ -284,7 +261,6 @@ const DescriptionComponents = styled.div`
             text-align: center;
             line-height: 25px;
         }
->>>>>>> main
     }
   }
 `;
