@@ -28,10 +28,13 @@ export async function likeAndUnlike(req, res) {
 
 export async function getLikes(req, res) {
     const { postId } = req.params;
-    
+    const { userId } = req.body;
+
     try {
-        return res.sendStatus(503)
+        const userLike = await likesRepository.getPostIdLikes(postId, userId);
+        return res.status(201).send(userLike.rows);
     }catch(err){
+        console.log(err)
         return res.status(500).send(err)
     }
 }
