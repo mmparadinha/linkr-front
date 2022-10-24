@@ -3,13 +3,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
-import profilePicture from "./../assets/Imagens Teste/teste.jpeg";
 import Hashtags from "./Hashtags";
+import Loading from "./commons/Loading";
+import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
-  // const { user } = useContext(UserContext);
-  // user.name user.pictureUrl
-  // const user = localStorage.getItem("token");
+  const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
+  const navigate = useNavigate();
+
+  // user information
+  const userToken = localStorage.getItem("linkr-token");
+  const userPicture = localStorage.getItem("linkr-pictureUrl");
+  const userId = localStorage.getItem("linkr-userId");
+
+  // validUser
+  if (!userToken) {
+    alert("Faça o login!");
+    navigate("/");
+  }
 
   // lógica de publicação
   const [url, setUrl] = useState("");
@@ -20,13 +31,16 @@ export default function Timeline() {
     e.preventDefault();
     setLoading(true);
 
+    const token = { token: { Authorization: `Bearer ${userToken}` } };
+
     let newPost = {
       url: `${url}`,
       comment: `${comment}`,
+      userId: `${userId}`,
     };
 
     try {
-      await axios.post(`http://127.0.0.1:4000/timeline`, newPost);
+      await axios.post(`${URL_BASE}/timeline`, newPost, token);
       setLoading(false);
       setUrl("");
       setComment("");
@@ -45,10 +59,11 @@ export default function Timeline() {
   async function newPosts() {
     try {
       //const response = await axios.get(`http://127.0.0.1:4000/timeline`);
-      const response = await axios.get(
-        `${process.env.REACT_APP_BACK_END_URL}/timeline`
-      );
+      const response = await axios.get(`${URL_BASE}/timeline`);
       setPosts(response.data);
+      if (response.data === 0) {
+        alert("There are no posts yet");
+      }
     } catch (error) {
       alert(
         "An error occured while trying to fetch the posts, please refresh the page"
@@ -69,7 +84,7 @@ export default function Timeline() {
         <Container>
           <AlignBox>
             <Publish>
-              <Photo src={profilePicture} />
+              <Photo src={userPicture} />
               <PublishContent>
                 <p>What are you going to share today?</p>
                 <form onSubmit={handleSubmit}>
@@ -108,6 +123,7 @@ export default function Timeline() {
                     urlTitle={a.urlTitle}
                     urlImage={a.urlImage}
                     urlDescription={a.urlDescription}
+                    postId={a.id}
                   />
                 ))}
               </>

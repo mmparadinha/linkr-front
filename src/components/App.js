@@ -14,9 +14,15 @@ function App() {
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
+  const userToken = localStorage.getItem('linkr-token');
+  const config = {
+      headers: {
+          Authorization: `Bearer ${userToken}`
+      },
+  };
 
   const contextValue = {
-    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName
+    hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config
   };
   const [searchResult, setSearchResult] = useState(null);
 
