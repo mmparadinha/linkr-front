@@ -1,6 +1,7 @@
 import { postRepository } from "../repositories/postsRepository.js";
 import urlMetadata from "url-metadata";
 import { newPostSchema } from "../schemas/validationSchemas.js";
+import connection from "../database/database.js";
 
 export async function getPosts(req, res) {
   try {
