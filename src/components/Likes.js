@@ -24,11 +24,11 @@ export default function Likes({ postId }) {
           }else {
             setIsLiked(false);
           }
-          console.log(res.data)
         });
     
         promise.catch((error) => {
           alert("An error has occurred");
+          console.error(error);
         });
     }, []);
     
