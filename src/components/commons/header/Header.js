@@ -6,6 +6,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
+import Logout from './HeaderLogout';
 
 export default function Header() {
 
@@ -16,6 +17,8 @@ export default function Header() {
     const { setSearchResult } = useContext(SearchContext);
     const wrapperRef1 = useRef(null);
     const wrapperRef2 = useRef(null);
+
+    const [logout , setLogout] = useState(false);
 
     function useOutsideSearchBox(ref1, ref2) {
         useEffect(() => {
@@ -63,7 +66,8 @@ export default function Header() {
                     {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
                 <AlignItems>
-                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')} />
+                    <ProfileIcon onClick={() => {setLogout(!logout)}} logout={logout}/>
+                    {logout ? <Logout setLogout={setLogout}/> : <></>}
                     <Link>
                         <Photo src={userPicture} />
                     </Link>
@@ -192,6 +196,7 @@ const ProfileIcon = styled(IoChevronDownOutline)`
     color: #ffffff;
     font-size: 30px;
     margin-right: 12px;
+    transform: rotate(${props => props.logout ? 180:0}deg);
 
     &:hover{
         cursor: pointer;

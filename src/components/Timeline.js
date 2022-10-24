@@ -98,7 +98,7 @@ export default function Timeline() {
                         {posts.length === 0 ? <h1>There are no posts yet.</h1>
                             :
                             <>
-                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} postId={a.id} />)}
+                                {posts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} postId={a.postId} />)}
                             </>
                         }
                     </AlignBox>

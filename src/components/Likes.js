@@ -15,6 +15,8 @@ export default function Likes({postId}) {
 
         const config = {headers: {Authorization: `Bearer ${token}`}}
 
+        console.log("Oiiiieeee: ", postId);
+
         const promise = axios.get(
           `${URL_BASE}/likes/${postId}`,
           config
