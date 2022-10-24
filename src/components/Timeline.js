@@ -11,7 +11,7 @@ import UserContext from '../contexts/UserContext';
 export default function Timeline() {
     const {config} = useContext(UserContext);
 
-    const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    const URL_BASE = 'http://back-linkr-projetao.herokuapp.com';
     const navigate = useNavigate();
 
     // user information
