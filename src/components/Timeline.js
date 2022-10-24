@@ -47,12 +47,14 @@ export default function Timeline() {
 
         try {
             const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
+            const postId = post.data.postId;
 
             hashtags.map(async (hashtag) => {
-                const name = hashtag.replace('#', '');
-                const hashId = (await axios.post(`${URL_BASE}/hashtags`, name, config)).rows[0].id;
+                const hashtagName = hashtag.replace('#', '');
+                const hashId = (await axios.post(`${URL_BASE}/hashtags`, hashtagName, config)).rows[0].id;
+                console.log()
                 const dataHashtag = {
-                    postId: post.data.postId,
+                    postId: postId,
                     hashtagId: hashId,
                 };
                 await axios.post(`${URL_BASE}/postHashtag`, dataHashtag, config);
