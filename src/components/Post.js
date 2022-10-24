@@ -7,7 +7,6 @@ import { SlPencil } from "react-icons/sl";
 import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import { FiHeart } from 'react-icons/fi';
 import Likes from "./Likes";
 
 export default function NewPosts({
@@ -33,7 +32,7 @@ export default function NewPosts({
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);
-  
+
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
@@ -99,7 +98,7 @@ export default function NewPosts({
         <Link to={`/user/${userId}`}>
           <Photo src={photo} />
         </Link>
-        <Like></Like>
+        <Likes postId={postId} />
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
@@ -301,14 +300,6 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Like = styled(FiHeart)`
-  margin-top: 20px;
-  width: 20px;
-  height: 20px;
-  color: white;
-  cursor: pointer;
 `;
 
 const Photo = styled.img`
