@@ -99,4 +99,6 @@ export default function UserRegistration({
             </RegistrationData>
         </SignupComponents>
     );
+
 };
+
