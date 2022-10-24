@@ -128,7 +128,7 @@ export default function Timeline() {
               </PublishContent>
             </Publish>
             {posts.length === 0 ? (
-              <h1>There are no posts yet.</h1>
+              <Loading />
             ) : (
               <>
                 {posts.map((a) => (
