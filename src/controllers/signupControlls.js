@@ -6,8 +6,6 @@ import { createUser, checkEmail } from '../repositories/authRepository.js';
 async function signupPost(req, res) {
     const { email, password, username, pictureUrl } = req.body;
 
-    console.log( email, password, username, pictureUrl);
-
     try {
         const isValid = signUpSchema.validate({
             email, password, username, pictureUrl
