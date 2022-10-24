@@ -19,7 +19,6 @@ export default function Login() {
 
     const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/`, dados);
 
-<<<<<<< HEAD
     promise.then((res) => {
       restForm();
       navigate("/timeline");
@@ -89,17 +88,6 @@ export default function Login() {
           </RegistrationData>
         </SignupComponents>
       );
-=======
-        promise.then((res) => {
-            navigate("/timeline");
-            localStorage.setItem('linkr-token', res.data.token);
-            localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl);
-            localStorage.setItem('linkr-userId', res.data.username);
-        });
-        promise.catch((err) => {
-            alert('Não foi possível entrar, verifique seu email ou a senha!');
-        });
->>>>>>> main
     }
 
     if (clicado) {
@@ -115,9 +103,6 @@ export default function Login() {
     }
   }
 
-<<<<<<< HEAD
-  return <>{registryAccess()}</>;
-=======
     function registryAccess() {
         if (!clicado) {
             return (
@@ -174,7 +159,6 @@ export default function Login() {
             {registryAccess()}
         </>
     );
->>>>>>> main
 }
 
 const SignupComponents = styled.div`

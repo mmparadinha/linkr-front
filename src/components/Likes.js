@@ -29,11 +29,7 @@ export default function Likes({postId}) {
         });
     
         promise.catch((error) => {
-<<<<<<< HEAD
           alert("An error has occurred");
-=======
-          // alert("An error has occurred");
->>>>>>> main
         });
     }, []);
 

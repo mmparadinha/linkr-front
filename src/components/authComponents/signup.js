@@ -24,11 +24,6 @@ export default function UserRegistration({
       pictureUrl: url,
     };
 
-<<<<<<< HEAD
-    const promise = axios.post(
-      `${process.env.REACT_APP_BACK_END_URL}/signup`,
-      dadosDeCadastro
-=======
         const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/signup`, dadosDeCadastro);
 
         promise.then((res) => {
@@ -104,7 +99,6 @@ export default function UserRegistration({
                 </form>
             </RegistrationData>
         </SignupComponents>
->>>>>>> main
     );
 
     promise.then((res) => {
