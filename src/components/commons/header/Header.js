@@ -1,7 +1,6 @@
 import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
-import profilePicture from "../../../assets/Imagens Teste/teste.jpeg";
+import { Link } from "react-router-dom";
 import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
@@ -9,6 +8,9 @@ import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
 
 export default function Header() {
+
+    const userPicture = localStorage.getItem('linkr-pictureUrl');
+
     const [searching, setSearching] = useState(false);
     const [searchBox, setSearchBox] = useState(false);
     const { setSearchResult } = useContext(SearchContext);
@@ -57,13 +59,13 @@ export default function Header() {
                         type='text'
                         onChange={getSearch}
                     />
-                    <SearchIcon onClick={getSearch}/>
-                    {searchBox ? <SearchResultsBox/> : ''}
+                    <SearchIcon onClick={getSearch} />
+                    {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
                 <AlignItems>
-                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')}/>
+                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')} />
                     <Link>
-                        <Photo src={profilePicture} />
+                        <Photo src={userPicture} />
                     </Link>
                 </AlignItems>
             </Container>
@@ -77,8 +79,8 @@ export default function Header() {
                     type='text'
                     onChange={getSearch}
                 />
-                <SearchIcon onClick={getSearch}/>
-                {searchBox ? <SearchResultsBox/> : ''}
+                <SearchIcon onClick={getSearch} />
+                {searchBox ? <SearchResultsBox /> : ''}
             </SearchBoxMobile>
         </>
     );

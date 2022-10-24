@@ -24,6 +24,7 @@ export default function Login() {
             navigate("/timeline");
             localStorage.setItem('linkr-token', res.data.token);
             localStorage.setItem('linkr-pictureUrl', res.data.pictureUrl);
+            localStorage.setItem('linkr-userId', res.data.userId);
         });
         promise.catch((err) => {
             alert('Não foi possível entar, verifique seu email ou a senha!');
@@ -36,60 +37,60 @@ export default function Login() {
     }
 
     function registryAccess() {
-        if(!clicado) {
+        if (!clicado) {
             return (
                 <SignupComponents>
-                <DescriptionComponents>
-                    <div className="description">
-                        <h1>linkr</h1>
-                        <p>save, share and discover <br/> the best links on the web</p>
-                    </div>
-                </DescriptionComponents>
-                <RegistrationData>
-                    <form onSubmit={handleForm}>
-                        <label>
-                            <input 
-                                id="formEmail"
-                                type="text"
-                                name='email'
-                                placeholder="e-mail"
-                                onChange={(e) => {setEmail(e.target.value)}}
-                                value={email}
-                                required
-                            />
-                        </label>
-                        <label>
-                            <input 
-                                id="forPassword"
-                                type="password"
-                                name='password'
-                                placeholder="password"
-                                onChange={(e) => {setPassword(e.target.value)}}
-                                value={password}
-                                required
-                            />
-                        </label>
-                        <button>Log In</button>
-                        <p onClick={() => {
+                    <DescriptionComponents>
+                        <div className="description">
+                            <h1>linkr</h1>
+                            <p>save, share and discover <br /> the best links on the web</p>
+                        </div>
+                    </DescriptionComponents>
+                    <RegistrationData>
+                        <form onSubmit={handleForm}>
+                            <label>
+                                <input
+                                    id="formEmail"
+                                    type="text"
+                                    name='email'
+                                    placeholder="e-mail"
+                                    onChange={(e) => { setEmail(e.target.value) }}
+                                    value={email}
+                                    required
+                                />
+                            </label>
+                            <label>
+                                <input
+                                    id="forPassword"
+                                    type="password"
+                                    name='password'
+                                    placeholder="password"
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    value={password}
+                                    required
+                                />
+                            </label>
+                            <button>Log In</button>
+                            <p onClick={() => {
                                 setClicado(true);
                             }}>First time? Create an account!</p>
-                    </form>
-                </RegistrationData>
+                        </form>
+                    </RegistrationData>
                 </SignupComponents>
             );
         }
 
-        if(clicado) {
+        if (clicado) {
             return (
-                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate}/>
+                <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
             );
         }
     }
 
     return (
-       <>
+        <>
             {registryAccess()}
-       </>
+        </>
     );
 }
 

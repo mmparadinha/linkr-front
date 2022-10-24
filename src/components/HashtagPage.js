@@ -7,11 +7,11 @@ import UserContext from '../contexts/UserContext';
 import Hashtags from "./Hashtags";
 
 export default function HashtagPage(){
-    const {hashtagName, setHashtagName, hashtagPosts, setHashtagPosts} = useContext(UserContext);
+    const {hashtagName, hashtagPosts, setHashtagPosts, config} = useContext(UserContext);
 
     useEffect(() => {
         if(hashtagName !== ''){
-            const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtag/${hashtagName}`);
+            const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtag/${hashtagName}`, config);
             promise.then(res => {
                 setHashtagPosts(res.data);
             });

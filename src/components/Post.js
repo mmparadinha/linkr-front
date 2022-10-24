@@ -8,8 +8,9 @@ import Likes from "./Likes";
 export default function NewPosts({ userId, photo, username, comment, url, urlTitle, urlImage, urlDescription, postId }) {
     const {setHashtagName} = useContext(UserContext);
     const navigate = useNavigate();
+    const {setHashtagName} = useContext(UserContext);
 
-    function isTagClicked(tag){
+    function isTagClicked(tag) {
         const hashtag = tag.replace("#", "");
         setHashtagName(hashtag);
         navigate(`/hashtag/${hashtag}`);
@@ -27,18 +28,18 @@ export default function NewPosts({ userId, photo, username, comment, url, urlTit
                 <Link to={`/user/${userId}`}>
                     <h1>{username}</h1>
                 </Link>
-                <ReactTagify colors={'#ffffff'} tagClicked={(tag => {isTagClicked(tag)})}>
+                <ReactTagify colors={'#ffffff'} tagClicked={(tag => { isTagClicked(tag) })}>
                     <h2>{comment}</h2>
                 </ReactTagify>
-                <a href={url} target="_blank">
-                <Linkr>
-                    <text>
-                        <h1>{urlTitle}</h1>
+                <a href={url} target="_blank" rel="noreferrer">
+                    <Linkr>
+                        <text>
+                            <h1>{urlTitle}</h1>
                             <h2>{urlDescription}</h2>
-                        <h3>{url}</h3>
-                    </text>
-                    <img alt="" src={urlImage} />
-                </Linkr>
+                            <h3>{url}</h3>
+                        </text>
+                        <img alt="" src={urlImage} />
+                    </Linkr>
                 </a>
             </PostInfo>
         </Post>
