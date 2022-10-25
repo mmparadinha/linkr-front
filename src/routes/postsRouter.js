@@ -17,9 +17,7 @@ postsRouter.use(hasUser);
 postsRouter.get("/timeline", getPosts);
 postsRouter.delete("/timeline/post/delete/:id", deletePost);
 postsRouter.put("/timeline/post/edit/:id", validaEditPost, updatePost);
-postsRouter.get("/timeline/update", countNewPosts)
-
-
+postsRouter.get("/timeline/update", countNewPosts);
 postsRouter.post("/timeline", newPost);
 
 export default postsRouter;
