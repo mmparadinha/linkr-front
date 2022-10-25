@@ -11,9 +11,7 @@ import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
   const { setPostID, count, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
-  const navigate = useNavigate();
-  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-
+  const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
