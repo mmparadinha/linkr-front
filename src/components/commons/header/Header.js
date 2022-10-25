@@ -29,7 +29,7 @@ export default function Header() {
           (ref2.current && !ref2.current.contains(event.target))
         ) {
           setSearchBox(false);
-          stopSearch;
+          stopSearch();
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -59,7 +59,7 @@ export default function Header() {
       })
       .catch((error) => {
         console.log(error);
-        stopSearch;
+        stopSearch();
       });
   }
 
