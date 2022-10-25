@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserRegistration from "./signup";
 
 export default function Login() {
@@ -27,6 +27,7 @@ export default function Login() {
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
       localStorage.setItem("linkr-username", res.data.username)
       localStorage.setItem("linkr-userId", res.data.userId);
+      console.log("LocalStorage: ", localStorage)
       navigate("/timeline");
     });
     promise.catch((err) => {

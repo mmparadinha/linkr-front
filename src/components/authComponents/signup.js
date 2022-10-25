@@ -26,7 +26,7 @@ export default function UserRegistration({
     const promise = axios.post(`${process.env.REACT_APP_API_BASE_URL}/signup`, dadosDeCadastro);
 
     promise.then((res) => {
-      console.log("222222222: ", res.data)
+      console.log("222222222: ", res)
       restForm();
       setClicado(false);
     });

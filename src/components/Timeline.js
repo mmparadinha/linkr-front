@@ -10,8 +10,7 @@ import UpdateButton from "./UpdateButton";
 import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
-  const { setPostID, count, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { setPostID, count, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
   async function handleSubmit(e) {
