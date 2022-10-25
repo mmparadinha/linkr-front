@@ -66,16 +66,12 @@ export default function Timeline() {
       const response = await axios.get(`${URL_BASE}/timeline`, config);
       setPosts(response.data);
       setPostID(response.data[0].postId);
-      if (response.data === 0) {
-        console.log("There are no posts yet");
-      }
+      if (response.data.length === 0) { console.log("There are no posts yet") }
     } catch (error) {
-      console.log(
-        "An error occured while trying to fetch the posts, please refresh the page"
-      );
+      console.log("An error occured while trying to fetch the posts, please refresh the page");
       console.log(error.response);
     }
-  }
+  };
 
   useEffect(() => {
     newPosts();
