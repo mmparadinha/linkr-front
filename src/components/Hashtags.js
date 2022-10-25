@@ -27,7 +27,7 @@ export default function Hashtags(){
                 <Line></Line>
                 <List>
                     {hashtags.map((hashtag, index) => (
-                        <Item index={index} onClick={() => isTagClicked(hashtag)} ># {hashtag.name}</Item>
+                        <Item key={index} onClick={() => isTagClicked(hashtag)} ># {hashtag.name}</Item>
                     ))}
                 </List>
             </Container>

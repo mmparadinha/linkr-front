@@ -36,7 +36,7 @@ export default function HashtagPage(){
                         {hashtagPosts.length === 0 ? <h1>There are no posts yet.</h1>
                             :
                             <>
-                                {hashtagPosts.map((a) => <NewPosts userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                                {hashtagPosts.map((a, index) => <NewPosts key={index} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
                             </>
                         }
                     </AlignBox>
