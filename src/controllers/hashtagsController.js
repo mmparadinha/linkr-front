@@ -1,7 +1,6 @@
 import { STATUS_CODE } from "../enums/statusCode.js";
 import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
 import urlMetadata from "url-metadata";
-import {stripHtml} from "string-strip-html";
 
 async function getHashtags(req, res){
     try {
@@ -38,10 +37,22 @@ async function getPostsFromHashtag(req,res){
 
 async function newHashtag(req, res){
     const {name, postId} = req.body;
+    let id = '';
 
     try {
-        const id = (await hashtagsRepository.newHashtag(name)).rows[0].id;
-        console.log(id)
+        const hasHashtag = await hashtagsRepository.getHashtagId(name);
+        console.log(hasHashtag.rows);
+
+        if(hasHashtag.rows.length === 0){
+            id = (await hashtagsRepository.newHashtag(name)).rows[0].id;
+            
+            console.log('não tem, inseriu id:', id);
+            return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+        }
+
+        id = hasHashtag.rows[0].id;
+        console.log('já existe, id existente =', id);
+
         await hashtagsRepository.postHashtagId(postId, id);
 
         return res.sendStatus(STATUS_CODE.SUCCESSCREATED);

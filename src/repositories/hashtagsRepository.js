@@ -41,4 +41,11 @@ async function newHashtag(name){
     );
 }
 
-export {getListHashtags, getListPostsFromHashtag, newHashtag, postHashtagId};
+async function getHashtagId(name){
+    return connection.query(
+        'SELECT id FROM hashtags WHERE name = $1;',
+        [name]
+    );
+}
+
+export {getListHashtags, getListPostsFromHashtag, newHashtag, postHashtagId, getHashtagId};
