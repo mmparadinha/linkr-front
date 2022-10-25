@@ -1,23 +1,31 @@
+import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useLocation } from "react-router-dom";
-import Loading from "./commons/Loading.js";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 export default function UserPage() {
     const { id } = useParams();
+    const {userPosts, setUserPosts, follow, setFollow} = useContext(UserContext);
     const location = useLocation();
     const { profilePic, username } = location.state;
-    const [userPosts, setUserPosts] = useState([]);
 
     useEffect(() => {
         getUserLinkrs(id)
             .then(res => setUserPosts(res.data))
             .catch(error => console.log(error));
     }, [id]);
+
+    function isFollowed(){
+        if(follow === 'Follow'){
+            setFollow('Unfollow');
+        } if(follow === 'Unfollow'){
+            setFollow('Follow');
+        }
+    }
 
     return (
         <>
@@ -28,6 +36,7 @@ export default function UserPage() {
                 <Title>
                     <img src={profilePic} alt="Profile picture" />
                     <h1>{username}'s posts</h1>
+                    <Button type={follow}>{follow}</Button>
                 </Title>
                 <Container>
                     <AlignBox>
@@ -90,6 +99,7 @@ const Title = styled.div`
     width: 100%;
     gap: 18px;
     margin-bottom: 43px;
+    position: relative;
 
     img {
         border-radius: 50%;
@@ -113,13 +123,42 @@ const Title = styled.div`
 `;
 
 const AlignBox = styled.div`
-  width: 611px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-
-  @media (max-width: 645px) {
+    width: 611px;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    
+    @media (max-width: 645px) {
     width: 100%;
   }
+`;
+
+const collors = {
+    blue: "#1877f2",
+    white: "#ffffff"
+}
+
+const Button = styled.button`
+    width: 112px;
+    height: 31px;
+    background-color: ${props => {
+        if(props.follow === 'Unfollow'){
+            return collors.white
+        } else {
+            return collors.blue;
+        }
+    }};
+    border-radius: 5px;
+    border: 0px;
+    color: ${props => {
+        if(props.follow === 'Unfollow'){
+            return collors.blue
+        } else {
+            return collors.white;
+        }
+    }};
+    position: absolute;
+    top: 0;
+    right: 0%;;
 `;
