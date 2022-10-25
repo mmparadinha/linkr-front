@@ -12,7 +12,7 @@ export default function UpdateButton({ newPosts }) {
 
     // async function countNewPosts() {
 
-    //     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    //     const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
     //     try {
     //         const response = await axios.get(`${URL_BASE}/timeline/update`, postID);

@@ -7,7 +7,7 @@ import axios from "axios";
 export default function Hashtags() {
     const { hashtags, setHashtags, setHashtagName, config, loading } = useContext(UserContext);
     const navigate = useNavigate();
-    const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+    const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         const promise = axios.get(`${URL_BASE}/hashtags`, config);
