@@ -9,7 +9,7 @@ export default function Loading() {
             wrapperStyle={{}}
             wrapperClass="progress-bar-wrapper"
             borderColor = '#ffffff'
-            barColor = 'lightgreen'
+            barColor = '#1877f2'
         />
     );
 };

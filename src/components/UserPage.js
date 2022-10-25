@@ -5,7 +5,8 @@ import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import Loading from './commons/Loading';
 
 export default function UserPage() {
     const { id } = useParams();
