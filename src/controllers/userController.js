@@ -9,7 +9,7 @@ export async function getUserLinkrs(req, res) {
     const { rows } = await getUserData(id);
 
     await Promise.all(
-      listPosts.map(async (post) => {
+      rows.map(async (post) => {
         try {
           const { title, image, description } = await urlMetadata(post.url);
           post.urlTitle = title;

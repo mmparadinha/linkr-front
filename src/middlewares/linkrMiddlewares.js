@@ -44,7 +44,6 @@ async function hasUser(req, res, next) {
         if (isUser.rows.length === 0) {
             return res.sendStatus(STATUS_CODE.ERRORNOTFOUND);
         };
-        console.log('passou');
         next();
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
