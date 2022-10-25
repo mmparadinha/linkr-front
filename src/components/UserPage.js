@@ -1,25 +1,30 @@
+import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
 import { useParams, useNavigate } from "react-router-dom";
-import Loading from "./commons/Loading.js";
+import Loading from "./commons/Loading.js";;
 
 export default function UserPage({ username, profilePic }) {
     const { id } = useParams();
-    console.log(id);
-    const [userPosts, setUserPosts] = useState([]);
-    const navigate = useNavigate();
-
-    console.log(userPosts)
+    const {userPosts, setUserPosts, follow, setFollow} = useContext(UserContext);
 
     useEffect(() => {
         getUserLinkrs(id)
             .then(res => setUserPosts(res.data))
             .catch(error => console.log(error));
     }, [id]);
+
+    function isFollowed(){
+        if(follow === 'Follow'){
+            setFollow('Unfollow');
+        } if(follow === 'Unfollow'){
+            setFollow('Follow');
+        }
+    }
 
     return (
         <>
@@ -30,6 +35,7 @@ export default function UserPage({ username, profilePic }) {
                 <Title>
                     <img src="{user.pictureUrl}" alt="Profile picture" />
                     <h1>aa's posts</h1>
+                    <Button type={follow}>{follow}</Button>
                 </Title>
                 <Container>
                     <AlignBox>
@@ -80,6 +86,7 @@ const Title = styled.div`
     width: 100%;
     gap: 18px;
     margin-bottom: 43px;
+    position: relative;
 
     img {
         border-radius: 50%;
@@ -105,3 +112,32 @@ const AlignBox = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
 `;
+
+const collors = {
+    blue: "#1877f2",
+    white: "#ffffff"
+}
+
+const Button = styled.button`
+    width: 112px;
+    height: 31px;
+    background-color: ${props => {
+        if(props.follow === 'Unfollow'){
+            return collors.white
+        } else {
+            return collors.blue;
+        }
+    }};
+    border-radius: 5px;
+    border: 0px;
+    color: ${props => {
+        if(props.follow === 'Unfollow'){
+            return collors.blue
+        } else {
+            return collors.white;
+        }
+    }};
+    position: absolute;
+    top: 0;
+    right: 0%;;
+`

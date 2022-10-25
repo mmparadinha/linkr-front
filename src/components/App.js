@@ -21,6 +21,7 @@ function App() {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [follow, setFollow] = useState('Follow');
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
@@ -28,9 +29,10 @@ function App() {
   };
   const [count, setCount] = useState(1);
   const [postID, setPostID] = useState(0);
+  const [userPosts, setUserPosts] = useState([]);
 
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow
   };
   const [searchResult, setSearchResult] = useState(null);
 
