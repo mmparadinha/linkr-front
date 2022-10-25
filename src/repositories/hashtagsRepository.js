@@ -2,7 +2,7 @@ import connection from "../database/database.js";
 
 async function getListHashtags(){
     return connection.query(
-        'SELECT hashtags.name AS name, COUNT(hashtags.name) AS count FROM hashtags GROUP BY hashtags.name ORDER BY count DESC LIMIT 10;'
+        'SELECT hashtags.name AS name, COUNT("postHashtags"."hashtagId") AS count FROM hashtags JOIN "postHashtags" ON hashtags.id = "postHashtags"."hashtagId" GROUP BY hashtags.name ORDER BY count DESC LIMIT 10;'
     );
 }
 
