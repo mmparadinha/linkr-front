@@ -61,14 +61,15 @@ export default function UserPage() {
 };
 
 const Body = styled.div`
-	height: 100%;
+    height: 100%;
 	width: 931px;
     display: flex;
     flex-direction: column;
     margin: 150px auto 30px auto;
 
     @media (max-width: 645px) {
-        display: none;
+        width: 100%;
+        margin: 80px 0 20px 0;
     }
 `;
 
@@ -78,11 +79,8 @@ const Container = styled.div`
     display: flex;
     justify-content: flex-start;
 
-    h2 {
-        color: #ffffff;
-        font-size: 27px;
-        font-weight: 700;
-        font-family: var(--font-titles);
+    @media (max-width: 645px) {
+        width: 100%;
     }
 `;
 
@@ -97,6 +95,7 @@ const Title = styled.div`
         border-radius: 50%;
         width: 50px;
         height: 50px;
+        object-fit: cover;
     }
 
     h1 {
@@ -107,13 +106,20 @@ const Title = styled.div`
     }
 
     @media (max-width: 645px) {
+        font-size: 33px;
+        margin-left: 17px;
+        margin-bottom: 19px;
     }
 `;
 
 const AlignBox = styled.div`
-    width: 611px;
-    display:flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+  width: 611px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @media (max-width: 645px) {
+    width: 100%;
+  }
 `;
