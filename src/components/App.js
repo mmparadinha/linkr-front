@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
@@ -22,17 +22,20 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [follow, setFollow] = useState('Follow');
+  const [postID, setPostID] = useState(0);
+  const [userPosts, setUserPosts] = useState([]);
+  const [count, setCount] = useState(0);
+
+  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
     },
   };
-  const [postID, setPostID] = useState(0);
-  const [userPosts, setUserPosts] = useState([]);
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate();
 
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE, navigate
   };
   const [searchResult, setSearchResult] = useState(null);
 
