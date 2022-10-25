@@ -5,7 +5,7 @@ import UserContext from '../contexts/UserContext';
 import axios from "axios";
 
 export default function Hashtags(){
-    const {hashtags, setHashtags, setHashtagName, config} = useContext(UserContext);
+    const {hashtags, setHashtags, setHashtagName, config, loading} = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export default function Hashtags(){
         promise.then(res => {
             setHashtags(res.data);
         });
-    }, []);
+    }, [loading]);
 
     function isTagClicked(hashtag){
         setHashtagName(hashtag.name);

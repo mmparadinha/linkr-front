@@ -36,7 +36,6 @@ export default function Timeline() {
 
         try {
             const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
-            const postId = post.data.postId;
 
             hashtags.map(async (hashtag) => {
                 const name = hashtag.replace('#', '');
@@ -71,7 +70,7 @@ export default function Timeline() {
       console.log(
         "An error occured while trying to fetch the posts, please refresh the page"
       );
-      console.log(error);
+      console.log(error.response);
     }
   }
 
@@ -116,8 +115,8 @@ export default function Timeline() {
               <Loading />
             ) : (
               <>
-                {posts.map((a) => (
-                  <NewPosts
+                {posts.map((a, index) => (
+                  <NewPosts key={index}
                     userId={a.userId}
                     photo={a.pictureUrl}
                     username={a.username}
