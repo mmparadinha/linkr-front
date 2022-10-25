@@ -6,6 +6,7 @@ import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
+import UpdateButton from "./UpdateButton";
 
 export default function Timeline() {
   const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
@@ -108,6 +109,7 @@ export default function Timeline() {
                 </form>
               </PublishContent>
             </Publish>
+            <UpdateButton postId={posts.postId} />
             {posts.length === 0 ? (
               <h1>There are no posts yet.</h1>
             ) : (
