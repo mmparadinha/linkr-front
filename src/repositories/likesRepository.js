@@ -32,9 +32,22 @@ async function checkExistentPost(postId){
     );
 }
 
+async function getPostIdLikes(postId, userId){
+    return connection.query(
+        `SELECT u.username
+        FROM users u
+        JOIN likes 
+        ON "userId" = u.id
+        WHERE likes."postId" = $1 
+        AND likes."userId" = $2
+      `, [postId, userId]
+    );
+}
+
 export const likesRepository = {
     likePost,
     unlikePost,
     checkLikedPost,
-    checkExistentPost
+    checkExistentPost,
+    getPostIdLikes
 }

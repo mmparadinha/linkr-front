@@ -1,7 +1,6 @@
 import { STATUS_CODE } from "../enums/statusCode.js";
 import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
 import urlMetadata from "url-metadata";
-import {stripHtml} from "string-strip-html";
 
 async function getHashtags(req, res){
     try {
@@ -37,10 +36,24 @@ async function getPostsFromHashtag(req,res){
 }
 
 async function newHashtag(req, res){
-    const {hashtagName} = req.body;
+    const {name, postId} = req.body;
+    let id = '';
 
     try {
-        await hashtagsRepository.newHashtag(hashtagName);
+        const hasHashtag = await hashtagsRepository.getHashtagId(name);
+        console.log(hasHashtag.rows);
+
+        if(hasHashtag.rows.length === 0){
+            id = (await hashtagsRepository.newHashtag(name)).rows[0].id;
+            
+            console.log('não tem, inseriu id:', id);
+            return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+        }
+
+        id = hasHashtag.rows[0].id;
+        console.log('já existe, id existente =', id);
+
+        await hashtagsRepository.postHashtagId(postId, id);
 
         return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
     } catch (error) {
@@ -49,17 +62,4 @@ async function newHashtag(req, res){
     }
 }
 
-async function postHashtagId(req, res){
-    const {postId, hashtagId} = req.body;
-
-    try {
-        await hashtagsRepository.postHashtagId(postId, hashtagId);
-
-        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
-    } catch (error) {
-        console.error(error);
-        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
-    }
-}
-
-export {getHashtags, getPostsFromHashtag, newHashtag, postHashtagId};
+export {getHashtags, getPostsFromHashtag, newHashtag};

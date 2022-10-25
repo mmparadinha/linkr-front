@@ -11,13 +11,14 @@ import {
 
 const postsRouter = Router();
 
+postsRouter.use(isAuthenticated);
+postsRouter.use(hasUser);
+
 postsRouter.get("/timeline", getPosts);
 postsRouter.delete("/timeline/post/delete/:id", deletePost);
 postsRouter.put("/timeline/post/edit/:id", validaEditPost, updatePost);
 postsRouter.get("/timeline/update", countNewPosts)
 
-postsRouter.use(isAuthenticated);
-postsRouter.use(hasUser);
 
 postsRouter.post("/timeline", newPost);
 

@@ -5,20 +5,27 @@ import connection from "../database/database.js";
 
 export async function getPosts(req, res) {
   try {
-    const { rows } = await postRepository.getPosts();
+    const listPosts = (await postRepository.getPosts()).rows;
 
     await Promise.all(
-      rows.map(async (post) => {
-        const { title, image, description } = await urlMetadata(post.url);
-        post.urlTitle = title;
-        post.urlImage = image;
-        post.urlDescription = description;
+      listPosts.map(async (post) => {
+        try {
+          const { title, image, description } = await urlMetadata(post.url);
+          post.urlTitle = title;
+          post.urlImage = image;
+          post.urlDescription = description;
+        } catch (error) {
+          console.error(error, post);
+          post.urlTitle = '';
+          post.urlImage = '';
+          post.urlDescription = '';
+        }
       })
     );
 
-    res.status(200).send(rows);
+    res.status(200).send(listPosts);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.sendStatus(500);
   }
 }
