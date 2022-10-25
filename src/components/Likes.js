@@ -60,7 +60,7 @@ export default function Likes({ postId }) {
 
     return (
         <>
-            {isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
+            {!isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
         </>
     );
 }
