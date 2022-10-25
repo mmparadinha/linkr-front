@@ -6,6 +6,7 @@ import {useContext, useEffect} from 'react';
 import UserContext from '../contexts/UserContext';
 import Hashtags from "./Hashtags";
 import {useParams} from 'react-router-dom';
+import Loading from "./commons/Loading";
 
 export default function HashtagPage(){
     const {hashtagName, hashtagPosts, setHashtagPosts, config, setHashtagName} = useContext(UserContext);
@@ -33,7 +34,7 @@ export default function HashtagPage(){
                 <Title># {hashtagName}</Title>
                 <Container>
                     <AlignBox>
-                        {hashtagPosts.length === 0 ? <h1>There are no posts yet.</h1>
+                        {hashtagPosts.length === 0 ? <Loading />
                             :
                             <>
                                 {hashtagPosts.map((a, index) => <NewPosts key={index} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
