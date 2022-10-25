@@ -23,11 +23,11 @@ export default function Login() {
 
     promise.then((res) => {
       restForm();
-      navigate("/timeline");
       localStorage.setItem("linkr-token", res.data.token);
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
       localStorage.setItem("linkr-username", res.data.username)
       localStorage.setItem("linkr-userId", res.data.userId);
+      navigate("/timeline");
     });
     promise.catch((err) => {
       alert("Não foi possível entrar, verifique seu email ou a senha!");
