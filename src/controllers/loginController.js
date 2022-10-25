@@ -23,7 +23,8 @@ async function loginPost(req, res) {
         if (!(verification.rows).length) {
             res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Preencha os dados corretamente!"
-            })
+            });
+            return;
         }
 
         const encrypetPassword = await bcrypt.compare(password, verification.rows[0]?.password);
