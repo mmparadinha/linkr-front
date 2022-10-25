@@ -1,11 +1,30 @@
+import axios from "axios";
+import { useContext } from "react";
 import styled from "styled-components";
 import update from "./../assets/update.png"
+import UserContext from '../contexts/UserContext';
+import useInterval from 'use-interval';
 
-export default function UpdateButton() {
+export default function UpdateButton({ newPosts }) {
+
+    // lógica de timeline-update
+    const { postID, count, setCount } = useContext(UserContext);
+
+    // async function countNewPosts() {
+
+    //     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+
+    //     try {
+    //         const response = await axios.get(`${URL_BASE}/timeline/update`, postID);
+    //         setCount(response.data);
+    //     } catch (error) {
+    //         console.log(error.response);
+    //     }
+    // };
 
     return (
-        <Update>
-            <h1>12 new posts, load more!</h1>
+        <Update onClick={newPosts} >
+            <h1>{count} new posts, load more!</h1>
             <img alt="" src={update} />
         </Update>
     );
@@ -21,7 +40,8 @@ const Update = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 17px;    
+    margin-bottom: 17px;
+    cursor: pointer;
 
     h1 {
 

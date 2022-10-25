@@ -1,31 +1,31 @@
 import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
+import Logout from './HeaderLogout';
 
 export default function Header() {
-
     const userPicture = localStorage.getItem('linkr-pictureUrl');
-
     const [searching, setSearching] = useState(false);
     const [searchBox, setSearchBox] = useState(false);
     const { setSearchResult } = useContext(SearchContext);
+    const navigate = useNavigate();
     const wrapperRef1 = useRef(null);
     const wrapperRef2 = useRef(null);
+
+    const [logout , setLogout] = useState(false);
 
   function useOutsideSearchBox(ref1, ref2) {
     useEffect(() => {
       function handleClickOutside(event) {
-        console.log(ref1, ref2);
         if (
-          ref1.current &&
-          !ref1.current.contains(event.target) &&
-          ref2.current &&
-          !ref2.current.contains(event.target)
+          (ref1.current && !ref1.current.contains(event.target))
+          &&
+          (ref2.current && !ref2.current.contains(event.target))
         ) {
           setSearchBox(false);
         }
@@ -56,7 +56,7 @@ export default function Header() {
     return (
         <>
             <Container>
-                <Title onClick={() => console.log('bora pro home')}>linkr</Title>
+                <Title onClick={() => navigate("/timeline")}>linkr</Title>
                 <SearchBox ref={wrapperRef1}>
                     <SearchBar
                         minLength={3}
@@ -70,7 +70,8 @@ export default function Header() {
                     {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
                 <AlignItems>
-                    <ProfileIcon onClick={() => console.log('menuzinho de logout da Rosa')} />
+                    <ProfileIcon onClick={() => {setLogout(!logout)}} logout={logout}/>
+                    {logout ? <Logout setLogout={setLogout}/> : <></>}
                     <Link>
                         <Photo src={userPicture} />
                     </Link>
@@ -196,9 +197,10 @@ const Photo = styled.img`
 `;
 
 const ProfileIcon = styled(IoChevronDownOutline)`
-  color: #ffffff;
-  font-size: 30px;
-  margin-right: 12px;
+    color: #ffffff;
+    font-size: 30px;
+    margin-right: 12px;
+    transform: rotate(${props => props.logout ? 180:0}deg);
 
   &:hover {
     cursor: pointer;
