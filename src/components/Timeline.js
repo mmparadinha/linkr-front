@@ -5,7 +5,6 @@ import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
-import { useNavigate } from "react-router-dom";
 import UpdateButton from "./UpdateButton";
 import UserContext from '../contexts/UserContext';
 
@@ -56,6 +55,7 @@ export default function Timeline() {
   async function newPosts() {
     try {
       const response = await axios.get(`${URL_BASE}/timeline`, config);
+
       setPosts(response.data);
       setPostID(response.data[0].postId);
       if (response.data.length === 0) { console.log("There are no posts yet") }

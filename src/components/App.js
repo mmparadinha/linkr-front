@@ -27,15 +27,14 @@ function App() {
   const [count, setCount] = useState(0);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
+  console.log(URL_BASE)
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
     },
   };
-  const navigate = useNavigate();
-
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE, navigate
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
   };
   const [searchResult, setSearchResult] = useState(null);
 
