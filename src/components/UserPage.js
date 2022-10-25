@@ -1,6 +1,6 @@
 import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext} from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";

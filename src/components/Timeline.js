@@ -5,12 +5,11 @@ import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
-import { useNavigate } from "react-router-dom";
 import UpdateButton from "./UpdateButton";
 import UserContext from '../contexts/UserContext';
 
 export default function Timeline() {
-  const { setPostID, count, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
+  const { setPostID, count, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
   const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
   async function handleSubmit(e) {
     e.preventDefault();

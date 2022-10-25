@@ -2,9 +2,12 @@ import styled from "styled-components";
 import { useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Hashtags() {
-    const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE, navigate } = useContext(UserContext);
+    const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE } = useContext(UserContext);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const promise = axios.get(`${URL_BASE}/hashtags`, config);
         promise.then(res => {
