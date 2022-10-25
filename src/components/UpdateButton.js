@@ -3,24 +3,26 @@ import { useContext } from "react";
 import styled from "styled-components";
 import update from "./../assets/update.png"
 import UserContext from '../contexts/UserContext';
-import useInterval from 'use-interval';
+import useInterval from 'react-useinterval';
 
 export default function UpdateButton({ newPosts }) {
 
     // lógica de timeline-update
-    const { postID, count, setCount } = useContext(UserContext);
+    const { postID, count, setCount, config } = useContext(UserContext);
 
-    // async function countNewPosts() {
+    async function countNewPosts() {
 
-    //     const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+        const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
-    //     try {
-    //         const response = await axios.get(`${URL_BASE}/timeline/update`, postID);
-    //         setCount(response.data);
-    //     } catch (error) {
-    //         console.log(error.response);
-    //     }
-    // };
+        try {
+            const response = await axios.get(`${URL_BASE}/timeline/update?postId=${postID}`, config);
+            setCount(response.data.count);
+        } catch (error) {
+            console.log(error.response);
+        }
+    };
+
+    useInterval(countNewPosts, 15000);
 
     return (
         <Update onClick={newPosts} >

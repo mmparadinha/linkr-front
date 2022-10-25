@@ -27,9 +27,9 @@ function App() {
       Authorization: `Bearer ${userToken}`
     },
   };
-  const [count, setCount] = useState(1);
   const [postID, setPostID] = useState(0);
   const [userPosts, setUserPosts] = useState([]);
+  const [count, setCount] = useState(0);
 
   const contextValue = {
     count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow

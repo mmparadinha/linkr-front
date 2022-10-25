@@ -12,7 +12,6 @@ import UserContext from '../contexts/UserContext';
 export default function Timeline() {
   const { setPostID, count, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
   const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
-
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -58,16 +57,12 @@ export default function Timeline() {
       const response = await axios.get(`${URL_BASE}/timeline`, config);
       setPosts(response.data);
       setPostID(response.data[0].postId);
-      if (response.data === 0) {
-        console.log("There are no posts yet");
-      }
+      if (response.data.length === 0) { console.log("There are no posts yet") }
     } catch (error) {
-      console.log(
-        "An error occured while trying to fetch the posts, please refresh the page"
-      );
+      console.log("An error occured while trying to fetch the posts, please refresh the page");
       console.log(error.response);
     }
-  }
+  };
 
   useEffect(() => {
     newPosts();
@@ -209,6 +204,7 @@ const Photo = styled.img`
   width: 53px;
   height: 53px;
   border-radius: 50%;
+  object-fit: cover;
 
   @media (max-width: 645px) {
     display: none;
