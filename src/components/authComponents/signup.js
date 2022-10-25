@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function UserRegistration({
@@ -22,10 +21,12 @@ export default function UserRegistration({
       username,
       pictureUrl: url,
     };
+    console.log("Oiiiiieee: ", dadosDeCadastro)
 
-    const promise = axios.post(`${process.env.REACT_APP_BACK_END_URL}/signup`, dadosDeCadastro);
+    const promise = axios.post(`${process.env.REACT_APP_API_BASE_URL}/signup`, dadosDeCadastro);
 
     promise.then((res) => {
+      console.log("222222222: ", res.data)
       restForm();
       setClicado(false);
     });
