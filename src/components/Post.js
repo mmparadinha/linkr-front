@@ -95,14 +95,14 @@ export default function NewPosts({
       </div>
 
       <Left>
-        <Link to={`/user/${userId}`}>
+        <Link to={`/user/${userId}`} state={{ profilePic: photo, username}}>
           <Photo src={photo} />
         </Link>
         <Likes postId={postId} />
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
-          <Link to={`/user/${userId}`}>
+          <Link to={`/user/${userId}`} state={{ profilePic: photo, username}}>
             <h1>{username}</h1>
           </Link>
           <div className="container-icons">

@@ -4,16 +4,14 @@ import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import Loading from "./commons/Loading.js";
 
-export default function UserPage({ username, profilePic }) {
+export default function UserPage() {
     const { id } = useParams();
-    console.log(id);
+    const location = useLocation();
+    const { profilePic, username } = location.state;
     const [userPosts, setUserPosts] = useState([]);
-    const navigate = useNavigate();
-
-    console.log(userPosts)
 
     useEffect(() => {
         getUserLinkrs(id)
@@ -28,16 +26,30 @@ export default function UserPage({ username, profilePic }) {
             </Header>
             <Body>
                 <Title>
-                    <img src="{user.pictureUrl}" alt="Profile picture" />
-                    <h1>aa's posts</h1>
+                    <img src={profilePic} alt="Profile picture" />
+                    <h1>{username}'s posts</h1>
                 </Title>
                 <Container>
                     <AlignBox>
-                        {userPosts.length === 0 ? <Loading />
-                            :
-                            <>
-                                {userPosts.map((a) => <NewPosts key={a.postId} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
-                            </>
+                        {userPosts && userPosts.length === 0
+                        ?
+                        <Loading />
+                        :
+                        <>
+                            {userPosts.map((a, index) => (
+                                <NewPosts key={index}
+                                    userId={a.userId}
+                                    photo={a.pictureUrl}
+                                    username={a.username}
+                                    comment={a.comment}
+                                    url={a.url}
+                                    urlTitle={a.urlTitle}
+                                    urlImage={a.urlImage}
+                                    urlDescription={a.urlDescription}
+                                    postId={a.postId}
+                                />
+                            ))}
+                        </>
                         }
                     </AlignBox>
                     <Hashtags />
