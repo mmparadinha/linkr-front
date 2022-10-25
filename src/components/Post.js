@@ -28,7 +28,7 @@ export default function NewPosts({
   const [modalIsOpen, setIsOpen] = useState("apagar");
   const { setHashtagName } = useContext(UserContext);
   const navigate = useNavigate();
-  const URL_BASE = "https://back-linkr-projetao.herokuapp.com";
+  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);

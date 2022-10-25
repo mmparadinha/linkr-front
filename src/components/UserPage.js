@@ -5,19 +5,15 @@ import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
 import { useParams, useNavigate } from "react-router-dom";
+import Loading from "./commons/Loading.js";
 
 export default function UserPage({ username, profilePic }) {
     const { id } = useParams();
+    console.log(id);
     const [userPosts, setUserPosts] = useState([]);
-    const userToken = localStorage.getItem('linkr-token');
     const navigate = useNavigate();
 
     console.log(userPosts)
-
-    if (!userToken) {
-        alert('Você não está autorizado para esse acesso, faça o login!');
-        navigate('/')
-    };
 
     useEffect(() => {
         getUserLinkrs(id)
@@ -37,7 +33,7 @@ export default function UserPage({ username, profilePic }) {
                 </Title>
                 <Container>
                     <AlignBox>
-                        {userPosts.length === 0 ? <h2>You haven't posted anything yet.</h2>
+                        {userPosts.length === 0 ? <Loading />
                             :
                             <>
                                 {userPosts.map((a) => <NewPosts key={a.postId} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}

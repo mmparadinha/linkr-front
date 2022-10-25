@@ -10,7 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
+  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
   function handleForm(e) {
     e.preventDefault();
