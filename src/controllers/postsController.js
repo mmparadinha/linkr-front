@@ -5,27 +5,33 @@ import connection from "../database/database.js";
 
 export async function getPosts(req, res) {
   try {
-    const { rows } = await postRepository.getPosts();
+    const listPosts = (await postRepository.getPosts()).rows;
 
     await Promise.all(
-      rows.map(async (post) => {
-        const { title, image, description } = await urlMetadata(post.url);
-        post.urlTitle = title;
-        post.urlImage = image;
-        post.urlDescription = description;
+      listPosts.map(async (post) => {
+        try {
+          const { title, image, description } = await urlMetadata(post.url);
+          post.urlTitle = title;
+          post.urlImage = image;
+          post.urlDescription = description;
+        } catch (error) {
+          console.error(error, post);
+          post.urlTitle = '';
+          post.urlImage = '';
+          post.urlDescription = '';
+        }
       })
     );
 
-    res.status(200).send(rows);
+    res.status(200).send(listPosts);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.sendStatus(500);
   }
 }
 
 export async function newPost(req, res) {
   const { url, comment, userId } = req.body;
-  console.log();
 
   try {
     const isValid = newPostSchema.validate({ url, comment });
@@ -40,7 +46,7 @@ export async function newPost(req, res) {
 
     const postId = (await postRepository.newPost(userId, url, comment)).rows[0].id;
 
-    res.status(201).send({postId});
+    res.status(201).send({ postId });
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -88,9 +94,24 @@ export async function updatePost(req, res) {
       `UPDATE posts SET url = $1, comment = $2 WHERE id = $3 AND "userId" = $4;`,
       [url, comment, id, userId]
     )
-        res.sendStatus(201);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
-    }
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 }
+
+export async function countNewPosts(req, res) {
+  const { postId } = req.query;
+
+  try {
+    const { rows } = (await postRepository.newPostsNumber(postId));
+
+    res.status(200).send({ count: rows[0].count });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  };
+};
+
+

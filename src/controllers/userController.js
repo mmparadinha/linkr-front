@@ -10,10 +10,17 @@ export async function getUserLinkrs(req, res) {
 
     await Promise.all(
       rows.map(async (post) => {
-        const { title, image, description } = await urlMetadata(post.url);
-        post.urlTitle = title;
-        post.urlImage = image;
-        post.urlDescription = description;
+        try {
+          const { title, image, description } = await urlMetadata(post.url);
+          post.urlTitle = title;
+          post.urlImage = image;
+          post.urlDescription = description;
+        } catch (error) {
+          console.error(error, post);
+          post.urlTitle = '';
+          post.urlImage = '';
+          post.urlDescription = '';
+        }
       })
     );
 

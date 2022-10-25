@@ -9,7 +9,6 @@ export async function validaEditPost(req, res, next) {
   });
 
   if (validation.error) {
-    console.log("mid");
     return res.status(422).send(validation.error.message);
   }
 
