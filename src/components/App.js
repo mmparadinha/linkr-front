@@ -27,7 +27,6 @@ function App() {
   const [userPosts, setUserPosts] = useState([]);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-  console.log(URL_BASE)
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
