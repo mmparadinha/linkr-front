@@ -6,7 +6,7 @@ export default async function searchUsers(userToken) {
             users.id,
             users.username,
             users."pictureUrl",
-            sessions.token
+            followers."followerId"
         FROM users
         LEFT JOIN followers ON users.id=followers."followedId"
         LEFT JOIN sessions ON followers."followerId"=sessions."userId"
