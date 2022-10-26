@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
-import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
@@ -27,7 +27,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-  console.log(URL_BASE)
+
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
