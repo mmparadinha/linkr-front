@@ -1,30 +1,33 @@
 import styled from "styled-components";
-import { Link, useNavigate } from 'react-router-dom';
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
-import Header from "./commons/header/Header";
+import { useNavigate } from "react-router-dom";
 
-export default function Hashtags(){
-    const {hashtags, setHashtags} = useContext(UserContext);
+export default function Hashtags() {
+    const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE } = useContext(UserContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const promise = axios.get('https://back-linkr-projetao.herokuapp.com/hashtags');
+        const promise = axios.get(`${URL_BASE}/hashtags`, config);
         promise.then(res => {
             setHashtags(res.data);
         });
-    }, []);
+    }, [loading]);
 
-    return(
+    function isTagClicked(hashtag) {
+        setHashtagName(hashtag.name);
+        navigate(`/hashtag/${hashtag.name}`);
+    }
+
+    return (
         <>
             <Container>
                 <Title>trending</Title>
                 <Line></Line>
                 <List>
                     {hashtags.map((hashtag, index) => (
-                        <Link to={`/hashtag/${hashtag.name}`}>
-                            <Item index={index}># {hashtag.name}</Item>
-                        </Link>
+                        <Item key={index} onClick={() => isTagClicked(hashtag)} ># {hashtag.name}</Item>
                     ))}
                 </List>
             </Container>
@@ -89,6 +92,7 @@ const Item = styled.h6`
     font-size: 19px;
     line-height: 22.8px;
     margin-bottom: 8px;
+    cursor: pointer;
 
     @media (max-width: 645px) {
         display: none;
