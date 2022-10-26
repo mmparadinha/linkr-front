@@ -11,6 +11,8 @@ import PrivatePage from "./PrivatePage.js";
 
 function App() {
 
+  const [postID, setPostID] = useState(0);
+  const [count, setCount] = useState(0);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
@@ -26,8 +28,6 @@ function App() {
       Authorization: `Bearer ${userToken}`
     },
   };
-  const [postID, setPostID] = useState(0);
-  const [count, setCount] = useState(0);
 
   const contextValue = {
     count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts
