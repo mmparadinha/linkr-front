@@ -24,6 +24,8 @@ async function isAuthenticated(req, res, next) {
         }
 
         req.body.userId = authenticated.rows[0].userId;
+        res.locals.token = token;
+
         next();
     } catch (error) {
         res.status(STATUS_CODE.SERVERERRORINTERNAL).send(error.message);
