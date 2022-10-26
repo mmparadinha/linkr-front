@@ -61,22 +61,28 @@ export default function Likes({ postId }) {
     return (
         <>
             {!isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
+            <LikesQuantity>14 likes</LikesQuantity>
         </>
     );
 }
 
 const FiHeartedLike = styled(AiOutlineHeart)`
-    margin-top: 20px;
-    width: 20px;
-    height: 20px;
+    margin: 20px 0 6px 0;
+    width: 22px;
+    height: 22px;
     color: white;
     cursor: pointer;
 `;
 
 const AllFillHeartedLike = styled(AiFillHeart)`
-    margin-top: 20px;
-    width: 20px;
-    height: 20px;
+    margin: 20px 0 6px 0;
+    width: 22px;
+    height: 22px;
     color: red;
     cursor: pointer;
 `;
+
+const LikesQuantity = styled.p`
+    font-size: 12px;
+    color: white;
+`
