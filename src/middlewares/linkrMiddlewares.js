@@ -2,16 +2,13 @@ import connection from '../database/database.js';
 import { STATUS_CODE } from '../enums/statusCode.js';
 
 async function isAuthenticated(req, res, next) {
-    const { authorization } = req.headers;
+    const token = req.headers.authorization?.replace('Bearer ', '');
 
     try {
-        const token = authorization?.replace('Bearer ', '');
-
         if (!token) {
-            res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
+            return res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Header não enviado ou inválido!"
             });
-            return;
         }
 
         const authenticated = await connection.query(
@@ -20,11 +17,10 @@ async function isAuthenticated(req, res, next) {
             WHERE token = $1;`,
             [token]);
 
-        if ((!authenticated.rows).length) {
-            res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
+        if (authenticated.rows.length === 0) {
+            return res.status(STATUS_CODE.ERRORUNAUTHORIZED).send({
                 "message": "Usuário não autorizado!"
             });
-            return;
         }
 
         req.body.userId = authenticated.rows[0].userId;
@@ -47,7 +43,7 @@ async function hasUser(req, res, next) {
             `,
             [userId]);
 
-        if (!(isUser.rows).length) {
+        if (isUser.rows.length === 0) {
             return res.sendStatus(STATUS_CODE.ERRORNOTFOUND);
         };
         next();

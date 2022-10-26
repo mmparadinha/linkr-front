@@ -3,7 +3,6 @@ import * as hashtagsRepository from "../repositories/hashtagsRepository.js";
 import urlMetadata from "url-metadata";
 
 async function getHashtags(req, res){
-
     try {
         const listHashtags = (await hashtagsRepository.getListHashtags()).rows;
 
@@ -36,4 +35,31 @@ async function getPostsFromHashtag(req,res){
     }
 }
 
-export {getHashtags, getPostsFromHashtag};
+async function newHashtag(req, res){
+    const {name, postId} = req.body;
+    let id = '';
+
+    try {
+        const hasHashtag = await hashtagsRepository.getHashtagId(name);
+        console.log(hasHashtag.rows);
+
+        if(hasHashtag.rows.length === 0){
+            id = (await hashtagsRepository.newHashtag(name)).rows[0].id;
+            
+            console.log('não tem, inseriu id:', id);
+            return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+        }
+
+        id = hasHashtag.rows[0].id;
+        console.log('já existe, id existente =', id);
+
+        await hashtagsRepository.postHashtagId(postId, id);
+
+        return res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+    } catch (error) {
+        console.error(error);
+        return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    }
+}
+
+export {getHashtags, getPostsFromHashtag, newHashtag};

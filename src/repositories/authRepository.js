@@ -18,7 +18,7 @@ async function loginUser(verification ,token) {
 }
 
 async function getUserData(email) {
-    return connection.query(`SELECT username, "pictureUrl"  FROM users WHERE email=($1);`, [email]);
+    return connection.query(`SELECT username, "pictureUrl", id AS "userId" FROM users WHERE email=($1);`, [email]);
 }
 
 export { createUser, checkEmail, loginUser, getUserData };

@@ -2,7 +2,7 @@ import connection from "../database/database.js";
 
 async function getListHashtags(){
     return connection.query(
-        'SELECT hashtags.name AS name, COUNT(hashtags.name) AS count FROM hashtags GROUP BY hashtags.name ORDER BY count DESC LIMIT 10;'
+        'SELECT hashtags.name AS name, COUNT("postHashtags"."hashtagId") AS count FROM hashtags JOIN "postHashtags" ON hashtags.id = "postHashtags"."hashtagId" GROUP BY hashtags.name ORDER BY count DESC LIMIT 10;'
     );
 }
 
@@ -29,4 +29,23 @@ async function getListPostsFromHashtag(hashtag){
     );
 }
 
-export {getListHashtags, getListPostsFromHashtag};
+async function postHashtagId(postId, id){
+    return connection.query('INSERT INTO "postHashtags" ("postId", "hashtagId") VALUES ($1, $2);',
+    [postId, id]);
+}
+
+async function newHashtag(name){
+    return connection.query(
+        'INSERT INTO hashtags ("name") VALUES ($1) RETURNING id;',
+        [name]
+    );
+}
+
+async function getHashtagId(name){
+    return connection.query(
+        'SELECT id FROM hashtags WHERE name = $1;',
+        [name]
+    );
+}
+
+export {getListHashtags, getListPostsFromHashtag, newHashtag, postHashtagId, getHashtagId};
