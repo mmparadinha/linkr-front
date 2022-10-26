@@ -12,6 +12,7 @@ export default function Header() {
     const userPicture = localStorage.getItem('linkr-pictureUrl');
     const [searching, setSearching] = useState(false);
     const [searchBox, setSearchBox] = useState(false);
+    const [searchText, setSearchText] = useState('');
     const { setSearchResult } = useContext(SearchContext);
     const navigate = useNavigate();
     const wrapperRef1 = useRef(null);
@@ -28,6 +29,7 @@ export default function Header() {
           (ref2.current && !ref2.current.contains(event.target))
         ) {
           setSearchBox(false);
+          stopSearch();
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -38,6 +40,11 @@ export default function Header() {
   }
 
   useOutsideSearchBox(wrapperRef1, wrapperRef2);
+
+  function stopSearch() {
+    setSearching(false);
+    setSearchText('');
+  }
 
   function getSearch(e) {
     e.preventDefault();
@@ -50,7 +57,10 @@ export default function Header() {
         );
         setSearching(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        stopSearch();
+      });
   }
 
     return (
@@ -65,6 +75,7 @@ export default function Header() {
                         disabled={searching}
                         type='text'
                         onChange={getSearch}
+                        value={searchText}
                     />
                     <SearchIcon onClick={getSearch} />
                     {searchBox ? <SearchResultsBox /> : ''}
@@ -86,6 +97,7 @@ export default function Header() {
                     disabled={searching}
                     type='text'
                     onChange={getSearch}
+                    value={searchText}
                 />
                 <SearchIcon onClick={getSearch} />
                 {searchBox ? <SearchResultsBox /> : ''}
@@ -189,6 +201,7 @@ const Photo = styled.img`
   width: 53px;
   height: 53px;
   border-radius: 50%;
+  object-fit: cover;
 
   @media (max-width: 645px) {
     width: 41px;

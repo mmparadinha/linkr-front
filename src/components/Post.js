@@ -94,14 +94,14 @@ export default function NewPosts({
       </div>
 
       <Left>
-        <Link to={`/user/${userId}`}>
+        <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
           <Photo src={photo} />
         </Link>
         <Likes postId={postId} />
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
-          <Link to={`/user/${userId}`}>
+          <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
             <h1>{username}</h1>
           </Link>
           <div className="container-icons">
@@ -304,6 +304,7 @@ const Photo = styled.img`
   width: 53px;
   height: 53px;
   border-radius: 50%;
+  object-fit: cover;
 
   @media (max-width: 645px) {
     width: 40px;

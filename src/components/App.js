@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
@@ -23,14 +23,18 @@ function App() {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [follow, setFollow] = useState('Follow');
+  const [userPosts, setUserPosts] = useState([]);
+
+  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
+  console.log(URL_BASE)
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
     },
   };
-
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
   };
   const [searchResult, setSearchResult] = useState(null);
 

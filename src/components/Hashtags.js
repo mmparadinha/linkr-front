@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Hashtags() {
-    const { hashtags, setHashtags, setHashtagName, config, loading } = useContext(UserContext);
+    const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE } = useContext(UserContext);
     const navigate = useNavigate();
-    const URL_BASE = 'https://back-linkr-projetao.herokuapp.com';
 
     useEffect(() => {
         const promise = axios.get(`${URL_BASE}/hashtags`, config);

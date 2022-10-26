@@ -90,7 +90,7 @@ export default function Timeline() {
     }
   };
 
-  useInterval(countNewPosts, 2000);
+  useInterval(countNewPosts, 15000);
 
   function updateButton() {
     newPosts();
@@ -268,6 +268,7 @@ const Photo = styled.img`
   width: 53px;
   height: 53px;
   border-radius: 50%;
+  object-fit: cover;
 
   @media (max-width: 645px) {
     display: none;
