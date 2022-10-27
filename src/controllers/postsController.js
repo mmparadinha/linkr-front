@@ -107,9 +107,10 @@ export async function updatePost(req, res) {
 
 export async function countNewPosts(req, res) {
   const { postId } = req.query;
+  const { token } = res.locals;
 
   try {
-    const { rows } = (await postRepository.newPostsNumber(postId));
+    const { rows } = (await postRepository.newPostsNumber(token, postId));
 
     res.status(200).send({ count: rows[0].count });
   } catch (error) {
