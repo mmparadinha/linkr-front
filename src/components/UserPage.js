@@ -7,11 +7,13 @@ import Hashtags from "./Hashtags.js";
 import { getUserData } from "../services/linkr.js";
 import { useParams } from "react-router-dom";
 import Loading from './commons/Loading';
+import axios from 'axios';
 
 export default function UserPage() {
     const { id } = useParams();
-    const {follow, setFollow} = useContext(UserContext);
+    const {follow, setFollow, URL_BASE, config} = useContext(UserContext);
     const [userInfo, setUserInfo] = useState(null);
+    let disabled = false;
 
     useEffect(() => {
         async function getUserPage() {
@@ -22,15 +24,52 @@ export default function UserPage() {
                 console.error(error);
             }
         }
-        getUserPage()
+        getUserPage();
+        checkFollower();
     }, [id]);
 
-    function isFollowed(){
-        if(follow === 'Follow'){
-            setFollow('Unfollow');
-        } if(follow === 'Unfollow'){
-            setFollow('Follow');
+    async function checkFollower(){
+        try {
+            const response = await axios.get(`${URL_BASE}/followers/${id}`, config);
+
+            if(response.data.length === 0){
+                disabled = false;
+                setFollow('Follow');
+            }
+            if (response.data.length > 0){
+                disabled = false;
+                setFollow('Unfollow');
+            }
+        } catch (error) {
+            console.error(error);
         }
+    }
+
+    function isFollowed(){
+        const followData = {
+            followedId: id
+        }
+
+        const promise = axios.get(`${URL_BASE}/followers/${id}`, config);
+        disabled = true;
+
+        promise.then(async res => {
+            if(res.data.length === 0){
+                await axios.post(`${URL_BASE}/followers/${id}`, {followedId: id}, config);
+                checkFollower();
+                disabled = false;
+            }
+            if (res.data.length > 0){            
+                await axios.delete(`${URL_BASE}/followers/${id}`, config);
+                checkFollower();
+                disabled = false;
+            }
+        })
+
+        promise.catch(res => {
+            console.log(res.data);
+            alert('Não foi possível processar a solicitação, tente novamente.');
+        })
     }
 
     return (
@@ -44,42 +83,45 @@ export default function UserPage() {
                 <Loading />
             </Body>
             :
-                <Body>
-                    <Title>
-                        <img src={userInfo?.pictureUrl} alt="profile" />
-                        <h1>{userInfo?.username}'s posts</h1>
-                        <Button type={follow}>{follow}</Button>
-                    </Title>
-                    <Container>
-                        <AlignBox>
-                            {userInfo?.userPosts.length === 0
-                            ?
-                            <span>This user is oddly quiet. No posts yet...</span>
-                            :
-                            <>
-                                {userInfo?.userPosts.map((a, index) => (
-                                    <NewPosts key={index}
-                                        userId={a.userId}
-                                        photo={a.pictureUrl}
-                                        username={a.username}
-                                        comment={a.comment}
-                                        url={a.url}
-                                        urlTitle={a.urlTitle}
-                                        urlImage={a.urlImage}
-                                        urlDescription={a.urlDescription}
-                                        postId={a.postId}
-                                    />
-                                ))}
-                            </>
-                            }
-                        </AlignBox>
-                        <Hashtags />
-                    </Container>
-                </Body>
+            <Body>
+                <Title>
+                    <img src={userInfo?.pictureUrl} alt="profile" />
+                    <h1>{userInfo?.username}'s posts</h1>
+                    {(userId !== id) ? 
+                    <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button> 
+                    : 
+                    <></>}
+                </Title>
+                <Container>
+                    <AlignBox>
+                        {userInfo?.userPosts.length === 0
+                        ?
+                        <span>This user is oddly quiet. No posts yet...</span>
+                        :
+                        <>
+                            {userInfo?.userPosts.map((a, index) => (
+                                <NewPosts key={index}
+                                    userId={a.userId}
+                                    photo={a.pictureUrl}
+                                    username={a.username}
+                                    comment={a.comment}
+                                    url={a.url}
+                                    urlTitle={a.urlTitle}
+                                    urlImage={a.urlImage}
+                                    urlDescription={a.urlDescription}
+                                    postId={a.postId}
+                                />
+                            ))}
+                        </>
+                        }
+                    </AlignBox>
+                    <Hashtags />
+                </Container>
+            </Body>
             }
         </>
     );
-};
+}
 
 const Body = styled.div`
     height: 100%;
@@ -162,7 +204,7 @@ const Button = styled.button`
     width: 112px;
     height: 31px;
     background-color: ${props => {
-        if(props.follow === 'Unfollow'){
+        if(props.type === 'Unfollow'){
             return collors.white
         } else {
             return collors.blue;
@@ -171,7 +213,7 @@ const Button = styled.button`
     border-radius: 5px;
     border: 0px;
     color: ${props => {
-        if(props.follow === 'Unfollow'){
+        if(props.type === 'Unfollow'){
             return collors.blue
         } else {
             return collors.white;
