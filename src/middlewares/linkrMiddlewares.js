@@ -24,6 +24,7 @@ async function isAuthenticated(req, res, next) {
         }
 
         req.body.userId = authenticated.rows[0].userId;
+        res.locals.userId = authenticated.rows[0].userId;
         res.locals.token = token;
 
         next();
