@@ -4,12 +4,12 @@ import { newPostSchema } from "../schemas/validationSchemas.js";
 import connection from "../database/database.js";
 
 export async function getPosts(req, res) {
-  const { token } = res.locals;
+  const { token, id } = res.locals;
   try {
     const listFollows = (await postRepository.followsAnyone(token)).rows;
     if (listFollows.length === 0) { return res.sendStatus(204); }
 
-    const listPosts = (await postRepository.getPosts(token)).rows;
+    const listPosts = (await postRepository.getPosts(token, id)).rows;
 
     await Promise.all(
       listPosts.map(async (post) => {
@@ -107,9 +107,10 @@ export async function updatePost(req, res) {
 
 export async function countNewPosts(req, res) {
   const { postId } = req.query;
+  const { token } = res.locals;
 
   try {
-    const { rows } = (await postRepository.newPostsNumber(postId));
+    const { rows } = (await postRepository.newPostsNumber(token, postId));
 
     res.status(200).send({ count: rows[0].count });
   } catch (error) {

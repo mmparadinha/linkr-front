@@ -17,14 +17,14 @@ server.use(cors());
 // auth
 server.use(authRouter);
 
+// likes
+server.use(likesRouter);
+
 // posts
 server.use(postsRouter);
 
 //user page
 server.use(userRouter);
-
-// likes
-server.use(likesRouter);
 
 // hashtags
 server.use(hashtagsRouter);
