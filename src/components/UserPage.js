@@ -11,7 +11,7 @@ import axios from 'axios';
 
 export default function UserPage() {
     const { id } = useParams();
-    const {follow, setFollow, URL_BASE, config} = useContext(UserContext);
+    const {follow, setFollow, URL_BASE, config, userId} = useContext(UserContext);
     const [userInfo, setUserInfo] = useState(null);
     let disabled = false;
 
