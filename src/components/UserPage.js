@@ -8,14 +8,17 @@ import { getUserLinkrs } from "../services/linkr.js";
 import { useParams, useLocation } from "react-router-dom";
 import Loading from './commons/Loading';
 import axios from 'axios';
+import profilePic from "../assets/Imagens Teste/teste.jpeg";
 
 export default function UserPage() {
     const { id } = useParams();
     
-    const {userPosts, setUserPosts, follow, setFollow, URL_BASE, config} = useContext(UserContext);
-    const location = useLocation();
+    const {userPosts, setUserPosts, follow, setFollow, URL_BASE, config, userId} = useContext(UserContext);
+    
+    //const location = useLocation();
 
-    const { profilePic, username } = location.state;
+    //const { profilePic, username } = location.state;
+    const username = 'aaaaa'
     let disabled = false;
 
     async function checkFollower(){
@@ -45,7 +48,7 @@ export default function UserPage() {
 
     function isFollowed(){
         const followData = {
-            followedID: id
+            followedId: id
         }
 
         const promise = axios.get(`${URL_BASE}/followers/${id}`, config);
@@ -53,12 +56,14 @@ export default function UserPage() {
 
         promise.then(async res => {
             if(res.data.length === 0){
-                await axios.post(`${URL_BASE}/followers`, followData, config);
-                setFollow('Unfollow');
+                await axios.post(`${URL_BASE}/followers/${id}`, {followedId: id}, config);
+                checkFollower();
+                disabled = false;
             }
-            if (res.data.length > 0){
-                await axios.delete(`${URL_BASE}/followers`, followData, config);
-                setFollow('Follow');
+            if (res.data.length > 0){            
+                await axios.delete(`${URL_BASE}/followers/${id}`, config);
+                checkFollower();
+                disabled = false;
             }
         })
 
@@ -77,7 +82,10 @@ export default function UserPage() {
                 <Title>
                     <img src={profilePic} alt="profile" />
                     <h1>{username}'s posts</h1>
-                    <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button>
+                    {(userId !== id) ? 
+                    <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button> 
+                    : 
+                    <></>}
                 </Title>
                 <Container>
                     <AlignBox>
