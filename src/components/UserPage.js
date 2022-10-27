@@ -1,24 +1,29 @@
 import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useContext} from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
-import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useLocation } from "react-router-dom";
+import { getUserData } from "../services/linkr.js";
+import { useParams } from "react-router-dom";
 import Loading from './commons/Loading';
 
 export default function UserPage() {
     const { id } = useParams();
-    const {userPosts, setUserPosts, follow, setFollow} = useContext(UserContext);
-    const location = useLocation();
-    const { profilePic, username } = location.state;
+    const {follow, setFollow} = useContext(UserContext);
+    const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
-        getUserLinkrs(id)
-            .then(res => setUserPosts(res.data))
-            .catch(error => console.log(error));
-    }, [id, setUserPosts]);
+        async function getUserPage() {
+            try {
+                const res = await getUserData(id);
+                setUserInfo(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getUserPage()
+    }, [id]);
 
     function isFollowed(){
         if(follow === 'Follow'){
@@ -33,39 +38,45 @@ export default function UserPage() {
             <Header>
                 {Header}
             </Header>
+            {!userInfo
+            ?
             <Body>
-                <Title>
-                    <img src={profilePic} alt="profile" />
-                    <h1>{username}'s posts</h1>
-                    <Button type={follow}>{follow}</Button>
-                </Title>
-                <Container>
-                    <AlignBox>
-                        {userPosts && userPosts.length === 0
-                        ?
-                        <Loading />
-                        :
-                        <>
-                            {userPosts.map((a, index) => (
-                                <NewPosts key={index}
-                                    userId={a.userId}
-                                    photo={a.pictureUrl}
-                                    username={a.username}
-                                    comment={a.comment}
-                                    url={a.url}
-                                    urlTitle={a.urlTitle}
-                                    urlImage={a.urlImage}
-                                    urlDescription={a.urlDescription}
-                                    postId={a.postId}
-                                />
-                            ))}
-                        </>
-                        }
-                    </AlignBox>
-                    <Hashtags />
-                </Container>
+                <Loading />
             </Body>
-
+            :
+                <Body>
+                    <Title>
+                        <img src={userInfo?.pictureUrl} alt="profile" />
+                        <h1>{userInfo?.username}'s posts</h1>
+                        <Button type={follow}>{follow}</Button>
+                    </Title>
+                    <Container>
+                        <AlignBox>
+                            {userInfo?.userPosts.length === 0
+                            ?
+                            <span>This user is oddly quiet. No posts yet...</span>
+                            :
+                            <>
+                                {userInfo?.userPosts.map((a, index) => (
+                                    <NewPosts key={index}
+                                        userId={a.userId}
+                                        photo={a.pictureUrl}
+                                        username={a.username}
+                                        comment={a.comment}
+                                        url={a.url}
+                                        urlTitle={a.urlTitle}
+                                        urlImage={a.urlImage}
+                                        urlDescription={a.urlDescription}
+                                        postId={a.postId}
+                                    />
+                                ))}
+                            </>
+                            }
+                        </AlignBox>
+                        <Hashtags />
+                    </Container>
+                </Body>
+            }
         </>
     );
 };
@@ -129,6 +140,13 @@ const AlignBox = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+
+    span {
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 400;
+        font-family: var(--font-body);
+    }
     
     @media (max-width: 645px) {
     width: 100%;

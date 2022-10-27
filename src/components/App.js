@@ -20,10 +20,9 @@ function App() {
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [follow, setFollow] = useState('Follow');
   const [postID, setPostID] = useState(0);
-  const [userPosts, setUserPosts] = useState([]);
   const [count, setCount] = useState(0);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
@@ -34,7 +33,7 @@ function App() {
     },
   };
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, follow, setFollow, URL_BASE
   };
   const [searchResult, setSearchResult] = useState(null);
 

@@ -1,19 +1,23 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../../contexts/UserContext";
+import { useContext } from "react";
 
 export default function Logout({setLogout}) {
+    const navigate = useNavigate();
+    const { setPosts } = useContext(UserContext)
 
     function logoutFunctionality(e) {
         e.preventDefault();
         setLogout(true);
+        setPosts(null);
         localStorage.clear();
+        navigate('/');
     }
 
     return (
         <LogoutComponents onClick={logoutFunctionality}>
-            <Link to={'/'}>
-                <p>Logout</p>
-            </Link>
+            <p>Logout</p>
         </LogoutComponents>
     );
 }
@@ -37,7 +41,9 @@ const LogoutComponents = styled.div`
         color: white;
         font-family: 'Lato';
         font-weight: 700;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
-
-
 `
