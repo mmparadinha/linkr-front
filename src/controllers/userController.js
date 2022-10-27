@@ -3,7 +3,7 @@ import urlMetadata from "url-metadata";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import connection from "../database/database.js";
 
-export async function getUserData(req, res) {
+async function getUserData(req, res) {
   const { id } = req.params;
 
   try {
