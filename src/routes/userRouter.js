@@ -6,7 +6,7 @@ const userRouter = Router();
 
 userRouter.get('/user/:id', getUserLinkrs);
 userRouter.get('/followers/:followedId', isAuthenticated, isFollowed); //checar se um usuário segue o outro
-userRouter.post('/followers', isAuthenticated, startFollowing); //começar a seguir o usuario
-userRouter.delete('/followers', isAuthenticated, stopFollowing); //parar de seguir usuario
+userRouter.post('/followers/:followedId', isAuthenticated, startFollowing); //começar a seguir o usuario
+userRouter.delete('/followers/:followedId', isAuthenticated, stopFollowing);
 
 export default userRouter;

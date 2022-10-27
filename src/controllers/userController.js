@@ -25,11 +25,10 @@ async function getUserLinkrs(req, res) {
       })
     );
 
-    res.status(STATUS_CODE.SUCCESSOK).send(rows);
-
+    return res.status(STATUS_CODE.SUCCESSOK).send(rows);
   } catch (error) {
     console.error(error);
-    res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+    return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
   }
 }
 
@@ -48,9 +47,12 @@ async function isFollowed(req, res){
 }
 
 async function startFollowing(req, res){
-  const {followedId} = req.body;
+  const {followedId} = req.params;
   const userId = res.locals.userId;
 
+  if(followedId === userId){
+    return res.sendStatus(STATUS_CODE.ERRORCONFLICT);
+  }
 
   try {
     await userRepository.startFollowing(userId, followedId);
@@ -63,7 +65,7 @@ async function startFollowing(req, res){
 }
 
 async function stopFollowing(req, res){
-  const {followedId} = req.body;
+  const {followedId} = req.params;
   const userId = res.locals.userId;
 
   try {
