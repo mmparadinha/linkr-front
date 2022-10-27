@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-export default async function getUserData(id) {
+export async function getUserPosts(id) {
     return connection.query(`
     SELECT
     	users.id as "userId",
@@ -17,4 +17,14 @@ export default async function getUserData(id) {
         posts."createdAt" DESC
     LIMIT
         20;`, [id]);
+};
+
+export async function getUserInfo(id) {
+    return connection.query(`
+    SELECT
+        users.username,
+        users."pictureUrl"
+    FROM users
+    WHERE users.id=$1
+    ;`, [id]);
 };

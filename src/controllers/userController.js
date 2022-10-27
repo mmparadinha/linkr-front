@@ -1,15 +1,18 @@
-import getUserData from "../repositories/userRepository.js";
+import { getUserPosts, getUserInfo } from "../repositories/userRepository.js";
 import urlMetadata from "url-metadata";
 import { STATUS_CODE } from "../enums/statusCode.js";
 
-export async function getUserLinkrs(req, res) {
+export async function getUserData(req, res) {
   const { id } = req.params;
 
   try {
-    const { rows } = await getUserData(id);
+    const userInfo = (await getUserInfo(id)).rows;
+    const userPosts = (await getUserPosts(id)).rows;
+
+    const { username, pictureUrl } = userInfo[0];
 
     await Promise.all(
-      rows.map(async (post) => {
+      userPosts.map(async (post) => {
         try {
           const { title, image, description } = await urlMetadata(post.url);
           post.urlTitle = title;
@@ -24,7 +27,11 @@ export async function getUserLinkrs(req, res) {
       })
     );
 
-    res.status(STATUS_CODE.SUCCESSOK).send(rows);
+    res.status(STATUS_CODE.SUCCESSOK).send({
+      username,
+      pictureUrl,
+      userPosts
+    });
 
   } catch (error) {
     console.error(error);
