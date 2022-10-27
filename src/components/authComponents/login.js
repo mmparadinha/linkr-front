@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserRegistration from "./signup";
 
 export default function Login() {
@@ -11,6 +11,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
+
+  useEffect(() => {
+    if(
+      localStorage.getItem("linkr-token") !== null
+      &&
+      localStorage.getItem("linkr-pictureUrl") !== null
+      &&
+      localStorage.getItem("linkr-username") !== null
+      &&
+      localStorage.getItem("linkr-userId") !== null
+      ) {
+      navigate('/timeline');
+    }
+  }, [navigate]);
 
   function handleForm(e) {
     e.preventDefault();
@@ -59,9 +73,7 @@ export default function Login() {
                   type="text"
                   name="email"
                   placeholder="e-mail"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   required
                 />
@@ -72,19 +84,13 @@ export default function Login() {
                   type="password"
                   name="password"
                   placeholder="password"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   required
                 />
               </label>
               <button>Log In</button>
-              <p
-                onClick={() => {
-                  setClicado(true);
-                }}
-              >
+              <p onClick={() => setClicado(true)} >
                 First time? Create an account!
               </p>
             </form>
@@ -102,57 +108,6 @@ export default function Login() {
           setClicado={setClicado}
           navigate={navigate}
         />
-      );
-    }
-  }
-
-  function registryAccess() {
-    if (!clicado) {
-      return (
-        <SignupComponents>
-          <DescriptionComponents>
-            <div className="description">
-              <h1>linkr</h1>
-              <p>save, share and discover <br /> the best links on the web</p>
-            </div>
-          </DescriptionComponents>
-          <RegistrationData>
-            <form onSubmit={handleForm}>
-              <label>
-                <input
-                  id="formEmail"
-                  type="text"
-                  name='email'
-                  placeholder="e-mail"
-                  onChange={(e) => { setEmail(e.target.value) }}
-                  value={email}
-                  required
-                />
-              </label>
-              <label>
-                <input
-                  id="forPassword"
-                  type="password"
-                  name='password'
-                  placeholder="password"
-                  onChange={(e) => { setPassword(e.target.value) }}
-                  value={password}
-                  required
-                />
-              </label>
-              <button>Log In</button>
-              <p onClick={() => {
-                setClicado(true);
-              }}>First time? Create an account!</p>
-            </form>
-          </RegistrationData>
-        </SignupComponents>
-      );
-    }
-
-    if (clicado) {
-      return (
-        <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
       );
     }
   }

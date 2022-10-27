@@ -5,20 +5,12 @@ import Header from "./commons/header/Header";
 import TimelineFeed from "./TimelineFeed";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
-import { useNavigate } from "react-router-dom";
 import useInterval from 'react-useinterval';
 import UserContext from '../contexts/UserContext';
 import update from "./../assets/update.png"
 
 export default function Timeline() {
-  const { setPostID, postID, count, setCount, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  // validUser
-  if (!userToken) {
-    alert('Faça o login!');
-    navigate('/')
-  };
+  const { setPostID, postID, count, setCount, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
 
   // lógica de criar novos posts
   async function handleSubmit(e) {
@@ -80,9 +72,7 @@ export default function Timeline() {
 
   // lógica de atualizar timeline 
   async function countNewPosts() {
-
     try {
-      console.log('yes')
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`, config);
       if (response.data.count !== 0) { setCount(Number(response.data.count)) };
     } catch (error) {
