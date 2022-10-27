@@ -28,3 +28,42 @@ export async function getUserInfo(id) {
     WHERE users.id=$1
     ;`, [id]);
 };
+
+async function isFollowed(userId, followedId){
+    return connection.query(
+       `SELECT 
+            * 
+        FROM 
+            followers 
+        WHERE "followerId" = $1 
+        AND "followedId" = $2;`,
+        [userId, followedId]
+      );
+}
+
+async function startFollowing(userId, followedId){
+    return connection.query(`
+    INSERT INTO 
+        followers 
+    ("followerId", "followedId") 
+    VALUES ($1, $2);`,
+    [userId, followedId]);
+}
+
+async function stopFollowing(userId, followedId){
+    return connection.query(`
+    DELETE FROM 
+      followers
+    WHERE "followerId" = $1 
+    AND "followedId" = $2;`,
+    [userId, followedId]
+    );
+}
+
+export {
+    getUserPosts,
+    getUserInfo,
+    isFollowed,
+    startFollowing,
+    stopFollowing
+}
