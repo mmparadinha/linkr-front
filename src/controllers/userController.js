@@ -3,7 +3,7 @@ import urlMetadata from "url-metadata";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import connection from "../database/database.js";
 
-export async function getUserData(req, res) {
+async function getUserData(req, res) {
   const { id } = req.params;
 
   try {
@@ -21,9 +21,9 @@ export async function getUserData(req, res) {
           post.urlDescription = description;
         } catch (error) {
           console.error(error, post);
-          post.urlTitle = '';
-          post.urlImage = '';
-          post.urlDescription = '';
+          post.urlTitle = "";
+          post.urlImage = "";
+          post.urlDescription = "";
         }
       })
     );
@@ -31,7 +31,7 @@ export async function getUserData(req, res) {
     res.status(STATUS_CODE.SUCCESSOK).send({
       username,
       pictureUrl,
-      userPosts
+      userPosts,
     });
   } catch (error) {
     console.error(error);
@@ -39,12 +39,13 @@ export async function getUserData(req, res) {
   }
 }
 
-async function isFollowed(req, res){
+async function isFollowed(req, res) {
   const userId = res.locals.userId;
-  const {followedId} = req.params;
+  const { followedId } = req.params;
 
   try {
-    const followers = (await userRepository.isFollowed(userId, followedId)).rows;
+    const followers = (await userRepository.isFollowed(userId, followedId))
+      .rows;
 
     return res.status(STATUS_CODE.SUCCESSOK).send(followers);
   } catch (error) {
@@ -53,11 +54,11 @@ async function isFollowed(req, res){
   }
 }
 
-async function startFollowing(req, res){
-  const {followedId} = req.params;
+async function startFollowing(req, res) {
+  const { followedId } = req.params;
   const userId = res.locals.userId;
 
-  if(followedId === userId){
+  if (followedId === userId) {
     return res.sendStatus(STATUS_CODE.ERRORCONFLICT);
   }
 
@@ -71,8 +72,8 @@ async function startFollowing(req, res){
   }
 }
 
-async function stopFollowing(req, res){
-  const {followedId} = req.params;
+async function stopFollowing(req, res) {
+  const { followedId } = req.params;
   const userId = res.locals.userId;
 
   try {
@@ -85,6 +86,4 @@ async function stopFollowing(req, res){
   }
 }
 
-export {
-  getUserData, isFollowed, startFollowing, stopFollowing
-}
+export { getUserData, isFollowed, startFollowing, stopFollowing };
