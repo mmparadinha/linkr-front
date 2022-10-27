@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { getUserLinkrs } from "../controllers/userController.js";
+import { getUserLinkrs, isFollowed, startFollowing, stopFollowing} from "../controllers/userController.js";
+import {isAuthenticated} from "../middlewares/linkrMiddlewares.js"
 
 const userRouter = Router();
 
 userRouter.get('/user/:id', getUserLinkrs);
+userRouter.get('/followers/:followedId', isAuthenticated, isFollowed); //checar se um usuário segue o outro
+userRouter.post('/followers', isAuthenticated, startFollowing); //começar a seguir o usuario
+userRouter.delete('/followers', isAuthenticated, stopFollowing); //parar de seguir usuario
 
 export default userRouter;
