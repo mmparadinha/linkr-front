@@ -5,9 +5,8 @@ import UserContext from '../contexts/UserContext';
 import axios from "axios";
 
 export default function Hashtags() {
-    const { hashtags, setHashtags, setHashtagName, config, loading } = useContext(UserContext);
+    const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE } = useContext(UserContext);
     const navigate = useNavigate();
-    const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         const promise = axios.get(`${URL_BASE}/hashtags`, config);

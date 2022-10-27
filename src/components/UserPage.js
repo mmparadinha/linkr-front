@@ -5,26 +5,68 @@ import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
 import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import Loading from './commons/Loading';
+import axios from 'axios';
 
 export default function UserPage() {
     const { id } = useParams();
-    const {userPosts, setUserPosts, follow, setFollow} = useContext(UserContext);
+    
+    const {userPosts, setUserPosts, follow, setFollow, URL_BASE, config} = useContext(UserContext);
     const location = useLocation();
+
     const { profilePic, username } = location.state;
+    let disabled = false;
+
+    async function checkFollower(){
+        try {
+            const response = await axios.get(`${URL_BASE}/followers/${id}`, config);
+
+            if(response.data.length === 0){
+                disabled = false;
+                setFollow('Follow');
+            }
+            if (response.data.length > 0){
+                disabled = false;
+                setFollow('Unfollow');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     useEffect(() => {
         getUserLinkrs(id)
             .then(res => setUserPosts(res.data))
             .catch(error => console.log(error));
-    }, [id]);
+
+            checkFollower();
+
+    }, [id, setFollow]);
 
     function isFollowed(){
-        if(follow === 'Follow'){
-            setFollow('Unfollow');
-        } if(follow === 'Unfollow'){
-            setFollow('Follow');
+        const followData = {
+            followedID: id
         }
+
+        const promise = axios.get(`${URL_BASE}/followers/${id}`, config);
+        disabled = true;
+
+        promise.then(async res => {
+            if(res.data.length === 0){
+                await axios.post(`${URL_BASE}/followers`, followData, config);
+                setFollow('Unfollow');
+            }
+            if (res.data.length > 0){
+                await axios.delete(`${URL_BASE}/followers`, followData, config);
+                setFollow('Follow');
+            }
+        })
+
+        promise.catch(res => {
+            console.log(res.data);
+            alert('Não foi possível processar a solicitação, tente novamente.');
+        })
     }
 
     return (
@@ -34,9 +76,9 @@ export default function UserPage() {
             </Header>
             <Body>
                 <Title>
-                    <img src={profilePic} alt="Profile picture" />
+                    <img src={profilePic} alt="Profile" />
                     <h1>{username}'s posts</h1>
-                    <Button type={follow}>{follow}</Button>
+                    <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button>
                 </Title>
                 <Container>
                     <AlignBox>
@@ -143,7 +185,7 @@ const Button = styled.button`
     width: 112px;
     height: 31px;
     background-color: ${props => {
-        if(props.follow === 'Unfollow'){
+        if(props.type === 'Unfollow'){
             return collors.white
         } else {
             return collors.blue;
@@ -152,7 +194,7 @@ const Button = styled.button`
     border-radius: 5px;
     border: 0px;
     color: ${props => {
-        if(props.follow === 'Unfollow'){
+        if(props.type === 'Unfollow'){
             return collors.blue
         } else {
             return collors.white;
