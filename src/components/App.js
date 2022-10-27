@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
-import { BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
@@ -11,23 +11,24 @@ import PrivatePage from "./PrivatePage.js";
 
 function App() {
 
+  const [postID, setPostID] = useState(0);
+  const [count, setCount] = useState(0);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
-  const userToken = localStorage.getItem('linkr-token');
-  const userId = localStorage.getItem('linkr-userId');
-  const userPicture = localStorage.getItem('linkr-pictureUrl');
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [follow, setFollow] = useState('Follow');
-  const [postID, setPostID] = useState(0);
   const [userPosts, setUserPosts] = useState([]);
-  const [count, setCount] = useState(0);
+  const [searchResult, setSearchResult] = useState(null);
 
+  const userToken = localStorage.getItem('linkr-token');
+  const userId = localStorage.getItem('linkr-userId');
+  const userPicture = localStorage.getItem('linkr-pictureUrl');
+  
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-  console.log(URL_BASE)
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
@@ -36,7 +37,6 @@ function App() {
   const contextValue = {
     count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
   };
-  const [searchResult, setSearchResult] = useState(null);
 
   return (
     <UserContext.Provider value={contextValue}>

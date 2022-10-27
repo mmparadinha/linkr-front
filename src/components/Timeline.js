@@ -5,13 +5,23 @@ import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
-import UpdateButton from "./UpdateButton";
+import { useNavigate } from "react-router-dom";
+import useInterval from 'react-useinterval';
 import UserContext from '../contexts/UserContext';
+import update from "./../assets/update.png"
 
 export default function Timeline() {
-  const { setPostID, count, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
-  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
+  const { setPostID, postID, count, setCount, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  // validUser
+  if (!userToken) {
+    alert('Faça o login!');
+    navigate('/')
+  };
+
+  // lógica de criar novos posts
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -28,7 +38,7 @@ export default function Timeline() {
     });
 
     try {
-      const post = await axios.post(`${URL_BASE}/timeline`, newPost, config);
+      const post = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/timeline`, newPost, config);
 
       hashtags.map(async (hashtag) => {
         const name = hashtag.replace('#', '');
@@ -36,7 +46,7 @@ export default function Timeline() {
           postId: post.data.postId,
           name
         };
-        await axios.post(`${URL_BASE}/hashtags`, dataHashtag, config);
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/hashtags`, dataHashtag, config);
       });
 
       setLoading(false);
@@ -54,8 +64,7 @@ export default function Timeline() {
   // lógica das postagens 
   async function newPosts() {
     try {
-      const response = await axios.get(`${URL_BASE}/timeline`, config);
-
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline`, config);
       setPosts(response.data);
       setPostID(response.data[0].postId);
       if (response.data.length === 0) { console.log("There are no posts yet") }
@@ -68,6 +77,25 @@ export default function Timeline() {
   useEffect(() => {
     newPosts();
   }, []);
+
+  // lógica de atualizar timeline 
+  async function countNewPosts() {
+
+    try {
+      console.log('yes')
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`, config);
+      if (response.data.count !== 0) { setCount(Number(response.data.count)) };
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  useInterval(countNewPosts, 15000);
+
+  function updateButton() {
+    newPosts();
+    setCount(0)
+  };
 
   return (
     <>
@@ -102,7 +130,10 @@ export default function Timeline() {
                 </form>
               </PublishContent>
             </Publish>
-            {count === 0 ? <></> : <UpdateButton newPosts={newPosts} />}
+            {count === 0 ? <></> : <Update onClick={updateButton} >
+              <h1>{count} new posts, load more!</h1>
+              <img alt="" src={update} />
+            </Update>}
             {posts.length === 0 ? (
               <Loading />
             ) : (
@@ -129,6 +160,38 @@ export default function Timeline() {
     </>
   );
 };
+
+const Update = styled.div`
+
+    width: 611px;
+    height: 61px;
+    background: #1877F2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 17px;
+    cursor: pointer;
+
+    h1 {
+
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+
+    };
+
+    img {
+        width: 22px;
+        height: 16px;
+        margin-left: 14px;
+    }
+    
+`
 
 const Body = styled.div`
   width: 931px;
