@@ -4,8 +4,10 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import { AiFillHeart } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 
+
 export default function Likes({ postId }) {
   const [isLiked, setIsLiked] = useState(false);
+  const [likesNumber, setLikesNumber] = useState(0);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
@@ -26,18 +28,16 @@ export default function Likes({ postId }) {
           }
         });
     
-        promise.catch((error) => {
-        //   alert("An error has occurred")
+        promise.catch((err) => {
+            alert("An error has occurred")
         });
+
+        getLikesNumber()
     }, []);
     
     function toggleLike() {
         const token = localStorage.getItem('linkr-token');
-        const config = {
-            headers: {
-                "authorization": `Bearer ${token}`
-            }
-        }
+        const config = { headers: {"authorization": `Bearer ${token}` }}
         
         const promise = axios.post(
             `${URL_BASE}/likes/${postId}`,
@@ -47,10 +47,7 @@ export default function Likes({ postId }) {
 
         promise.then((response) => {
             setIsLiked(!isLiked);
-                
-            promise.catch((error) => {
-                alert("Não foi possível interagir com o post");
-            });
+            getLikesNumber();
         });
     
         promise.catch((error) => {
@@ -58,10 +55,24 @@ export default function Likes({ postId }) {
         });
     }
 
+    function getLikesNumber() {
+        const promise = axios.get(
+            `${URL_BASE}/likes/count/${postId}`
+        );
+        
+        promise.then((res) => {
+            setLikesNumber(Number(res.data.count));
+          });
+      
+        promise.catch((error) => {
+            alert("An error has occurred")
+        });
+    }
+
     return (
         <>
-            {!isLiked ? <FiHeartedLike onClick={toggleLike} /> : <AllFillHeartedLike onClick={toggleLike} />}
-            <LikesQuantity>14 likes</LikesQuantity>
+            { isLiked ? <AllFillHeartedLike onClick={toggleLike} /> : <FiHeartedLike onClick={toggleLike} />}
+            <LikesQuantity>{likesNumber} likes</LikesQuantity>
         </>
     );
 }
