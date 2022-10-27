@@ -11,6 +11,8 @@ import PrivatePage from "./PrivatePage.js";
 
 function App() {
 
+  const [postID, setPostID] = useState(0);
+  const [count, setCount] = useState(0);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
@@ -22,12 +24,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [follow, setFollow] = useState('Follow');
-  const [postID, setPostID] = useState(0);
   const [userPosts, setUserPosts] = useState([]);
-  const [count, setCount] = useState(0);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
