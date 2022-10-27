@@ -44,16 +44,18 @@ export default function Header() {
   function stopSearch() {
     setSearching(false);
     setSearchText('');
+    setSearchResult(null);
   }
 
   function getSearch(e) {
     e.preventDefault();
+    setSearchText(e.target.value);
     setSearching(true);
     setSearchBox(true);
     getSearchedUsers()
       .then((res) => {
         setSearchResult(
-          res.data.filter((user) => user.username.includes(e.target.value))
+          res.data.filter((user) => user.username.toLowerCase().includes(e.target.value.toLowerCase()))
         );
         setSearching(false);
       })
@@ -185,6 +187,7 @@ const SearchBoxMobile = styled.div`
   justify-content: center;
   margin: 82px auto;
   position: relative;
+  z-index: 1;
 
   @media (min-width: 646px) {
     display: none;

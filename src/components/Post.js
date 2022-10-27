@@ -28,7 +28,6 @@ export default function NewPosts({
   const [modalIsOpen, setIsOpen] = useState("apagar");
   const { setHashtagName } = useContext(UserContext);
   const navigate = useNavigate();
-  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);
@@ -95,14 +94,14 @@ export default function NewPosts({
       </div>
 
       <Left>
-        <Link to={`/user/${userId}`} state={{ profilePic: photo, username}}>
+        <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
           <Photo src={photo} />
         </Link>
         <Likes postId={postId} />
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
-          <Link to={`/user/${userId}`} state={{ profilePic: photo, username}}>
+          <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
             <h1>{username}</h1>
           </Link>
           <div className="container-icons">
@@ -162,7 +161,7 @@ export default function NewPosts({
     setBotao("apagar");
     setLoader("");
     axios
-      .delete(`${URL_BASE}/timeline/post/delete/${postId}`, {
+      .delete(`${process.env.REACT_APP_API_BASE_URL}/timeline/post/delete/${postId}`, {
         headers: {
           authorization:
             "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
@@ -196,7 +195,7 @@ export default function NewPosts({
     if (newComment !== "") {
       axios
         .put(
-          `${URL_BASE}/timeline/post/edit/${postId}`,
+          `${process.env.REACT_APP_API_BASE_URL}/timeline/post/edit/${postId}`,
           {
             url: url,
             comment: newComment,
