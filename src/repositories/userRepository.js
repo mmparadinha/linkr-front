@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-export async function getUserPosts(id) {
+async function getUserPosts(id) {
     return connection.query(`
     SELECT
     	users.id as "userId",
@@ -19,7 +19,7 @@ export async function getUserPosts(id) {
         20;`, [id]);
 };
 
-export async function getUserInfo(id) {
+async function getUserInfo(id) {
     return connection.query(`
     SELECT
         users.username,
