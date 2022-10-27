@@ -3,14 +3,17 @@ import urlMetadata from "url-metadata";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import connection from "../database/database.js";
 
-async function getUserLinkrs(req, res) {
+export async function getUserData(req, res) {
   const { id } = req.params;
 
   try {
-    const { rows } = await userRepository.getUserData(id);
+    const userInfo = (await userRepository.getUserInfo(id)).rows;
+    const userPosts = (await userRepository.getUserPosts(id)).rows;
+
+    const { username, pictureUrl } = userInfo[0];
 
     await Promise.all(
-      rows.map(async (post) => {
+      userPosts.map(async (post) => {
         try {
           const { title, image, description } = await urlMetadata(post.url);
           post.urlTitle = title;
@@ -25,7 +28,11 @@ async function getUserLinkrs(req, res) {
       })
     );
 
-    return res.status(STATUS_CODE.SUCCESSOK).send(rows);
+    res.status(STATUS_CODE.SUCCESSOK).send({
+      username,
+      pictureUrl,
+      userPosts
+    });
   } catch (error) {
     console.error(error);
     return res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
@@ -79,5 +86,5 @@ async function stopFollowing(req, res){
 }
 
 export {
-  getUserLinkrs, isFollowed, startFollowing, stopFollowing
+  getUserData, isFollowed, startFollowing, stopFollowing
 }

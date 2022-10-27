@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-async function getUserData(id) {
+export async function getUserPosts(id) {
     return connection.query(`
     SELECT
     	users.id as "userId",
@@ -17,6 +17,16 @@ async function getUserData(id) {
         posts."createdAt" DESC
     LIMIT
         20;`, [id]);
+};
+
+export async function getUserInfo(id) {
+    return connection.query(`
+    SELECT
+        users.username,
+        users."pictureUrl"
+    FROM users
+    WHERE users.id=$1
+    ;`, [id]);
 };
 
 async function isFollowed(userId, followedId){
@@ -39,6 +49,7 @@ async function startFollowing(userId, followedId){
     VALUES ($1, $2);`,
     [userId, followedId]);
 }
+
 async function stopFollowing(userId, followedId){
     return connection.query(`
     DELETE FROM 
@@ -50,7 +61,8 @@ async function stopFollowing(userId, followedId){
 }
 
 export {
-    getUserData,
+    getUserPosts,
+    getUserInfo,
     isFollowed,
     startFollowing,
     stopFollowing
