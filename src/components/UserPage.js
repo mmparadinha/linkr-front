@@ -18,7 +18,7 @@ export default function UserPage() {
         getUserLinkrs(id)
             .then(res => setUserPosts(res.data))
             .catch(error => console.log(error));
-    }, [id]);
+    }, [id, setUserPosts]);
 
     function isFollowed(){
         if(follow === 'Follow'){
@@ -35,7 +35,7 @@ export default function UserPage() {
             </Header>
             <Body>
                 <Title>
-                    <img src={profilePic} alt="Profile picture" />
+                    <img src={profilePic} alt="profile" />
                     <h1>{username}'s posts</h1>
                     <Button type={follow}>{follow}</Button>
                 </Title>

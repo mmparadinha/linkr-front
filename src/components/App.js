@@ -1,6 +1,6 @@
 import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import Timeline from "./Timeline.js";
 import UserPage from "./UserPage.js";
