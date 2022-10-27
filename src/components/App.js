@@ -19,9 +19,8 @@ function App() {
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [follow, setFollow] = useState('Follow');
-  const [userPosts, setUserPosts] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
 
   const userToken = localStorage.getItem('linkr-token');
@@ -35,7 +34,7 @@ function App() {
     },
   };
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, follow, setFollow, URL_BASE
   };
 
   return (

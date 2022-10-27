@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useContext } from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
-import NewPosts from "./Post";
+import TimelineFeed from "./TimelineFeed";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,6 @@ import UserContext from '../contexts/UserContext';
 import update from "./../assets/update.png"
 
 export default function Timeline() {
-
   const { setPostID, postID, count, setCount, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -65,12 +64,13 @@ export default function Timeline() {
   async function newPosts() {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline`, config);
+      if (!response.data) { return setPosts(-1); }
+      if (response.data.length === 0) { return setPosts([]); }
       setPosts(response.data);
       setPostID(response.data[0].postId);
-      if (response.data.length === 0) { console.log("There are no posts yet") }
     } catch (error) {
       console.log("An error occured while trying to fetch the posts, please refresh the page");
-      console.log(error.response);
+      console.error(error);
     }
   };
 
@@ -134,25 +134,9 @@ export default function Timeline() {
               <h1>{count} new posts, load more!</h1>
               <img alt="" src={update} />
             </Update>}
-            {posts.length === 0 ? (
-              <Loading />
-            ) : (
-              <>
-                {posts.map((a, index) => (
-                  <NewPosts key={index}
-                    userId={a.userId}
-                    photo={a.pictureUrl}
-                    username={a.username}
-                    comment={a.comment}
-                    url={a.url}
-                    urlTitle={a.urlTitle}
-                    urlImage={a.urlImage}
-                    urlDescription={a.urlDescription}
-                    postId={a.postId}
-                  />
-                ))}
-              </>
-            )}
+
+            {posts ? <TimelineFeed /> : <Loading />}
+
           </AlignBox>
           <Hashtags />
         </Container>
@@ -424,6 +408,13 @@ const AlignBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+
+  h2 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 400;
+    font-family: var(--font-body);
+  }
 
   @media (max-width: 645px) {
     width: 100%;

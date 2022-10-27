@@ -6,19 +6,20 @@ import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
 import { getSearchedUsers } from "../../../services/linkr";
 import SearchContext from "../../../contexts/SearchContext.js";
+import UserContext from "../../../contexts/UserContext.js";
 import Logout from './HeaderLogout';
 
 export default function Header() {
-    const userPicture = localStorage.getItem('linkr-pictureUrl');
-    const [searching, setSearching] = useState(false);
-    const [searchBox, setSearchBox] = useState(false);
-    const [searchText, setSearchText] = useState('');
-    const { setSearchResult } = useContext(SearchContext);
-    const navigate = useNavigate();
-    const wrapperRef1 = useRef(null);
-    const wrapperRef2 = useRef(null);
+  const { userPicture } = useContext(UserContext);
+  const [searching, setSearching] = useState(false);
+  const [searchBox, setSearchBox] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const { setSearchResult } = useContext(SearchContext);
+  const navigate = useNavigate();
+  const wrapperRef1 = useRef(null);
+  const wrapperRef2 = useRef(null);
 
-    const [logout , setLogout] = useState(false);
+  const [logout , setLogout] = useState(false);
 
   function useOutsideSearchBox(ref1, ref2) {
     useEffect(() => {
@@ -82,12 +83,10 @@ export default function Header() {
                     <SearchIcon onClick={getSearch} />
                     {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
-                <AlignItems>
-                    <ProfileIcon onClick={() => {setLogout(!logout)}} logout={logout}/>
-                    {logout ? <Logout setLogout={setLogout}/> : <></>}
-                    <Link>
-                        <Photo src={userPicture} />
-                    </Link>
+                <AlignItems onClick={() => {setLogout(!logout)}}>
+                    <ProfileIcon/>
+                    {logout ? <Logout setLogout={setLogout}/> : ''}
+                    <Photo src={userPicture} alt="profile"/>
                 </AlignItems>
             </Container>
 
