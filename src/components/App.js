@@ -11,6 +11,8 @@ import PrivatePage from "./PrivatePage.js";
 
 function App() {
 
+  const [postID, setPostID] = useState(0);
+  const [count, setCount] = useState(0);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
   const [hashtagName, setHashtagName] = useState('');
@@ -19,22 +21,19 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [follow, setFollow] = useState('Follow');
-  const [postID, setPostID] = useState(0);
   const [userPosts, setUserPosts] = useState([]);
-  const [count, setCount] = useState(0);
   const [searchResult, setSearchResult] = useState(null);
 
   const userToken = localStorage.getItem('linkr-token');
   const userId = localStorage.getItem('linkr-userId');
   const userPicture = localStorage.getItem('linkr-pictureUrl');
-
+  
+  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
     },
   };
-  const URL_BASE = process.env.REACT_APP_API_BASE_URL;
-
   const contextValue = {
     count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
   };

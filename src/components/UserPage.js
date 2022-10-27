@@ -1,6 +1,6 @@
 import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext} from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
@@ -41,8 +41,7 @@ export default function UserPage() {
             .catch(error => console.log(error));
 
             checkFollower();
-
-    }, [id, setFollow]);
+    }, [id, setUserPosts, setFollow]);
 
     function isFollowed(){
         const followData = {
@@ -76,7 +75,7 @@ export default function UserPage() {
             </Header>
             <Body>
                 <Title>
-                    <img src={profilePic} alt="Profile" />
+                    <img src={profilePic} alt="profile" />
                     <h1>{username}'s posts</h1>
                     <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button>
                 </Title>

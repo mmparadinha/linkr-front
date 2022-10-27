@@ -2,19 +2,19 @@ import styled from "styled-components";
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
-import {useContext, useEffect} from 'react';
+import { useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import Hashtags from "./Hashtags";
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Loading from "./commons/Loading";
 
-export default function HashtagPage(){
-    const {hashtagName, hashtagPosts, setHashtagPosts, config, setHashtagName} = useContext(UserContext);
-    const {hashtag} = useParams();
+export default function HashtagPage() {
+    const { hashtagName, hashtagPosts, setHashtagPosts, config, setHashtagName } = useContext(UserContext);
+    const { hashtag } = useParams();
 
     useEffect(() => {
-        if(hashtagName !== ''){
-            const promise = axios.get(`${process.env.REACT_APP_BACK_END_URL}/hashtag/${hashtagName}`, config);
+        if (hashtagName !== '') {
+            const promise = axios.get(`${process.env.REACT_APP_API_BASE_URL}/hashtag/${hashtagName}`, config);
             promise.then(res => {
                 setHashtagPosts(res.data);
             });

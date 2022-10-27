@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../contexts/UserContext';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Hashtags() {
     const { hashtags, setHashtags, setHashtagName, config, loading, URL_BASE } = useContext(UserContext);
