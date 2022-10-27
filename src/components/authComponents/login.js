@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserRegistration from "./signup";
+import UserContext from "../../contexts/UserContext";
 
 export default function Login() {
   const navigate = useNavigate();
   const [clicado, setClicado] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUserToken, setUserId, setPicture } = useContext(UserContext);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
@@ -36,11 +38,16 @@ export default function Login() {
     const promise = axios.post(`${URL_BASE}/`, dados);
 
     promise.then((res) => {
-      restForm();
+      resetForm();
+      //persistência de login
       localStorage.setItem("linkr-token", res.data.token);
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
-      localStorage.setItem("linkr-username", res.data.username)
+      localStorage.setItem("linkr-username", res.data.username);
       localStorage.setItem("linkr-userId", res.data.userId);
+      //forçando recarregamento do /App
+      setUserToken(localStorage.getItem('linkr-token') || null);
+      setUserId(localStorage.getItem('linkr-userId') || null);
+      setPicture(localStorage.getItem('linkr-pictureUrl') || null);
       navigate("/timeline");
     });
     promise.catch((err) => {
@@ -48,7 +55,7 @@ export default function Login() {
     });
   }
 
-  function restForm() {
+  function resetForm() {
     setEmail("");
     setPassword("");
   }

@@ -76,7 +76,7 @@ export default function Timeline() {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`, config);
       if (response.data.count !== 0) { setCount(Number(response.data.count)) };
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
     }
   };
 
