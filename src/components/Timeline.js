@@ -8,9 +8,11 @@ import Loading from "./commons/Loading";
 import useInterval from 'react-useinterval';
 import UserContext from '../contexts/UserContext';
 import update from "./../assets/update.png"
+import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
   const { setPostID, postID, count, setCount, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // lógica de criar novos posts
   async function handleSubmit(e) {
@@ -95,7 +97,7 @@ export default function Timeline() {
         <Container>
           <AlignBox>
             <Publish>
-              <Photo src={userPicture} />
+              <Photo src={userPicture} alt="profile" onClick={() => navigate(`/user/${userId}`)}/>
               <PublishContent>
                 <p>What are you going to share today?</p>
                 <form onSubmit={handleSubmit}>
@@ -243,6 +245,10 @@ const Photo = styled.img`
   height: 53px;
   border-radius: 50%;
   object-fit: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   @media (max-width: 645px) {
     display: none;
