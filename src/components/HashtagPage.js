@@ -40,7 +40,7 @@ export default function HashtagPage() {
                         {hashtagPosts.length === 0 ? <Loading />
                             :
                             <>
-                                {hashtagPosts.map((a, index) => <NewPosts key={index} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} />)}
+                                {hashtagPosts.map((a, index) => <NewPosts key={index} userId={a.userId} photo={a.pictureUrl} username={a.username} comment={a.comment} url={a.url} urlTitle={a.urlTitle} urlImage={a.urlImage} urlDescription={a.urlDescription} postId={a.postId} />)}
                             </>
                         }
                     </AlignBox>
