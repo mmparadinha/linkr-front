@@ -12,13 +12,6 @@ import { FaRegComment } from "react-icons/fa";
 import img from "../assets/Imagens Teste/teste.jpeg";
 import Props_Comments from "./Props_Coments";
 
-const vectorComents = [
-  { name: "lucas", comment: "eu sou lindo e maravilhoso" },
-  { name: "lucas", comment: "eu sou lindo e maravilhoso" },
-  { name: "lucas", comment: "eu sou lindo e maravilhoso" },
-  { name: "lucas", comment: "eu sou lindo e maravilhoso" },
-];
-
 export default function NewPosts({
   userId,
   photo,
@@ -29,6 +22,7 @@ export default function NewPosts({
   urlImage,
   urlDescription,
   postId,
+  comments,
 }) {
   const [enviarComent, setEnviarComent] = useState("");
   const [isUser, setIsUser] = useState(false);
@@ -41,7 +35,7 @@ export default function NewPosts({
   const [loader, setLoader] = useState("apagar");
   const [loaderComment, setLoaderComment] = useState("apagar");
   const [modalIsOpen, setIsOpen] = useState("apagar");
-  const { setHashtagName } = useContext(UserContext);
+  const { setHashtagName, config } = useContext(UserContext);
   const navigate = useNavigate();
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
@@ -127,7 +121,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>14</p> comments
+          <p>{comment.length}</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -184,12 +178,14 @@ export default function NewPosts({
             Comments:
             <div className="divisao"></div>
           </h1>
-          {vectorComents.map((object, index) => (
+          {comments.map((object, index) => (
             <Props_Comments
               key={index}
-              name={object.name}
+              name={object.username}
               comment={object.comment}
-              img={img}
+              img={object.pictureUrl}
+              follow={object.follow}
+              commentUserId={object.userId}
             />
           ))}
 
@@ -225,7 +221,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>14</p> comments
+          <p>{comment.length}</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -258,12 +254,14 @@ export default function NewPosts({
             Comments:
             <div className="divisao"></div>
           </h1>
-          {vectorComents.map((object, index) => (
+          {comments.map((object, index) => (
             <Props_Comments
               key={index}
-              name={object.name}
+              name={object.username}
               comment={object.comment}
-              img={img}
+              img={object.pictureUrl}
+              follow={object.follow}
+              commentUserId={object.userId}
             />
           ))}
 
@@ -304,12 +302,7 @@ export default function NewPosts({
     axios
       .delete(
         `${process.env.REACT_APP_API_BASE_URL}/timeline/post/delete/${postId}`,
-        {
-          headers: {
-            authorization:
-              "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
-          },
-        }
+        config
       )
       .then(() => {
         alert("post deletado");
@@ -344,12 +337,7 @@ export default function NewPosts({
             url: url,
             comment: newComment,
           },
-          {
-            headers: {
-              authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
-            },
-          }
+          config
         )
         .then(() => window.location.reload())
         .catch(() => {
@@ -361,6 +349,24 @@ export default function NewPosts({
   function enviarPostComent() {
     setLoaderComment("");
     setBotaoComment("apagar");
+    axios
+      .post(
+        `${
+          process.env.REACT_APP_API_BASE_URL
+        }/timeline/post/comment/${postId}/${JSON.parse(
+          localStorage.getItem("linkr-userId")
+        )}`,
+        {
+          comment: enviarComent,
+          pictureUrl: JSON.parse(localStorage.getItem("linkr-pictureUrl")),
+          username: JSON.parse(localStorage.getItem("linkr-username")),
+        },
+        config
+      )
+      .then(() => window.location.reload())
+      .catch(() => {
+        alert("não foi possível enviar o post");
+      });
   }
 }
 
