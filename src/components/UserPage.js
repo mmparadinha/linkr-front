@@ -1,25 +1,32 @@
 import UserContext from '../contexts/UserContext';
 import styled from "styled-components";
-import { useEffect, useContext} from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Header from "./commons/header/Header.js";
 import NewPosts from "./Post.js";
 import Hashtags from "./Hashtags.js";
-import { getUserLinkrs } from "../services/linkr.js";
-import { useParams, useLocation } from "react-router-dom";
+import { getUserData } from "../services/linkr.js";
+import { useParams } from "react-router-dom";
 import Loading from './commons/Loading';
 import axios from 'axios';
-import profilePic from "../assets/Imagens Teste/teste.jpeg";
 
 export default function UserPage() {
     const { id } = useParams();
-    
-    const {userPosts, setUserPosts, follow, setFollow, URL_BASE, config, userId} = useContext(UserContext);
-    
-    //const location = useLocation();
-
-    //const { profilePic, username } = location.state;
-    const username = 'aaaaa'
+    const {follow, setFollow, URL_BASE, config, userId} = useContext(UserContext);
+    const [userInfo, setUserInfo] = useState(null);
     let disabled = false;
+
+    useEffect(() => {
+        async function getUserPage() {
+            try {
+                const res = await getUserData(id);
+                setUserInfo(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getUserPage();
+        checkFollower();
+    }, [id]);
 
     async function checkFollower(){
         try {
@@ -37,14 +44,6 @@ export default function UserPage() {
             console.error(error);
         }
     }
-
-    useEffect(() => {
-        getUserLinkrs(id)
-            .then(res => setUserPosts(res.data))
-            .catch(error => console.log(error));
-
-            checkFollower();
-    }, [id, setUserPosts, setFollow]);
 
     function isFollowed(){
         const followData = {
@@ -78,10 +77,16 @@ export default function UserPage() {
             <Header>
                 {Header}
             </Header>
+            {!userInfo
+            ?
+            <Body>
+                <Loading />
+            </Body>
+            :
             <Body>
                 <Title>
-                    <img src={profilePic} alt="profile" />
-                    <h1>{username}'s posts</h1>
+                    <img src={userInfo?.pictureUrl} alt="profile" />
+                    <h1>{userInfo?.username}'s posts</h1>
                     {(userId !== id) ? 
                     <Button type={follow} disabled={disabled} onClick={() => isFollowed()}>{follow}</Button> 
                     : 
@@ -89,12 +94,12 @@ export default function UserPage() {
                 </Title>
                 <Container>
                     <AlignBox>
-                        {userPosts && userPosts.length === 0
+                        {userInfo?.userPosts.length === 0
                         ?
-                        <Loading />
+                        <span>This user is oddly quiet. No posts yet...</span>
                         :
                         <>
-                            {userPosts.map((a, index) => (
+                            {userInfo?.userPosts.map((a, index) => (
                                 <NewPosts key={index}
                                     userId={a.userId}
                                     photo={a.pictureUrl}
@@ -113,10 +118,10 @@ export default function UserPage() {
                     <Hashtags />
                 </Container>
             </Body>
-
+            }
         </>
     );
-};
+}
 
 const Body = styled.div`
     height: 100%;
@@ -177,6 +182,13 @@ const AlignBox = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+
+    span {
+        color: #ffffff;
+        font-size: 19px;
+        font-weight: 400;
+        font-family: var(--font-body);
+    }
     
     @media (max-width: 645px) {
     width: 100%;

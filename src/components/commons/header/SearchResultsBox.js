@@ -2,19 +2,31 @@ import styled from "styled-components";
 import { useContext } from "react";
 import SearchContext from "../../../contexts/SearchContext.js";
 import UserSearched from "./UserSearched";
+import Loading from "../Loading.js";
 
 export default function SearchResultBox() {
     const { searchResult } = useContext(SearchContext);
 
-    return (
-        <Box>
-            {searchResult && searchResult.length !== 0
-            ?
-            searchResult.map((user) => <UserSearched key={user.id} data={user} />)
-            :
-            'Não encontramos nenhum resultado para a sua busca'}
-        </Box>
-    );
+
+    if (!searchResult) {
+        return (
+            <Box>
+                <Loading />
+            </Box>
+        );
+      } else if (searchResult.length === 0) {
+        return (
+            <Box>
+                <p>No results found for your search!</p>
+            </Box>
+        );
+      } else {
+        return (
+            <Box>
+                {searchResult.map((user) => <UserSearched key={user.id} data={user} />)}
+            </Box>
+        );
+      }
 }
 
 const Box = styled.div`
