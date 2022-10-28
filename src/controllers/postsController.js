@@ -107,9 +107,9 @@ export async function countNewPosts(req, res) {
 }
 
 export async function postComment(req, res) {
-  const { comment, pictureUrl, username } = req.body;
+  const { userId, comment, pictureUrl, username } = req.body;
   const follow = false;
-  const { userId, postId } = req.params;
+  const { postId } = req.params;
   try {
     await postRepository.postComment(
       userId,
