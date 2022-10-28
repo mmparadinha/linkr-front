@@ -22,8 +22,8 @@ export default function NewPosts({
   urlImage,
   urlDescription,
   postId,
-  comments,
 }) {
+  const [arrayComments, setCArrayComments] = useState([]);
   const [enviarComent, setEnviarComent] = useState("");
   const [isUser, setIsUser] = useState(false);
   const [openComent, setOpenComent] = useState("none");
@@ -44,6 +44,14 @@ export default function NewPosts({
   const user = JSON.parse(localStorage.getItem("linkr-userId"));
 
   if (user === userId) setIsUser(true);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/timeline/comment/${postId}`)
+      .then((selecione) => {
+        setCArrayComments(selecione.rows);
+      });
+  }, []);
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
@@ -121,7 +129,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>{comment.length}</p> comments
+          <p>{arrayComments.length}</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -178,7 +186,7 @@ export default function NewPosts({
             Comments:
             <div className="divisao"></div>
           </h1>
-          {comments.map((object, index) => (
+          {arrayComments.map((object, index) => (
             <Props_Comments
               key={index}
               name={object.username}
@@ -221,7 +229,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>{comment.length}</p> comments
+          <p>{arrayComments.length}</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -254,7 +262,7 @@ export default function NewPosts({
             Comments:
             <div className="divisao"></div>
           </h1>
-          {comments.map((object, index) => (
+          {arrayComments.map((object, index) => (
             <Props_Comments
               key={index}
               name={object.username}
