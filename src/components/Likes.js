@@ -3,11 +3,13 @@ import axios from 'axios';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { AiFillHeart } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
+import ReactTooltip from 'react-tooltip';
 
 
 export default function Likes({ postId }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likesNumber, setLikesNumber] = useState(0);
+  const [likesNames, setLikesNames] = useState([]);
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
@@ -29,10 +31,11 @@ export default function Likes({ postId }) {
         });
     
         promise.catch((err) => {
-            // alert("An error has occurred")
+            // alert("An error has occurred");
         });
 
-        getLikesNumber()
+        getLikesNumber();
+        getLikesNames();
     }, []);
 
     function toggleLike() {
@@ -48,9 +51,10 @@ export default function Likes({ postId }) {
         promise.then((response) => {
             setIsLiked(!isLiked);
             getLikesNumber();
+            getLikesNames();
         });
 
-        promise.catch((error) => {
+        promise.catch((err) => {
             alert("Não foi possível interagir com o post");
         });
     }
@@ -64,15 +68,62 @@ export default function Likes({ postId }) {
             setLikesNumber(Number(res.data.count));
           });
       
-        promise.catch((error) => {
-            // alert("An error has occurred")
+        promise.catch((err) => {
+            // alert("An error has occurred");
+        });
+    }
+
+    function getLikesNames() {
+        const token = localStorage.getItem('linkr-token');
+        const config = { headers: { Authorization: `Bearer ${token}` } }
+
+        const promise = axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/likes/names/${postId}`,
+            config
+        );
+
+        promise.then((res) => {
+            console.log(res.data);
+            setLikesNames(res.data.map((name) => name.username));
+        });
+      
+        promise.catch((err) => {
+            alert("An error has occurred on like's names");
         });
     }
 
     return (
         <>
-            { isLiked ? <AllFillHeartedLike onClick={toggleLike} /> : <FiHeartedLike onClick={toggleLike} />}
-            <LikesQuantity>{likesNumber} likes</LikesQuantity>
+            { isLiked ? <AllFillHeartedLike onClick={toggleLike} /> 
+            : 
+            <FiHeartedLike onClick={toggleLike} />}
+            
+            <a data-tip data-for={`${postId}`}>  
+                <LikesQuantity>{likesNumber} likes</LikesQuantity>
+            </a>
+
+            {/* <ReactTooltip id="likes-tooltip" place="bottom" type="light">
+                <p>...</p>
+            </ReactTooltip> */}
+
+            { isLiked ? (
+            <ReactTooltip id={`${postId}`} place="bottom" type="light">
+                {/* <p>eu curti isso kk</p> */}
+                Você
+                {likesNames.length > 0
+                ? `, ${likesNames[0]} e outras ${likesNumber - 2} pessoas curtiram isso`
+                : ` curtiu isso`}
+            </ReactTooltip>
+            ) : (
+            <ReactTooltip id={`${postId}`} place="bottom" type="light">
+                {/* <p>credo eu curti não</p> */}
+                {likesNames.length > 1
+                ? `${likesNames[0]}, ${likesNames[1]} e outras ${likesNumber - 2} pessoas curtiram isso`
+                : likesNames.length === 1
+                ? `${likesNames[0]} curtiu isso`
+                : "Ninguém curtiu isso ainda"}
+            </ReactTooltip>
+            ) }
         </>
     );
 }
@@ -96,4 +147,5 @@ const AllFillHeartedLike = styled(AiFillHeart)`
 const LikesQuantity = styled.p`
     font-size: 12px;
     color: white;
+    cursor: default;
 `

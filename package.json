@@ -17,6 +17,7 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-tagify": "^0.1.4",
+    "react-tooltip": "^4.4.3",
     "react-useinterval": "^1.0.2",
     "styled-components": "^5.3.6",
     "use-interval": "^1.4.0",
