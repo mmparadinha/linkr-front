@@ -25,7 +25,7 @@ export default function Login() {
       restForm();
       localStorage.setItem("linkr-token", res.data.token);
       localStorage.setItem("linkr-pictureUrl", res.data.pictureUrl);
-      localStorage.setItem("linkr-username", res.data.username)
+      localStorage.setItem("linkr-username", res.data.username);
       localStorage.setItem("linkr-userId", res.data.userId);
       navigate("/timeline");
     });
@@ -113,7 +113,9 @@ export default function Login() {
           <DescriptionComponents>
             <div className="description">
               <h1>linkr</h1>
-              <p>save, share and discover <br /> the best links on the web</p>
+              <p>
+                save, share and discover <br /> the best links on the web
+              </p>
             </div>
           </DescriptionComponents>
           <RegistrationData>
@@ -122,9 +124,11 @@ export default function Login() {
                 <input
                   id="formEmail"
                   type="text"
-                  name='email'
+                  name="email"
                   placeholder="e-mail"
-                  onChange={(e) => { setEmail(e.target.value) }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   value={email}
                   required
                 />
@@ -133,17 +137,23 @@ export default function Login() {
                 <input
                   id="forPassword"
                   type="password"
-                  name='password'
+                  name="password"
                   placeholder="password"
-                  onChange={(e) => { setPassword(e.target.value) }}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   value={password}
                   required
                 />
               </label>
               <button>Log In</button>
-              <p onClick={() => {
-                setClicado(true);
-              }}>First time? Create an account!</p>
+              <p
+                onClick={() => {
+                  setClicado(true);
+                }}
+              >
+                First time? Create an account!
+              </p>
             </form>
           </RegistrationData>
         </SignupComponents>
@@ -152,16 +162,18 @@ export default function Login() {
 
     if (clicado) {
       return (
-        <UserRegistration SignupComponents={SignupComponents} DescriptionComponents={DescriptionComponents} RegistrationData={RegistrationData} setClicado={setClicado} navigate={navigate} />
+        <UserRegistration
+          SignupComponents={SignupComponents}
+          DescriptionComponents={DescriptionComponents}
+          RegistrationData={RegistrationData}
+          setClicado={setClicado}
+          navigate={navigate}
+        />
       );
     }
   }
 
-  return (
-    <>
-      {registryAccess()}
-    </>
-  );
+  return <>{registryAccess()}</>;
 }
 
 const SignupComponents = styled.div`
@@ -221,30 +233,30 @@ const DescriptionComponents = styled.div`
       justify-content: center;
       align-items: center;
     }
-    @media(max-width: 645px){
+    @media (max-width: 645px) {
+      width: 100%;
+      height: 175px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      position: fixed;
+      .description {
         width: 100%;
-        height: 175px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        position: fixed;
-        .description {
-            width: 100%;
-            font-size: 23px;
-            text-align: center;
-        }
-        h1 {
-            width: 100%;
-            font-size: 76px;
-            line-height: 83.86px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        p {
-            font-size: 23px;
-            width: 100%;
-            text-align: center;
-            line-height: 25px;
-        }
+        font-size: 23px;
+        text-align: center;
+      }
+      h1 {
+        width: 100%;
+        font-size: 76px;
+        line-height: 83.86px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      p {
+        font-size: 23px;
+        width: 100%;
+        text-align: center;
+        line-height: 25px;
+      }
     }
   }
 `;

@@ -1,101 +1,136 @@
 import styled from "styled-components";
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext } from "react";
 import axios from "axios";
 import Header from "./commons/header/Header";
 import NewPosts from "./Post";
 import Hashtags from "./Hashtags";
 import Loading from "./commons/Loading";
 import { useNavigate } from "react-router-dom";
-import useInterval from 'react-useinterval';
-import UserContext from '../contexts/UserContext';
-import update from "./../assets/update.png"
+import useInterval from "react-useinterval";
+import UserContext from "../contexts/UserContext";
+import update from "./../assets/update.png";
 
 export default function Timeline() {
-
-  const { setPostID, postID, count, setCount, config, userToken, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
+  const {
+    setPostID,
+    postID,
+    count,
+    setCount,
+    config,
+    userToken,
+    userPicture,
+    userId,
+    url,
+    setUrl,
+    comment,
+    setComment,
+    loading,
+    setLoading,
+    posts,
+    setPosts,
+  } = useContext(UserContext);
   const navigate = useNavigate();
 
   // validUser
   if (!userToken) {
-    alert('Faça o login!');
-    navigate('/')
-  };
+    alert("Faça o login!");
+    navigate("/");
+  }
 
   // lógica de criar novos posts
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    let newPost = ({
+    let newPost = {
       url: `${url}`,
       comment: `${comment}`,
-      userId: `${userId}`
-    });
+      userId: `${userId}`,
+    };
 
     const commentArray = comment.split(" ");
     const hashtags = commentArray.filter((hashtag) => {
-      return hashtag.includes('#');
+      return hashtag.includes("#");
     });
 
     try {
-      const post = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/timeline`, newPost, config);
+      const post = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline`,
+        newPost,
+        config
+      );
 
       hashtags.map(async (hashtag) => {
-        const name = hashtag.replace('#', '');
+        const name = hashtag.replace("#", "");
         const dataHashtag = {
           postId: post.data.postId,
-          name
+          name,
         };
-        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/hashtags`, dataHashtag, config);
+        await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/hashtags`,
+          dataHashtag,
+          config
+        );
       });
 
       setLoading(false);
       setUrl("");
       setComment("");
-      alert('Post criado com sucesso!');
+      alert("Post criado com sucesso!");
       newPosts();
     } catch (error) {
-      alert('Houve um erro ao publicar seu link.');
+      alert("Houve um erro ao publicar seu link.");
       setLoading(false);
       console.log(error.response);
-    };
-  };
+    }
+  }
 
-  // lógica das postagens 
+  // lógica das postagens
   async function newPosts() {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline`, config);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline`,
+        config
+      );
       setPosts(response.data);
       setPostID(response.data[0].postId);
-      if (response.data.length === 0) { console.log("There are no posts yet") }
+      if (response.data.length === 0) {
+        console.log("There are no posts yet");
+      }
     } catch (error) {
-      console.log("An error occured while trying to fetch the posts, please refresh the page");
+      console.log(
+        "An error occured while trying to fetch the posts, please refresh the page"
+      );
       console.log(error.response);
     }
-  };
+  }
 
   useEffect(() => {
     newPosts();
   }, []);
 
-  // lógica de atualizar timeline 
+  // lógica de atualizar timeline
   async function countNewPosts() {
-
     try {
-      console.log('yes')
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`, config);
-      if (response.data.count !== 0) { setCount(Number(response.data.count)) };
+      console.log("yes");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`,
+        config
+      );
+      if (response.data.count !== 0) {
+        setCount(Number(response.data.count));
+      }
     } catch (error) {
       console.log(error.response);
     }
-  };
+  }
 
   useInterval(countNewPosts, 15000);
 
   function updateButton() {
     newPosts();
-    setCount(0)
-  };
+    setCount(0);
+  }
 
   return (
     <>
@@ -130,16 +165,21 @@ export default function Timeline() {
                 </form>
               </PublishContent>
             </Publish>
-            {count === 0 ? <></> : <Update onClick={updateButton} >
-              <h1>{count} new posts, load more!</h1>
-              <img alt="" src={update} />
-            </Update>}
+            {count === 0 ? (
+              <></>
+            ) : (
+              <Update onClick={updateButton}>
+                <h1>{count} new posts, load more!</h1>
+                <img alt="" src={update} />
+              </Update>
+            )}
             {posts.length === 0 ? (
               <Loading />
             ) : (
               <>
                 {posts.map((a, index) => (
-                  <NewPosts key={index}
+                  <NewPosts
+                    key={index}
                     userId={a.userId}
                     photo={a.pictureUrl}
                     username={a.username}
@@ -159,39 +199,35 @@ export default function Timeline() {
       </Body>
     </>
   );
-};
+}
 
 const Update = styled.div`
+  width: 611px;
+  height: 61px;
+  background: #1877f2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 17px;
+  cursor: pointer;
 
-    width: 611px;
-    height: 61px;
-    background: #1877F2;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 17px;
-    cursor: pointer;
-
-    h1 {
-
-    font-family: 'Lato';
+  h1 {
+    font-family: "Lato";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-    color: #FFFFFF;
+    color: #ffffff;
+  }
 
-    };
-
-    img {
-        width: 22px;
-        height: 16px;
-        margin-left: 14px;
-    }
-    
-`
+  img {
+    width: 22px;
+    height: 16px;
+    margin-left: 14px;
+  }
+`;
 
 const Body = styled.div`
   width: 931px;
