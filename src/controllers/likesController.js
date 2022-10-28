@@ -43,10 +43,6 @@ export async function likesCounter(req, res) {
 
     try {
         const { rows: likesCount } = await likesRepository.getlikesCount(postId);
-        console.log(likesCount);
-
-    try {
-        const { rows: likesCount } = await likesRepository.getlikesCount(postId);
         return res.status(201).send(likesCount[0]);
     } catch(err) {
         return res.status(500).send(err)
