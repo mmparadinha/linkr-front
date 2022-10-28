@@ -19,3 +19,22 @@ const schemaTextPost = Joi.object().keys({
   url: Joi.string().regex(urlRegex).required(),
   comment: Joi.string(),
 });
+
+export async function validaComment(req, res, next) {
+  const validation = schemaComment.validate(req.body, {
+    abortEarly: true,
+  });
+
+  if (validation.error) {
+    return res.status(422).send(validation.error.message);
+  }
+
+  next();
+}
+
+const schemaComment = Joi.object().keys({
+  userId: Joi.any(),
+  comment: Joi.string(),
+  pictureUrl: Joi.string().regex(urlRegex).required(),
+  username: Joi.string(),
+});
