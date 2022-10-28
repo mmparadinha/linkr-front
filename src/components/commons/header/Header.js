@@ -48,22 +48,19 @@ export default function Header() {
     setSearchResult(null);
   }
 
-  function getSearch(e) {
+  async function getSearch(e) {
     e.preventDefault();
     setSearchText(e.target.value);
     setSearching(true);
     setSearchBox(true);
-    getSearchedUsers()
-      .then((res) => {
-        setSearchResult(
-          res.data.filter((user) => user.username.toLowerCase().includes(e.target.value.toLowerCase()))
-        );
-        setSearching(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        stopSearch();
-      });
+    try {
+      const res = await getSearchedUsers(e.target.value);
+      setSearchResult(res.data);
+      setSearching(false);
+    } catch (error) {
+      console.error(error);
+      stopSearch();
+    }
   }
 
     return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";

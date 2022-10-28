@@ -1,15 +1,18 @@
-import { ProgressBar } from  'react-loader-spinner';
+import { LineWave } from  'react-loader-spinner';
 
 export default function Loading() {
     return (
-        <ProgressBar
-            height="80"
-            width="80"
-            ariaLabel="progress-bar-loading"
+        <LineWave
+            height="100"
+            width="100"
+            color="#1877f2"
+            ariaLabel="line-wave"
             wrapperStyle={{}}
-            wrapperClass="progress-bar-wrapper"
-            borderColor = '#ffffff'
-            barColor = '#1877f2'
+            wrapperClass=""
+            visible={true}
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
         />
     );
 };
