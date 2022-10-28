@@ -74,7 +74,7 @@ export default function NewPosts({
   }, []);
 
   return (
-    <Post>
+    <Post className="posts">
       <div className={modalIsOpen}>
         <div className="fundo"></div>
         <Modal>

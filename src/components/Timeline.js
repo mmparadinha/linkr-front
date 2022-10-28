@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from "axios";
 import Header from "./commons/header/Header";
 import TimelineFeed from "./TimelineFeed";
@@ -8,10 +8,10 @@ import Loading from "./commons/Loading";
 import useInterval from 'react-useinterval';
 import UserContext from '../contexts/UserContext';
 import update from "./../assets/update.png"
+import { AiFillPauseCircle } from "react-icons/ai";
 
 export default function Timeline() {
   const { setPostID, postID, count, setCount, config, userPicture, userId, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts } = useContext(UserContext);
-
   // lógica de criar novos posts
   async function handleSubmit(e) {
     e.preventDefault();
@@ -55,7 +55,9 @@ export default function Timeline() {
   // lógica das postagens 
   async function newPosts() {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline`, config);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline?per_page=20&start=1&order=DESC`, config);
+      
+      console.log("Werr: ", response.data)
       if (!response.data) { return setPosts(-1); }
       if (response.data.length === 0) { return setPosts([]); }
       setPosts(response.data);
@@ -74,18 +76,21 @@ export default function Timeline() {
   async function countNewPosts() {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/timeline/update?postId=${postID}`, config);
+
       if (response.data.count !== 0) { setCount(Number(response.data.count)) };
     } catch (error) {
       console.error(error.response);
     }
   };
 
-  useInterval(countNewPosts, 15000);
+  // useInterval(countNewPosts, 15000);
 
   function updateButton() {
     newPosts();
     setCount(0)
   };
+
+
 
   return (
     <>
@@ -125,8 +130,7 @@ export default function Timeline() {
               <img alt="" src={update} />
             </Update>}
 
-            {posts ? <TimelineFeed /> : <Loading />}
-
+            {posts ? <TimelineFeed config={config}/> : <Loading />}
           </AlignBox>
           <Hashtags />
         </Container>
