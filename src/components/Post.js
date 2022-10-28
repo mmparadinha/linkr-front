@@ -171,11 +171,11 @@ export default function NewPosts({
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           <Linkr>
-            <text>
+            <div>
               <h1>{urlTitle}</h1>
               <h2>{urlDescription}</h2>
               <h3>{url}</h3>
-            </text>
+            </div>
             <img alt="" src={urlImage} />
           </Linkr>
         </a>
@@ -245,11 +245,11 @@ export default function NewPosts({
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           <Linkr>
-            <text>
+            <div>
               <h1>{urlTitle}</h1>
               <h2>{urlDescription}</h2>
               <h3>{url}</h3>
-            </text>
+            </div>
             <img alt="" src={urlImage} />
           </Linkr>
         </a>
@@ -525,7 +525,7 @@ const Linkr = styled.div`
   border-radius: 11px;
   cursor: pointer;
 
-  text {
+  div {
     display: flex;
     flex-direction: column;
     margin-top: 15px;
@@ -576,7 +576,7 @@ const Linkr = styled.div`
     padding-top: 0;
     padding-left: 11px;
 
-    text {
+    div {
       margin: 0;
       width: 100%;
 
