@@ -8,10 +8,12 @@ export async function getPosts(req, res) {
   const { token } = res.locals;
   try {
     const listFollows = (await postRepository.followsAnyone(token)).rows;
-    if (listFollows.length === 0) { return res.sendStatus(STATUS_CODE.SUCCESSNOCONTENT); }
+    if (listFollows.length === 0) {
+      return res.sendStatus(STATUS_CODE.SUCCESSNOCONTENT);
+    }
 
     const listPosts = (await postRepository.getPosts(token)).rows;
-    console.log(listPosts)
+    console.log(listPosts);
 
     await Promise.all(
       listPosts.map(async (post) => {
@@ -22,9 +24,9 @@ export async function getPosts(req, res) {
           post.urlDescription = description;
         } catch (error) {
           console.error(error, post);
-          post.urlTitle = '';
-          post.urlImage = '';
-          post.urlDescription = '';
+          post.urlTitle = "";
+          post.urlImage = "";
+          post.urlDescription = "";
         }
       })
     );
@@ -50,7 +52,8 @@ export async function newPost(req, res) {
         .send({ message: errors });
     }
 
-    const postId = (await postRepository.newPost(userId, url, comment)).rows[0].id;
+    const postId = (await postRepository.newPost(userId, url, comment)).rows[0]
+      .id;
 
     res.status(STATUS_CODE.SUCCESSCREATED).send({ postId });
   } catch (error) {
@@ -61,31 +64,27 @@ export async function newPost(req, res) {
 
 export async function deletePost(req, res) {
   const { id } = req.params;
-  const {userId} = res.locals;
+  const { userId } = res.locals;
 
   try {
-    await connection.query(
-      `DELETE FROM posts WHERE id = $1 AND "userId" = $2`,
-      [id, userId]
-    );
+    await postRepository.deletePost(id, userId);
 
     res.sendStatus(STATUS_CODE.SUCCESSCREATED);
   } catch (error) {
     console.log(error);
-    res.status(STATUS_CODE.ERRORMETHODNOTALLOWED).send("não foi possivel deletar o post");
+    res
+      .status(STATUS_CODE.ERRORMETHODNOTALLOWED)
+      .send("não foi possivel deletar o post");
   }
 }
 
 export async function updatePost(req, res) {
   const { url, comment } = req.body;
   const { id } = req.params;
-  const {userId} = res.locals;
+  const { userId } = res.locals;
 
   try {
-    await connection.query(
-      `UPDATE posts SET url = $1, comment = $2 WHERE id = $3 AND "userId" = $4;`,
-      [url, comment, id, userId]
-    )
+    await postRepository.updatePost(url, comment, id, userId);
     res.sendStatus(STATUS_CODE.SUCCESSCREATED);
   } catch (error) {
     console.log(error);
@@ -98,13 +97,31 @@ export async function countNewPosts(req, res) {
   const { token } = res.locals;
 
   try {
-    const { rows } = (await postRepository.newPostsNumber(token, postId));
+    const { rows } = await postRepository.newPostsNumber(token, postId);
 
     res.status(STATUS_CODE.SUCCESSOK).send({ count: rows[0].count });
   } catch (error) {
     console.log(error);
     res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
-  };
-};
+  }
+}
 
-
+export async function postComment(req, res) {
+  const { comment, pictureUrl, username } = req.body;
+  const follow = false;
+  const { userId, postId } = req.params;
+  try {
+    await postRepository.postComment(
+      userId,
+      postId,
+      comment,
+      pictureUrl,
+      follow,
+      username
+    );
+    res.sendStatus(STATUS_CODE.SUCCESSCREATED);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+  }
+}
