@@ -107,9 +107,8 @@ export default function NewPosts({
     };
   }, []);
 
-  return isUser ? (
-    <Post>
-      <div></div>
+  return  isUser ? (
+    <Post className="posts">
       <div className={modalIsOpen}>
         <div className="fundo"></div>
         <Modal>
