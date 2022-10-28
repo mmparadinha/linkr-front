@@ -40,18 +40,13 @@ export async function getLikes(req, res) {
 
 export async function likesCounter(req, res) {
     const { postId } = req.params;
-<<<<<<< HEAD
-    // console.log("alo");
 
     try {
         const { rows: likesCount } = await likesRepository.getlikesCount(postId);
         console.log(likesCount);
-        // console.log("oie");
-=======
 
     try {
         const { rows: likesCount } = await likesRepository.getlikesCount(postId);
->>>>>>> cbc0d179df67edd6dfbd6b6d87c55f3bb9fdf04b
         return res.status(201).send(likesCount[0]);
     } catch(err) {
         return res.status(500).send(err)
