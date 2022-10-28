@@ -7,6 +7,7 @@ async function getListHashtags(){
 }
 
 async function getListPostsFromHashtag(hashtag){
+    console.log("Galdino: ", hashtag)
     return connection.query(
         `SELECT 
         users.username AS username,

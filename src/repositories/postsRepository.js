@@ -1,6 +1,6 @@
 import connection from "../database/database.js";
 
-async function getPosts(userToken) {
+async function getPosts(userToken, per_page, start) {
     return connection.query(`
     SELECT
     	users.id as "userId",
@@ -17,8 +17,8 @@ async function getPosts(userToken) {
     WHERE sessions.token=$1
     ORDER BY
         posts."createdAt" DESC
-    LIMIT
-        20;`, [userToken]);
+    LIMIT $2
+    OFFSET $3;`, [userToken, per_page, start]);
 };
 
 async function followsAnyone(userToken) {

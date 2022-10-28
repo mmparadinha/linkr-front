@@ -6,12 +6,13 @@ import { STATUS_CODE } from "../enums/statusCode.js";
 
 export async function getPosts(req, res) {
   const { token } = res.locals;
+  const { per_page, start, order } = req.query;
   try {
     const listFollows = (await postRepository.followsAnyone(token)).rows;
     if (listFollows.length === 0) { return res.sendStatus(STATUS_CODE.SUCCESSNOCONTENT); }
 
-    const listPosts = (await postRepository.getPosts(token)).rows;
-    console.log(listPosts)
+    const listPosts = (await postRepository.getPosts(token, per_page, start, order)).rows;
+    // console.log(listPosts)
 
     await Promise.all(
       listPosts.map(async (post) => {
