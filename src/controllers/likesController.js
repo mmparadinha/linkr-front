@@ -40,15 +40,23 @@ export async function getLikes(req, res) {
 
 export async function likesCounter(req, res) {
     const { postId } = req.params;
-    console.log("alo");
 
     try {
         const { rows: likesCount } = await likesRepository.getlikesCount(postId);
-        console.log(likesCount);
-        console.log("oie");
         return res.status(201).send(likesCount[0]);
     } catch(err) {
-        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
+export async function getLikesNames(req, res) {
+    const { postId } = req.params;
+    const { userId } = req.body;
+
+    try {
+        const { rows: likesName } = await likesRepository.getLikesNames(postId, userId);
+        return res.status(201).send(likesName);
+    } catch(err) {
         return res.status(500).send(err)
     }
 }
