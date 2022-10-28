@@ -10,11 +10,9 @@ async function getPosts(userToken) {
         posts.id as "postId",
         posts.comment,
         posts.url
-        JSON_BUILD_OBJECT(comments.*) AS comments
     FROM
         posts
     JOIN users ON posts."userId" = users.id
-    JOIN comments ON posts.id = comments."postId"
     LEFT JOIN followers ON users.id=followers."followedId"
     LEFT JOIN sessions ON followers."followerId"=sessions."userId"
     WHERE sessions.token=$1
@@ -67,6 +65,12 @@ async function newPostsNumber(token, postId) {
   );
 }
 
+async function getComment(postId) {
+  return connection.query(`SELECT * FROM comments WHERE postId = $1;`, [
+    postId,
+  ]);
+}
+
 async function deletePost(id, userId) {
   return connection.query(`DELETE FROM posts WHERE id = $1 AND "userId" = $2`, [
     id,
@@ -103,4 +107,5 @@ export const postRepository = {
   deletePost,
   updatePost,
   postComment,
+  getComment,
 };

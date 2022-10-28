@@ -125,3 +125,14 @@ export async function postComment(req, res) {
     res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
   }
 }
+
+export async function getComment(req, res) {
+  const { postId } = req.params;
+  try {
+    const comments = await postRepository.getComment(postId);
+    res.send(comments);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(STATUS_CODE.SERVERERRORINTERNAL);
+  }
+}

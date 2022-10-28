@@ -11,6 +11,7 @@ import {
   updatePost,
   countNewPosts,
   postComment,
+  getComment,
 } from "../controllers/postsController.js";
 
 const postsRouter = Router();
@@ -28,5 +29,6 @@ postsRouter.post(
   validaComment,
   postComment
 );
+postsRouter.get("/timeline/comment/:postId", getComment);
 
 export default postsRouter;
