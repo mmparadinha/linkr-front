@@ -10,31 +10,68 @@ import HashtagPage from "./HashtagPage.js";
 import PrivatePage from "./PrivatePage.js";
 
 function App() {
-
   const [postID, setPostID] = useState(0);
   const [count, setCount] = useState(0);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagPosts, setHashtagPosts] = useState([]);
-  const [hashtagName, setHashtagName] = useState('');
+  const [hashtagName, setHashtagName] = useState("");
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState(null);
-  const [follow, setFollow] = useState('Follow');
+  const [follow, setFollow] = useState("Follow");
   const [searchResult, setSearchResult] = useState(null);
-  const [userToken, setUserToken] = useState(localStorage.getItem('linkr-token') || null);
-  const [userId, setUserId] = useState(localStorage.getItem('linkr-userId') || null);
-  const [userPicture, setPicture] = useState(localStorage.getItem('linkr-pictureUrl') || null);
+  const [userToken, setUserToken] = useState(
+    localStorage.getItem("linkr-token") || null
+  );
+  const [userId, setUserId] = useState(
+    localStorage.getItem("linkr-userId") || null
+  );
+  const [userPicture, setPicture] = useState(
+    localStorage.getItem("linkr-pictureUrl") || null
+  );
+  const [userUsername, setUserUsername] = useState(
+    localStorage.getItem("linkr-username") || null
+  );
 
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const config = {
     headers: {
-      Authorization: `Bearer ${userToken}`
+      Authorization: `Bearer ${userToken}`,
     },
   };
 
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, follow, setFollow, URL_BASE, setUserToken, setUserId, setPicture
+    count,
+    setCount,
+    postID,
+    setPostID,
+    hashtags,
+    setHashtags,
+    hashtagPosts,
+    setHashtagPosts,
+    hashtagName,
+    setHashtagName,
+    userToken,
+    config,
+    userId,
+    userPicture,
+    url,
+    setUrl,
+    comment,
+    setComment,
+    loading,
+    setLoading,
+    posts,
+    setPosts,
+    follow,
+    setFollow,
+    URL_BASE,
+    setUserToken,
+    setUserId,
+    setPicture,
+    userUsername,
+    setUserUsername,
   };
 
   return (

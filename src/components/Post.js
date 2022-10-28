@@ -8,6 +8,9 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 import Likes from "./Likes";
+import { FaRegComment } from "react-icons/fa";
+import img from "../assets/Imagens Teste/teste.jpeg";
+import Props_Comments from "./Props_Coments";
 
 export default function NewPosts({
   userId,
@@ -20,18 +23,48 @@ export default function NewPosts({
   urlDescription,
   postId,
 }) {
+  const [arrayComments, setCArrayComments] = useState([]);
+  const [enviarComent, setEnviarComent] = useState("");
+  const [isUser, setIsUser] = useState(false);
+  const [openComent, setOpenComent] = useState("none");
   const [newComment, setNewComment] = useState("");
   const [edit, setEdit] = useState("apagar");
   const [edit2, setEdit2] = useState("");
   const [botao, setBotao] = useState("");
+  const [botaoComment, setBotaoComment] = useState("");
   const [loader, setLoader] = useState("apagar");
+  const [loaderComment, setLoaderComment] = useState("apagar");
   const [modalIsOpen, setIsOpen] = useState("apagar");
-  const { setHashtagName } = useContext(UserContext);
+  const { setHashtagName, config, userPicture, userUsername } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
   const [desativarInput, setDesativarInput] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("linkr-userId"));
+
+  if (user === userId) setIsUser(true);
+  const arr = [1, 2, 3, 4];
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/comment/${postId}`,
+        config
+      )
+      .then((selecione) => {
+        if (selecione.rows.length === 0) {
+          setCArrayComments({
+            name: " ",
+            comment: "",
+            img: "",
+            follow: "",
+            commentUserId: "",
+          });
+        } else setCArrayComments(selecione.rows);
+      });
+  }, []);
 
   function isTagClicked(tag) {
     const hashtag = tag.replace("#", "");
@@ -60,9 +93,10 @@ export default function NewPosts({
       }
       if (event.key === "Enter") {
         event.preventDefault();
-
-        // 👇️ call submit function here
-        handleSubmit();
+        if (newComment !== "") {
+          // 👇️ call submit function here
+          handleSubmit();
+        }
       }
     };
 
@@ -73,8 +107,9 @@ export default function NewPosts({
     };
   }, []);
 
-  return (
+  return isUser ? (
     <Post>
+      <div></div>
       <div className={modalIsOpen}>
         <div className="fundo"></div>
         <Modal>
@@ -98,6 +133,17 @@ export default function NewPosts({
           <Photo src={photo} />
         </Link>
         <Likes postId={postId} />
+        <div
+          className="coment-icon"
+          onClick={() => {
+            if (openComent === "none") setOpenComent("inherit");
+            else setOpenComent("none");
+          }}
+        >
+          <FaRegComment color="white" fontSize={20} />
+          <br />
+          <p>100</p> comments
+        </div>
       </Left>
       <PostInfo>
         <div className="editIconsPositions">
@@ -140,14 +186,128 @@ export default function NewPosts({
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           <Linkr>
-            <text>
+            <div>
               <h1>{urlTitle}</h1>
               <h2>{urlDescription}</h2>
               <h3>{url}</h3>
-            </text>
+            </div>
             <img alt="" src={urlImage} />
           </Linkr>
         </a>
+        <Comments apagado={openComent}>
+          <h1>
+            Comments:
+            <div className="divisao"></div>
+          </h1>
+          {arrayComments.map((object, index) => (
+            <Props_Comments
+              key={index}
+              name={object.username}
+              comment={object.comment}
+              img={object.pictureUrl}
+              follow={object.follow}
+              commentUserId={object.userId}
+            />
+          ))}
+
+          <input
+            type="text"
+            name="Comment"
+            placeholder="comment"
+            onChange={(e) => {
+              setEnviarComent(e.target.value);
+            }}
+            value={enviarComent}
+            required
+          />
+          <div className="enviar">Enviar</div>
+        </Comments>
+      </PostInfo>
+    </Post>
+  ) : (
+    <Post>
+      <div></div>
+
+      <Left>
+        <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
+          <Photo src={photo} />
+        </Link>
+        <Likes postId={postId} />
+        <div
+          className="coment-icon2"
+          onClick={() => {
+            if (openComent === "none") setOpenComent("inherit");
+            else setOpenComent("none");
+          }}
+        >
+          <FaRegComment color="white" fontSize={20} />
+          <br />
+          <p>100</p> comments
+        </div>
+      </Left>
+      <PostInfo>
+        <Link to={`/user/${userId}`} state={{ profilePic: photo, username }}>
+          <h1>{username}</h1>
+        </Link>
+
+        <div className={edit2}>
+          <ReactTagify
+            colors={"#ffffff"}
+            tagClicked={(tag) => {
+              isTagClicked(tag);
+            }}
+          >
+            <h2>{comment}</h2>
+          </ReactTagify>
+        </div>
+        <a href={url} target="_blank" rel="noreferrer">
+          <Linkr>
+            <div>
+              <h1>{urlTitle}</h1>
+              <h2>{urlDescription}</h2>
+              <h3>{url}</h3>
+            </div>
+            <img alt="" src={urlImage} />
+          </Linkr>
+        </a>
+        <Comments apagado={openComent}>
+          <h1>
+            Comments:
+            <div className="divisao"></div>
+          </h1>
+          {arrayComments.map((object, index) => (
+            <Props_Comments
+              key={index}
+              name={object.username}
+              comment={object.comment}
+              img={object.pictureUrl}
+              follow={object.follow}
+              commentUserId={object.userId}
+            />
+          ))}
+
+          <input
+            type="text"
+            name="Comment"
+            placeholder="comment"
+            onChange={(e) => {
+              setEnviarComent(e.target.value);
+            }}
+            value={enviarComent}
+            required
+          />
+          <div
+            className="enviar"
+            onClick={() => {
+              if (enviarComent !== "") enviarPostComent();
+            }}
+          >
+            <div className={botaoComment}>Enviar</div>
+            <div className={loaderComment}>
+              <ThreeDots color="white" height={60} width={60} />
+            </div>
+          </div>
+        </Comments>
       </PostInfo>
     </Post>
   );
@@ -161,12 +321,10 @@ export default function NewPosts({
     setBotao("apagar");
     setLoader("");
     axios
-      .delete(`${process.env.REACT_APP_API_BASE_URL}/timeline/post/delete/${postId}`, {
-        headers: {
-          authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
-        },
-      })
+      .delete(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/post/delete/${postId}`,
+        config
+      )
       .then(() => {
         alert("post deletado");
         window.location.reload();
@@ -200,12 +358,7 @@ export default function NewPosts({
             url: url,
             comment: newComment,
           },
-          {
-            headers: {
-              authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("linkr-token")),
-            },
-          }
+          config
         )
         .then(() => window.location.reload())
         .catch(() => {
@@ -213,6 +366,26 @@ export default function NewPosts({
           setDesativarInput(false);
         });
     } else alert("campo editar está em branco");
+  }
+  function enviarPostComent() {
+    setLoaderComment("");
+    setBotaoComment("apagar");
+    axios
+      .post(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/post/comment/${postId}`,
+        {
+          userId: user,
+          comment: enviarComent,
+          pictureUrl: userPicture,
+          username: userUsername,
+        },
+        config
+      )
+      .then(() => window.location.reload())
+      .catch((error) => {
+        alert("não foi possível enviar o post");
+        console.log(error);
+      });
   }
 }
 
@@ -298,6 +471,25 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .coment-icon {
+    margin-top: 20px;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .coment-icon2 {
+    margin-top: 20px;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Photo = styled.img`
@@ -358,7 +550,7 @@ const Linkr = styled.div`
   border-radius: 11px;
   cursor: pointer;
 
-  text {
+  div {
     display: flex;
     flex-direction: column;
     margin-top: 15px;
@@ -409,7 +601,7 @@ const Linkr = styled.div`
     padding-top: 0;
     padding-left: 11px;
 
-    text {
+    div {
       margin: 0;
       width: 100%;
 
@@ -522,5 +714,53 @@ const Modal = styled.div`
   }
   .apagar {
     display: none;
+  }
+`;
+
+const Comments = styled.div`
+  display: ${(props) => props.apagado};
+  margin-top: 20px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  padding: 8px 15px 8px 15px;
+  h1 {
+    color: black;
+  }
+  .divisao {
+    margin-top: 3px;
+    width: 470px;
+    height: 0.25px;
+    background-color: black;
+  }
+  input {
+    margin-top: 4px;
+    width: 100%;
+    height: 44px;
+
+    background: #d5d5d5;
+    border-radius: 7px;
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 15px;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+
+    color: black;
+    margin-bottom: 8px;
+  }
+  .enviar {
+    margin-top: -2px;
+    width: 100%;
+    height: 44px;
+    background: black;
+    color: #d5d5d5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;

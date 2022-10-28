@@ -68,7 +68,7 @@ export default function UserPage() {
 
         promise.catch(res => {
             console.log(res.data);
-            alert('Não foi possível processar a solicitação, tente novamente.');
+            alert('Ooops, something went wrong! Please, try again.');
         })
     }
 
@@ -169,10 +169,19 @@ const Title = styled.div`
         font-family: var(--font-titles);
     }
 
+    @media (min-width: 645px) and (max-width: 950px) {
+        padding: 24px;
+    }
+
     @media (max-width: 645px) {
-        font-size: 33px;
-        margin-left: 17px;
-        margin-bottom: 19px;
+        padding-left: 17px;
+        margin-bottom: 24px;
+        height: 90px;
+        align-items: flex-start;
+
+        h1{
+            font-size: 33px;
+        }
     }
 `;
 
@@ -188,11 +197,12 @@ const AlignBox = styled.div`
         font-size: 19px;
         font-weight: 400;
         font-family: var(--font-body);
+        margin-left: 24px;
     }
     
     @media (max-width: 645px) {
     width: 100%;
-  }
+    }
 `;
 
 const collors = {
@@ -203,6 +213,7 @@ const collors = {
 const Button = styled.button`
     width: 112px;
     height: 31px;
+    font-size: 14px;
     background-color: ${props => {
         if(props.type === 'Unfollow'){
             return collors.white
@@ -220,6 +231,17 @@ const Button = styled.button`
         }
     }};
     position: absolute;
-    top: 0;
-    right: 0%;;
+    right: 0%;
+
+    @media (min-width: 645px) and (max-width: 950px) {
+        right: 24px;
+    }
+
+    @media (max-width: 645px) {
+        width: 80px;
+        position: absolute;
+        right: 36px;
+        bottom: 0;
+        font-size: 11px;
+    }
 `;

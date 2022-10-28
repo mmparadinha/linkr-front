@@ -15,16 +15,13 @@ export default function Login() {
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    if(
-      localStorage.getItem("linkr-token") !== null
-      &&
-      localStorage.getItem("linkr-pictureUrl") !== null
-      &&
-      localStorage.getItem("linkr-username") !== null
-      &&
+    if (
+      localStorage.getItem("linkr-token") !== null &&
+      localStorage.getItem("linkr-pictureUrl") !== null &&
+      localStorage.getItem("linkr-username") !== null &&
       localStorage.getItem("linkr-userId") !== null
-      ) {
-      navigate('/timeline');
+    ) {
+      navigate("/timeline");
     }
   }, [navigate]);
 
@@ -45,9 +42,9 @@ export default function Login() {
       localStorage.setItem("linkr-username", res.data.username);
       localStorage.setItem("linkr-userId", res.data.userId);
       //forçando recarregamento do /App
-      setUserToken(localStorage.getItem('linkr-token') || null);
-      setUserId(localStorage.getItem('linkr-userId') || null);
-      setPicture(localStorage.getItem('linkr-pictureUrl') || null);
+      setUserToken(localStorage.getItem("linkr-token") || null);
+      setUserId(localStorage.getItem("linkr-userId") || null);
+      setPicture(localStorage.getItem("linkr-pictureUrl") || null);
       navigate("/timeline");
     });
     promise.catch((err) => {
@@ -97,7 +94,7 @@ export default function Login() {
                 />
               </label>
               <button>Log In</button>
-              <p onClick={() => setClicado(true)} >
+              <p onClick={() => setClicado(true)}>
                 First time? Create an account!
               </p>
             </form>
@@ -119,11 +116,7 @@ export default function Login() {
     }
   }
 
-  return (
-    <>
-      {registryAccess()}
-    </>
-  );
+  return <>{registryAccess()}</>;
 }
 
 const SignupComponents = styled.div`
@@ -183,30 +176,30 @@ const DescriptionComponents = styled.div`
       justify-content: center;
       align-items: center;
     }
-    @media(max-width: 645px){
+    @media (max-width: 645px) {
+      width: 100%;
+      height: 175px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      position: fixed;
+      .description {
         width: 100%;
-        height: 175px;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        position: fixed;
-        .description {
-            width: 100%;
-            font-size: 23px;
-            text-align: center;
-        }
-        h1 {
-            width: 100%;
-            font-size: 76px;
-            line-height: 83.86px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        p {
-            font-size: 23px;
-            width: 100%;
-            text-align: center;
-            line-height: 25px;
-        }
+        font-size: 23px;
+        text-align: center;
+      }
+      h1 {
+        width: 100%;
+        font-size: 76px;
+        line-height: 83.86px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      p {
+        font-size: 23px;
+        width: 100%;
+        text-align: center;
+        line-height: 25px;
+      }
     }
   }
 `;
