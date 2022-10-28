@@ -88,7 +88,7 @@ export default function Likes({ postId }) {
         });
       
         promise.catch((err) => {
-            alert("An error has occurred on like's names");
+            //alert("An error has occurred on like's names");
         });
     }
 
