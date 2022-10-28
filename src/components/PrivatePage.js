@@ -7,7 +7,7 @@ function PrivatePages() {
 
     useEffect(() => {
         if (token === null) {
-            alert('Não autorizado, favor refazer o login');
+            alert('Ooops, something went wrong! Please, try again.');
             localStorage.clear('linkr-token');
             navigate('/');
         }

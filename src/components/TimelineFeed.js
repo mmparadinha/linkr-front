@@ -43,18 +43,15 @@ export default function TimelineFeed({
   }, []);
 
   if (posts === -1) {
-    return (
-      <h2>You don't follow anyone yet. Search for new friends!</h2>
-    );
+    return <h2>You don't follow anyone yet. Search for new friends!</h2>;
   } else if (posts.length === 0) {
-    return (
-      <h2>No posts found from your friends</h2>
-    );
+    return <h2>No posts found from your friends</h2>;
   } else {
     return (
       <>
         {posts.map((a, index) => (
-          <NewPosts key={index}
+          <NewPosts
+            key={index}
             userId={a.userId}
             photo={a.pictureUrl}
             username={a.username}

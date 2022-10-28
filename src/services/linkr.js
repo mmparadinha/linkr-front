@@ -18,9 +18,9 @@ function getUserData(id) {
     return promise;
 }
 
-function getSearchedUsers() {
+function getSearchedUsers(text) {
     const config = Header();
-    const promise = axios.get(`${URL_BASE}/search`, config);
+    const promise = axios.get(`${URL_BASE}/search?searchedText=${text}`, config);
     return promise;
 }
 
