@@ -33,6 +33,7 @@ export async function validaComment(req, res, next) {
 }
 
 const schemaComment = Joi.object().keys({
+  userId: Joi.any(),
   comment: Joi.string(),
   pictureUrl: Joi.string().regex(urlRegex).required(),
   username: Joi.string(),
