@@ -35,7 +35,8 @@ export default function NewPosts({
   const [loader, setLoader] = useState("apagar");
   const [loaderComment, setLoaderComment] = useState("apagar");
   const [modalIsOpen, setIsOpen] = useState("apagar");
-  const { setHashtagName, config } = useContext(UserContext);
+  const { setHashtagName, config, userPicture, userUsername } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const inputEdit = useRef();
   const [clicado, setClicado] = useState(false);
@@ -44,12 +45,24 @@ export default function NewPosts({
   const user = JSON.parse(localStorage.getItem("linkr-userId"));
 
   if (user === userId) setIsUser(true);
+  const arr = [1, 2, 3, 4];
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/timeline/comment/${postId}`)
+      .get(
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/comment/${postId}`,
+        config
+      )
       .then((selecione) => {
-        setCArrayComments(selecione.rows);
+        if (selecione.rows.length === 0) {
+          setCArrayComments({
+            name: " ",
+            comment: "",
+            img: "",
+            follow: "",
+            commentUserId: "",
+          });
+        } else setCArrayComments(selecione.rows);
       });
   }, []);
 
@@ -129,7 +142,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>{arrayComments.length}</p> comments
+          <p>100</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -229,7 +242,7 @@ export default function NewPosts({
         >
           <FaRegComment color="white" fontSize={20} />
           <br />
-          <p>{arrayComments.length}</p> comments
+          <p>100</p> comments
         </div>
       </Left>
       <PostInfo>
@@ -359,21 +372,19 @@ export default function NewPosts({
     setBotaoComment("apagar");
     axios
       .post(
-        `${
-          process.env.REACT_APP_API_BASE_URL
-        }/timeline/post/comment/${postId}/${JSON.parse(
-          localStorage.getItem("linkr-userId")
-        )}`,
+        `${process.env.REACT_APP_API_BASE_URL}/timeline/post/comment/${postId}`,
         {
+          userId: user,
           comment: enviarComent,
-          pictureUrl: JSON.parse(localStorage.getItem("linkr-pictureUrl")),
-          username: JSON.parse(localStorage.getItem("linkr-username")),
+          pictureUrl: userPicture,
+          username: userUsername,
         },
         config
       )
       .then(() => window.location.reload())
-      .catch(() => {
+      .catch((error) => {
         alert("não foi possível enviar o post");
+        console.log(error);
       });
   }
 }
