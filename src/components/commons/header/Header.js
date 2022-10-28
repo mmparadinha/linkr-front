@@ -1,6 +1,6 @@
 import { DebounceInput } from "react-debounce-input";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IoChevronDownOutline, IoSearchOutline } from "react-icons/io5";
 import { useContext, useState, useRef, useEffect } from "react";
 import SearchResultsBox from "./SearchResultsBox.js";
@@ -10,7 +10,7 @@ import UserContext from "../../../contexts/UserContext.js";
 import Logout from './HeaderLogout';
 
 export default function Header() {
-  const { userPicture } = useContext(UserContext);
+  const { userPicture, userId } = useContext(UserContext);
   const [searching, setSearching] = useState(false);
   const [searchBox, setSearchBox] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -80,12 +80,13 @@ export default function Header() {
                     <SearchIcon onClick={getSearch} />
                     {searchBox ? <SearchResultsBox /> : ''}
                 </SearchBox>
-                <AlignItems onClick={() => {setLogout(!logout)}}>
-                    <ProfileIcon/>
-                    {logout ? <Logout setLogout={setLogout}/> : ''}
-                    <Photo src={userPicture} alt="profile"/>
+                <AlignItems >
+                    <ProfileIcon onClick={() => {setLogout(!logout)}} logout={logout}/>
+                    <Photo src={userPicture} alt="profile" onClick={() => navigate(`/user/${userId}`)}/>
                 </AlignItems>
             </Container>
+
+            {logout ? <Logout setLogout={setLogout}/> : ''}
 
             <SearchBoxMobile ref={wrapperRef2}>
                 <SearchBar
@@ -201,6 +202,10 @@ const Photo = styled.img`
   height: 53px;
   border-radius: 50%;
   object-fit: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   @media (max-width: 645px) {
     width: 41px;
