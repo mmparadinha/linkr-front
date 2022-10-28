@@ -53,11 +53,25 @@ async function getlikesCount(postId) {
     );
 }
 
+async function getLikesNames(postId, userId) {
+    return connection.query(
+      `
+         SELECT users.username FROM likes 
+         JOIN users
+         ON likes."userId" = users.id
+         WHERE likes."postId" = $1 AND likes."userId" != $2
+         LIMIT 2
+      `,
+      [postId, userId]
+    );
+  }
+
 export const likesRepository = {
     likePost,
     unlikePost,
     checkLikedPost,
     checkExistentPost,
     getPostIdLikes,
-    getlikesCount
+    getlikesCount,
+    getLikesNames
 }
