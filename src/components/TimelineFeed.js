@@ -24,7 +24,6 @@ export default function TimelineFeed() {
             urlImage={a.urlImage}
             urlDescription={a.urlDescription}
             postId={a.postId}
-            comments={a.comments}
           />
         ))}
       </>
