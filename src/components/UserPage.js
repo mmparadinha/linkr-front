@@ -68,7 +68,7 @@ export default function UserPage() {
 
         promise.catch(res => {
             console.log(res.data);
-            alert('Não foi possível processar a solicitação, tente novamente.');
+            alert('Ooops, something went wrong! Please, try again.');
         })
     }
 
