@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlobalStyles from "../assets/GlobalStyles.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
@@ -19,23 +19,22 @@ function App() {
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [follow, setFollow] = useState('Follow');
-  const [userPosts, setUserPosts] = useState([]);
   const [searchResult, setSearchResult] = useState(null);
+  const [userToken, setUserToken] = useState(localStorage.getItem('linkr-token') || null);
+  const [userId, setUserId] = useState(localStorage.getItem('linkr-userId') || null);
+  const [userPicture, setPicture] = useState(localStorage.getItem('linkr-pictureUrl') || null);
 
-  const userToken = localStorage.getItem('linkr-token');
-  const userId = localStorage.getItem('linkr-userId');
-  const userPicture = localStorage.getItem('linkr-pictureUrl');
-  
   const URL_BASE = process.env.REACT_APP_API_BASE_URL;
   const config = {
     headers: {
       Authorization: `Bearer ${userToken}`
     },
   };
+
   const contextValue = {
-    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, userPosts, setUserPosts, follow, setFollow, URL_BASE
+    count, setCount, postID, setPostID, hashtags, setHashtags, hashtagPosts, setHashtagPosts, hashtagName, setHashtagName, userToken, config, userId, userPicture, url, setUrl, comment, setComment, loading, setLoading, posts, setPosts, follow, setFollow, URL_BASE, setUserToken, setUserId, setPicture
   };
 
   return (
