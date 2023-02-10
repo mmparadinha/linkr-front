@@ -1,3 +1,5 @@
+<img src="https://github.com/mmparadinha/linkr-front/blob/04a18355b67a17343375696fe88d2a22b816b11a/public/assets/favicon-32x32.png" align="right" />
+
 # Linkr
 
 Linkr is a social network designed to share links with other users!
